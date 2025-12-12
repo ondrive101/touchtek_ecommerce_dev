@@ -32,6 +32,6 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     ".contentlayer/generated"
-, "middleware.js", "app/api/manual-faucet/route.js"  ],
+, "proxy.js", "app/api/manual-faucet/route.js"  ],
   "exclude": ["node_modules"]
 }

@@ -1,9 +1,9 @@
 import { SiteLogo } from "@/components/svg";
 export const siteConfig = {
   favicon: SiteLogo,
-  name: "Dashboard",
-  // name: "Touchtek Dashboard",
-  description: null,
+  name: "Touchtek | Smart Accessories & Audio Gear",
+  description:
+    "Discover Touchtek batteries, audio gear, chargers, power banks, and accessories with fast charging and premium design.",
   theme: "violet",
   layout: "vertical",
   // semi-box, horizontal, vertical
