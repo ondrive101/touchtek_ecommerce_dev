@@ -1,7 +1,7 @@
 [phases.setup]
 nixPkgs = [
-  "nodejs_18",           # Node.js version
-  "npm-9_x",             # npm version
+  "nodejs_20",           # Node.js version
+  "npm-10_x",             # npm version
   "yarn"                 # Add Yarn here
 ]
 nixOverlays = ["https://github.com/railwayapp/nix-npm-overlay/archive/main.tar.gz"]
