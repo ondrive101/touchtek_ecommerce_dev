@@ -13,17 +13,17 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/autoplay';
 
-export default function HotSellingCarousel({ products }) {
+export default function HotSellingCarousel({ products}) {
   const prevRef = useRef(null);
   const nextRef = useRef(null);
 
-  // Add deterministic sales count to products for hot selling effect
-  const hotProducts = products
+ 
+     const hotProducts = products
     .map((product) => {
       const hash = product.id
         .split('')
         .reduce((acc, char) => acc + char.charCodeAt(0), 0);
-      const salesCount = (hash % 500) + 100; // Deterministic sales count between 100-600
+      const salesCount = Math.floor(Math.random() * 50000) + 10000; // Deterministic sales count between 100-600
       return {
         ...product,
         salesCount,
@@ -36,7 +36,7 @@ export default function HotSellingCarousel({ products }) {
     <section className="py-16 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <motion.div
+        {/* <motion.div
           className="text-center mb-12"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -54,7 +54,87 @@ export default function HotSellingCarousel({ products }) {
             Discover our most popular products that customers love and buy the
             most
           </p>
-        </motion.div>
+        </motion.div> */}
+
+        <motion.div
+  className="text-center mb-12"
+  initial={{ opacity: 0, y: 30 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.6 }}
+  viewport={{ once: true }}
+>
+  {/* Decorative top element */}
+  <div className="flex items-center justify-center gap-3 mb-3">
+    <motion.div
+      className="h-px w-12 bg-gradient-to-r from-transparent to-orange-300"
+      initial={{ width: 0 }}
+      whileInView={{ width: 48 }}
+      transition={{ duration: 0.8, delay: 0.2 }}
+      viewport={{ once: true }}
+    />
+    <div className="flex items-center gap-2">
+      <Flame className="w-5 h-5 text-orange-500 animate-pulse" />
+      <span className="text-sm font-semibold text-orange-600 uppercase tracking-wider">
+        Trending Now
+      </span>
+      <Flame className="w-5 h-5 text-orange-500 animate-pulse" />
+    </div>
+    <motion.div
+      className="h-px w-12 bg-gradient-to-l from-transparent to-orange-300"
+      initial={{ width: 0 }}
+      whileInView={{ width: 48 }}
+      transition={{ duration: 0.8, delay: 0.2 }}
+      viewport={{ once: true }}
+    />
+  </div>
+
+  {/* Main heading with icons */}
+  <div className="flex items-center justify-center gap-3 mb-4">
+    <motion.div
+      initial={{ scale: 0, rotate: -180 }}
+      whileInView={{ scale: 1, rotate: 0 }}
+      transition={{ duration: 0.6, delay: 0.3 }}
+      viewport={{ once: true }}
+    >
+      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-100 to-red-100 flex items-center justify-center">
+        <Flame className="w-5 h-5 text-orange-600" />
+      </div>
+    </motion.div>
+    
+    <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900 bg-clip-text text-transparent">
+      Hot Selling Products
+    </h2>
+    
+    <motion.div
+      initial={{ scale: 0, rotate: 180 }}
+      whileInView={{ scale: 1, rotate: 0 }}
+      transition={{ duration: 0.6, delay: 0.3 }}
+      viewport={{ once: true }}
+    >
+      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-100 to-red-100 flex items-center justify-center">
+        <Flame className="w-5 h-5 text-orange-600" />
+      </div>
+    </motion.div>
+  </div>
+
+  {/* Description with icon */}
+  <div className="flex items-center justify-center gap-2 max-w-2xl mx-auto">
+    <div className="hidden sm:block">
+      <div className="w-6 h-6 rounded-full bg-orange-50 flex items-center justify-center">
+        <div className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
+      </div>
+    </div>
+    <p className="text-base md:text-lg text-gray-600">
+      Discover our most popular products that customers love and buy the most
+    </p>
+    <div className="hidden sm:block">
+      <div className="w-6 h-6 rounded-full bg-orange-50 flex items-center justify-center">
+        <div className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
+      </div>
+    </div>
+  </div>
+</motion.div>
+
 
         {/* Hot Selling Products Carousel */}
         <motion.div
@@ -99,7 +179,7 @@ export default function HotSellingCarousel({ products }) {
             className="hot-selling-carousel"
           >
             {hotProducts.map((product, index) => (
-              <SwiperSlide key={product.id}>
+              <SwiperSlide key={product?.id}>
                 <motion.div
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -110,8 +190,8 @@ export default function HotSellingCarousel({ products }) {
                     {/* Product Image */}
                     <div className="relative aspect-square bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden">
                       <img
-                        src={product.image}
-                        alt={product.name}
+                        src={product?.image}
+                        alt={product?.name}
                         className="w-full h-full object-contain p-4 group-hover:scale-110 transition-transform duration-500"
                       />
 
@@ -123,12 +203,12 @@ export default function HotSellingCarousel({ products }) {
 
                       {/* Sales Count */}
                       <div className="absolute top-3 right-3 bg-black/80 text-white px-2 py-1 rounded text-xs font-medium">
-                        {product.salesCount}+ sold
+                        {product.salesCount}+ sold  
                       </div>
 
                       {/* Hover Overlay */}
                       <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <Link href={`/product/${product.id}/${product.slug}`}>
+                        <Link href={`/product/${product.productSlug}/${product.id}`}>
                           <motion.button
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.95 }}
@@ -143,11 +223,11 @@ export default function HotSellingCarousel({ products }) {
                     {/* Product Info */}
                     <div className="p-5">
                       <span className="inline-block bg-gray-100 text-gray-800 text-xs font-semibold px-2.5 py-0.5 rounded-full mb-2">
-                        {product.category}
+                        {product?.subCategory}
                       </span>
 
                       <h3 className="font-bold text-gray-900 mb-2 line-clamp-2 text-base group-hover:text-gray-700 transition-colors">
-                        {product.name}
+                        {product?.name}
                       </h3>
 
                       <div className="flex items-center gap-1 mb-3">
@@ -179,18 +259,14 @@ export default function HotSellingCarousel({ products }) {
                           product.originalPrice > product.price && (
                             <span className="text-xs font-semibold text-green-600 bg-green-50 px-2 py-0.5 rounded-full">
                               -
-                              {Math.round(
-                                ((product.originalPrice - product.price) /
-                                  product.originalPrice) *
-                                  100
-                              )}
+                              {Math.round(product.discount)}
                               %
                             </span>
                           )}
                       </div>
 
                       {/* Colors */}
-                      {product.colors && product.colors.length > 0 && (
+                      {/* {product.colors && product.colors.length > 0 && (
                         <div className="flex items-center gap-2 mb-4">
                           <span className="text-xs text-gray-500">
                             Colors:
@@ -211,14 +287,14 @@ export default function HotSellingCarousel({ products }) {
                             )}
                           </div>
                         </div>
-                      )}
+                      )} */}
 
                       <p className="text-gray-600 text-sm mb-4 line-clamp-2">
                         {product.description}
                       </p>
 
                       <Link
-                        href={`/product/${product.id}/${product.slug}`}
+                        href={`/product/${product.productSlug}/${product.id}`}
                         className="w-full bg-gradient-to-r from-gray-800 to-black text-white text-center py-3 px-4 rounded-xl hover:from-gray-900 hover:to-gray-900 transition-all duration-300 text-sm font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center justify-center gap-2"
                       >
                         <Eye className="w-4 h-4" />

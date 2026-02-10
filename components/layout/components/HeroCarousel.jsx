@@ -16,25 +16,25 @@ const heroBanners = [
     image:
       'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1920&q=50',
     alt: 'Tech circuit board wallpaper',
-    link: '/products',
-  },
+    link: '#',
+  }, 
   {
     id: 2,
     image:
       'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1920&q=50',
     alt: 'Abstract technology wallpaper',
-    link: '/products/audio',
+    link: '#',
   },
   {
     id: 3,
     image:
       'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1920&q=50    ',
     alt: 'Futuristic neon city wallpaper',
-    link: '/products/accessories',
+    link: '#',
   },
 ];
 
-export default function HeroCarousel() {
+export default function HeroCarousel({banners}) {
   return (
     <section className="relative w-full h-[50vh] sm:h-[60vh] md:h-[70vh] lg:h-screen overflow-hidden">
       <Swiper
@@ -55,15 +55,15 @@ export default function HeroCarousel() {
         loop={true}
         className="h-full w-full"
       >
-        {heroBanners.map((slide) => (
+        {banners.map((slide) => (
           <SwiperSlide key={slide.id}>
             <div className="relative w-full h-full">
-              <a href={slide.link} className="block w-full h-full">
+              <a href='#' className="block w-full h-full">
                 <Image
-                  src={slide.image}
-                  alt={slide.alt}
+                  src={slide?.image}
+                  alt={slide?.alt || 'Hero banner'}
                   fill
-                  priority={slide.id === 1}
+                  priority={slide?.id === 1}
                   className="object-cover"
                   sizes="100vw"
                 />
