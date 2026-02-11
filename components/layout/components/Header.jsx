@@ -11,7 +11,7 @@ export default function Header() {
   return (
     <header className="bg-white shadow-sm border-b">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-20">
           {/* Logo */}
 <div className="flex-shrink-0">
   <Link href="/" className="flex items-center">
@@ -67,7 +67,7 @@ export default function Header() {
                       </div>
                       <div className="grid grid-cols-2 gap-2">
                         <Link
-                          href="/products?category=Polymer"
+                          href="/en/products?category=polymer&parentCategory=batteries"
                           className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-100 transition-colors group/link"
                         >
                           <div className="w-6 h-6 rounded bg-gray-200 overflow-hidden">
@@ -80,7 +80,7 @@ export default function Header() {
                           <span className="text-xs text-gray-700 group-hover/link:text-black">Polymer</span>
                         </Link>
                         <Link
-                          href="/products?category=Lithium"
+                          href="/en/products?category=lithium&parentCategory=batteries"
                           className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-100 transition-colors group/link"
                         >
                           <div className="w-6 h-6 rounded bg-gray-200 overflow-hidden">
@@ -112,7 +112,7 @@ export default function Header() {
                       </div>
                       <div className="grid grid-cols-2 gap-2">
                         <Link
-                          href="/products?category=Earbuds"
+                          href="/en/products?category=tws&parentCategory=accessories"
                           className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-100 transition-colors group/link"
                         >
                           <div className="w-6 h-6 rounded bg-gray-200 overflow-hidden">
@@ -122,10 +122,10 @@ export default function Header() {
                               className="w-full h-full object-cover"
                             />
                           </div>
-                          <span className="text-xs text-gray-700 group-hover/link:text-black">Earbuds</span>
+                          <span className="text-xs text-gray-700 group-hover/link:text-black">TWS</span>
                         </Link>
                         <Link
-                          href="/products?category=Neckbands"
+                          href="/en/products?category=neckbands&parentCategory=accessories"
                           className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-100 transition-colors group/link"
                         >
                           <div className="w-6 h-6 rounded bg-gray-200 overflow-hidden">
@@ -138,7 +138,7 @@ export default function Header() {
                           <span className="text-xs text-gray-700 group-hover/link:text-black">Neckbands</span>
                         </Link>
                         <Link
-                          href="/products?category=Earphones"
+                          href="/en/products?category=headphones&parentCategory=accessories"
                           className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-100 transition-colors group/link"
                         >
                           <div className="w-6 h-6 rounded bg-gray-200 overflow-hidden">
@@ -148,10 +148,10 @@ export default function Header() {
                               className="w-full h-full object-cover"
                             />
                           </div>
-                          <span className="text-xs text-gray-700 group-hover/link:text-black">Earphones</span>
+                          <span className="text-xs text-gray-700 group-hover/link:text-black">Headphones</span>
                         </Link>
                         <Link
-                          href="/products?category=Speaker"
+                          href="/en/products?category=speakers&parentCategory=accessories"
                           className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-100 transition-colors group/link"
                         >
                           <div className="w-6 h-6 rounded bg-gray-200 overflow-hidden">
@@ -162,6 +162,19 @@ export default function Header() {
                             />
                           </div>
                           <span className="text-xs text-gray-700 group-hover/link:text-black">Speaker</span>
+                        </Link>
+                          <Link
+                          href="/en/products?category=earphones&parentCategory=accessories"
+                          className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-100 transition-colors group/link"
+                        >
+                          <div className="w-6 h-6 rounded bg-gray-200 overflow-hidden">
+                            <img
+                              src="https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=50&h=50&fit=crop"
+                              alt="Speaker"
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <span className="text-xs text-gray-700 group-hover/link:text-black">Earphones</span>
                         </Link>
                       </div>
                     </div>
@@ -186,7 +199,7 @@ export default function Header() {
                       </div>
                       <div className="grid grid-cols-2 gap-1">
                         <Link
-                          href="/products?category=Charger"
+                          href="/en/products?category=chargers&parentCategory=accessories"
                           className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-gray-100 transition-colors group/link"
                         >
                           <div className="w-5 h-5 rounded bg-gray-200 overflow-hidden">
@@ -199,7 +212,7 @@ export default function Header() {
                           <span className="text-xs text-gray-700 group-hover/link:text-black">Charger</span>
                         </Link>
                         <Link
-                          href="/products?category=Car Charger"
+                          href="/en/products?category=carchargers&parentCategory=accessories"
                           className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-gray-100 transition-colors group/link"
                         >
                           <div className="w-5 h-5 rounded bg-gray-200 overflow-hidden">
@@ -212,7 +225,7 @@ export default function Header() {
                           <span className="text-xs text-gray-700 group-hover/link:text-black">Car Charger</span>
                         </Link>
                         <Link
-                          href="/products?category=Data Cable"
+                          href="/en/products?category=cables&parentCategory=accessories"
                           className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-gray-100 transition-colors group/link"
                         >
                           <div className="w-5 h-5 rounded bg-gray-200 overflow-hidden">
@@ -225,7 +238,7 @@ export default function Header() {
                           <span className="text-xs text-gray-700 group-hover/link:text-black">Data Cable</span>
                         </Link>
                         <Link
-                          href="/products?category=Power Bank"
+                          href="/en/products?category=powerbanks&parentCategory=accessories"
                           className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-gray-100 transition-colors group/link"
                         >
                           <div className="w-5 h-5 rounded bg-gray-200 overflow-hidden">
@@ -257,7 +270,7 @@ export default function Header() {
                       </div>
                       <div className="grid grid-cols-2 gap-2">
                         <Link
-                          href="/products?category=Cover"
+                          href="/en/products"
                           className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-100 transition-colors group/link"
                         >
                           <div className="w-6 h-6 rounded bg-gray-200 overflow-hidden">
@@ -270,7 +283,7 @@ export default function Header() {
                           <span className="text-xs text-gray-700 group-hover/link:text-black">Cover</span>
                         </Link>
                         <Link
-                          href="/products?category=Tempered Glass"
+                          href="/en/products"
                           className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-100 transition-colors group/link"
                         >
                           <div className="w-6 h-6 rounded bg-gray-200 overflow-hidden">
@@ -283,7 +296,7 @@ export default function Header() {
                           <span className="text-xs text-gray-700 group-hover/link:text-black">Tempered Glass</span>
                         </Link>
                         <Link
-                          href="/products?category=Combo"
+                          href="/en/products"
                           className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-100 transition-colors group/link"
                         >
                           <div className="w-6 h-6 rounded bg-gray-200 overflow-hidden">

@@ -233,13 +233,24 @@ export const getProducts = async (filters) => {
   console.log("👤 [INVENTORY ACTION] getProducts called");
    const queryParams = new URLSearchParams();
    if (filters.source) queryParams.append('source', filters.source);
+   if (filters.page) queryParams.append('page', filters.page);
+   if (filters.limit) queryParams.append('limit', filters.limit);
+   if (filters.search) queryParams.append('search', filters.search);
+   if (filters.parentCategory) queryParams.append('category', filters.parentCategory);
+   if (filters.category) queryParams.append('subcategory', filters.category);
+   if (filters.priceRange) {
+  queryParams.append('minPrice', filters.priceRange[0].toString());
+  queryParams.append('maxPrice', filters.priceRange[1].toString());
+}
+   if (filters.sortBy) queryParams.append('sortBy', filters.sortBy);
+   if (filters.minRating) queryParams.append('minRating', filters.minRating.toString());
    const queryString = queryParams.toString();
   const endpoint = queryString 
     ? `/products/get-products?${queryString}` 
     : `/products/get-products`;
   
   
-  return apiCall("get", endpoint, null, [], true);
+  return apiCall("get", endpoint, null, [], false);
 };
 
 // ==================== CRM ACTIONS ====================

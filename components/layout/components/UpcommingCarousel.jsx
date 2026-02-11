@@ -257,7 +257,7 @@ function ProductCard({ product }) {
   return (
     <div className="group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100 relative">
       {/* Product Image with Overlay */}
-      <div className="relative aspect-square bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden">
+      <div className="relative aspect-square  overflow-hidden">
         <img
           src={product.image}
           alt={product.name}
@@ -290,7 +290,7 @@ function ProductCard({ product }) {
       </div>
 
       {/* Product Info */}
-      <div className="p-5">
+      <div className="p-5 border-t border-gray-100">
         <span className="inline-block bg-gray-100 text-gray-800 text-xs font-semibold px-2.5 py-0.5 rounded-full mb-2">
           {product.category}
         </span>

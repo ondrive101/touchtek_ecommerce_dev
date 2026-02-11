@@ -9,30 +9,6 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/effect-fade';
 
-// Example free tech wallpapers from Unsplash
-const heroBanners = [
-  {
-    id: 1,
-    image:
-      'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1920&q=50',
-    alt: 'Tech circuit board wallpaper',
-    link: '#',
-  }, 
-  {
-    id: 2,
-    image:
-      'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1920&q=50',
-    alt: 'Abstract technology wallpaper',
-    link: '#',
-  },
-  {
-    id: 3,
-    image:
-      'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1920&q=50    ',
-    alt: 'Futuristic neon city wallpaper',
-    link: '#',
-  },
-];
 
 export default function HeroCarousel({banners}) {
   return (
