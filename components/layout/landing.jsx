@@ -40,7 +40,7 @@ export default function Home() {
 
     useEffect(() => {
     if (productsData) {
-      console.log("productsData received", productsData?.data?.payload?.products);
+      // console.log("productsData received", productsData?.data?.payload?.products);
       setProducts(productsData?.data?.payload?.products || []);
       setBanners(productsData?.data?.payload?.banners || []);
     }
