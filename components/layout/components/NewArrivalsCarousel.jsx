@@ -225,7 +225,7 @@ function ProductCard({ product }) {
     e.preventDefault();
     setIsAddedToCart(true);
     // Add your cart logic here
-    console.log(`Added to cart: ${product.name}`);
+    // console.log(`Added to cart: ${product.name}`);
     
     // Reset after 2 seconds
     setTimeout(() => {

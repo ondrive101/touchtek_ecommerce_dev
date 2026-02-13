@@ -3,8 +3,17 @@
 import { useRef } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
+import Image from "next/image";
 import { motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Battery, Headphones, Zap } from 'lucide-react';
+import Airpod from "@/public/images/touchtek/Airpod.jpeg";
+import Cable from "@/public/images/touchtek/Cable.jpeg";
+import Charger from "@/public/images/touchtek/Charger.jpeg";
+import Earphone from "@/public/images/touchtek/Earphone.jpeg";
+import Headphone from "@/public/images/touchtek/Headphone.jpeg";
+import Neckband from "@/public/images/touchtek/Neckband.jpeg";
+import Powerbank from "@/public/images/touchtek/Powerbank.jpeg";
+import Speaker from "@/public/images/touchtek/Speaker.jpeg";
 import Link from 'next/link';
 
 // Import Swiper styles
@@ -14,50 +23,50 @@ import 'swiper/css/pagination';
 import 'swiper/css/autoplay';
 
 const categories = [
+  // {
+  //   id: 'battery',
+  //   name: 'Batteries',
+  //   description: 'Fast charging & long-lasting',
+  //   icon: Battery,
+  //   productCount: 15,
+  //   image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=400&h=300&fit=crop&crop=center',
+  //   href: '/products?category=Battery'
+  // },
+  // {
+  //   id: 'polymer',
+  //   name: 'Polymer',
+  //   description: 'Advanced polymer batteries',
+  //   icon: Battery,
+  //   productCount: 8,
+  //   image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop&crop=center',
+  //   href: '/products?category=Polymer'
+  // },
+  // {
+  //   id: 'lithium',
+  //   name: 'Lithium',
+  //   description: 'High-performance lithium batteries',
+  //   icon: Battery,
+  //   productCount: 12,
+  //   image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=400&h=300&fit=crop&crop=center',
+  //   href: '/products?category=Lithium'
+  // },
   {
-    id: 'battery',
-    name: 'Batteries',
-    description: 'Fast charging & long-lasting',
-    icon: Battery,
-    productCount: 15,
-    image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=400&h=300&fit=crop&crop=center',
-    href: '/products?category=Battery'
-  },
-  {
-    id: 'polymer',
-    name: 'Polymer',
-    description: 'Advanced polymer batteries',
-    icon: Battery,
-    productCount: 8,
-    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop&crop=center',
-    href: '/products?category=Polymer'
-  },
-  {
-    id: 'lithium',
-    name: 'Lithium',
-    description: 'High-performance lithium batteries',
-    icon: Battery,
-    productCount: 12,
-    image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=400&h=300&fit=crop&crop=center',
-    href: '/products?category=Lithium'
-  },
-  {
-    id: 'audio',
-    name: 'Audio',
+    id: 'headphone',
+    name: 'Head Phone',
     description: 'Premium sound quality',
     icon: Headphones,
     productCount: 12,
-    image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=400&h=300&fit=crop&crop=center',
-    href: '/products?category=Audio'
+    image: Headphone,
+    href: '/en/products?category=headphones&parentCategory=accessories'
   },
   {
-    id: 'earbuds',
-    name: 'Earbuds',
+    id: 'tws',
+    name: 'TWS',
     description: 'True wireless earbuds',
     icon: Headphones,
     productCount: 10,
-    image: 'https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=400&h=300&fit=crop&crop=center',
-    href: '/products?category=Earbuds'
+    image: Airpod,
+    href: '/en/products?category=tws&parentCategory=accessories'
   },
   {
     id: 'neckbands',
@@ -65,8 +74,8 @@ const categories = [
     description: 'Comfortable neckband headphones',
     icon: Headphones,
     productCount: 6,
-    image: 'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=400&h=300&fit=crop&crop=center&saturation=80',
-    href: '/products?category=Neckbands'
+    image: Neckband,
+    href: '/en/products?category=neckbands&parentCategory=accessories'
   },
   {
     id: 'earphones',
@@ -74,8 +83,8 @@ const categories = [
     description: 'Wired earphones',
     icon: Headphones,
     productCount: 8,
-    image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=400&h=300&fit=crop&crop=center&contrast=110',
-    href: '/products?category=Earphones'
+    image: Earphone,
+    href: '/en/products?category=earphones&parentCategory=accessories'
   },
   {
     id: 'speaker',
@@ -83,90 +92,90 @@ const categories = [
     description: 'Bluetooth speakers',
     icon: Headphones,
     productCount: 5,
-    image: 'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=400&h=300&fit=crop&crop=center',
-    href: '/products?category=Speaker'
+    image: Speaker,
+    href: '/en/products?category=speakers&parentCategory=accessories'
   },
-  {
-    id: 'accessories',
-    name: 'Accessories',
-    description: 'Smart charging solutions',
-    icon: Zap,
-    productCount: 18,
-    image: 'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=400&h=300&fit=crop&crop=center',
-    href: '/products?category=Accessories'
-  },
+  // {
+  //   id: 'accessories',
+  //   name: 'Accessories',
+  //   description: 'Smart charging solutions',
+  //   icon: Zap,
+  //   productCount: 18,
+  //   image: 'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=400&h=300&fit=crop&crop=center',
+  //   href: '/products?category=Accessories'
+  // },
   {
     id: 'charger',
     name: 'Charger',
     description: 'Fast charging solutions',
     icon: Zap,
     productCount: 15,
-    image: 'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=400&h=300&fit=crop&crop=center&brightness=110',
-    href: '/products?category=Charger'
+    image: Charger,
+    href: '/en/products?category=chargers&parentCategory=accessories'
   },
-  {
-    id: 'car-charger',
-    name: 'Car Charger',
-    description: 'Mobile car charging',
-    icon: Zap,
-    productCount: 7,
-    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop&crop=center&contrast=120',
-    href: '/products?category=Car Charger'
-  },
+  // {
+  //   id: 'car-charger',
+  //   name: 'Car Charger',
+  //   description: 'Mobile car charging',
+  //   icon: Zap,
+  //   productCount: 7,
+  //   image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop&crop=center&contrast=120',
+  //   href: '/products?category=Car Charger'
+  // },
   {
     id: 'data-cable',
     name: 'Data Cable',
     description: 'High-speed data cables',
     icon: Zap,
     productCount: 20,
-    image: 'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=400&h=300&fit=crop&crop=center&brightness=110',
-    href: '/products?category=Data Cable'
+    image: Cable,
+    href: '/en/products?category=cables&parentCategory=accessories'
   },
-  {
-    id: 'connector',
-    name: 'Connector',
-    description: 'Universal connectors',
-    icon: Zap,
-    productCount: 12,
-    image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=400&h=300&fit=crop&crop=center',
-    href: '/products?category=Connector'
-  },
+  // {
+  //   id: 'connector',
+  //   name: 'Connector',
+  //   description: 'Universal connectors',
+  //   icon: Zap,
+  //   productCount: 12,
+  //   image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=400&h=300&fit=crop&crop=center',
+  //   href: '/products?category=Connector'
+  // },
   {
     id: 'power-bank',
     name: 'Power Bank',
     description: 'Portable power solutions',
     icon: Battery,
     productCount: 10,
-    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop&crop=center',
-    href: '/products?category=Power Bank'
+    image: Powerbank,
+    href: '/en/products?category=powerbanks&parentCategory=accessories'
   },
-  {
-    id: 'combo',
-    name: 'Combo',
-    description: 'Product combinations',
-    icon: Zap,
-    productCount: 8,
-    image: 'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=400&h=300&fit=crop&crop=center&hue=60',
-    href: '/products?category=Combo'
-  },
-  {
-    id: 'cover',
-    name: 'Cover',
-    description: 'Protective covers',
-    icon: Zap,
-    productCount: 25,
-    image: 'https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=400&h=300&fit=crop&crop=center&brightness=120',
-    href: '/products?category=Cover'
-  },
-  {
-    id: 'tempered-glass',
-    name: 'Tempered Glass',
-    description: 'Screen protection',
-    icon: Zap,
-    productCount: 18,
-    image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=400&h=300&fit=crop&crop=center&brightness=130',
-    href: '/products?category=Tempered Glass'
-  }
+  // {
+  //   id: 'combo',
+  //   name: 'Combo',
+  //   description: 'Product combinations',
+  //   icon: Zap,
+  //   productCount: 8,
+  //   image: 'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=400&h=300&fit=crop&crop=center&hue=60',
+  //   href: '/products?category=Combo'
+  // },
+  // {
+  //   id: 'cover',
+  //   name: 'Cover',
+  //   description: 'Protective covers',
+  //   icon: Zap,
+  //   productCount: 25,
+  //   image: 'https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=400&h=300&fit=crop&crop=center&brightness=120',
+  //   href: '/products?category=Cover'
+  // },
+  // {
+  //   id: 'tempered-glass',
+  //   name: 'Tempered Glass',
+  //   description: 'Screen protection',
+  //   icon: Zap,
+  //   productCount: 18,
+  //   image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=400&h=300&fit=crop&crop=center&brightness=130',
+  //   href: '/products?category=Tempered Glass'
+  // }
 ];
 
 export default function CategoryCarousel() {
@@ -248,11 +257,12 @@ export default function CategoryCarousel() {
                       <div className="group rounded-xl overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 cursor-pointer">
                         {/* Category Image with Text Overlay */}
                         <div className="relative h-40 overflow-hidden">
-                          <img
+                          {/* <img
                             src={category.image}
                             alt={category.name}
                             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                          />
+                          /> */}
+                          <Image src={category?.image} alt={category?.name} className="w-full h-full object-cover" />
                           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
                           {/* Category Name Overlay */}

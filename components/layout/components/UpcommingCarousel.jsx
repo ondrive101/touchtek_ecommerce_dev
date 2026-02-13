@@ -251,7 +251,7 @@ function ProductCard({ product }) {
   const handleNotifyMe = () => {
     setIsNotified(true);
     // Add your notification logic here (e.g., API call, email subscription)
-    console.log(`Notify me for product: ${product.name}`);
+    // console.log(`Notify me for product: ${product.name}`);
   };
 
   return (
