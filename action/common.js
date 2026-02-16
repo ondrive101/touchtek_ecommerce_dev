@@ -253,6 +253,12 @@ export const getProducts = async (filters) => {
   return apiCall("get", endpoint, null, [], false);
 };
 
+export const getProductById = async (id) => {
+  console.log("👤 [INVENTORY ACTION] getProductById called");
+  return apiCall("get", `/products/get-product/${id}`, null, [], false);
+};
+
+
 // ==================== CRM ACTIONS ====================
 
 // ==================== GENERAL USER ACTIONS ====================

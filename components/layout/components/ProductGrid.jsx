@@ -70,7 +70,10 @@ export default function ProductGrid({
             name={product.name}
             image={product.image}
             slug={product.slug}
+            productSlug={product.productSlug}
             category={product.category}
+            cat={product.categoryId}
+            subcat={product.subCategoryId}
             price={product.price}
             originalPrice={product.originalPrice}
             discount={product.discount}
