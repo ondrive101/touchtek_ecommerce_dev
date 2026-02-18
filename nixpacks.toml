@@ -1,23 +1,25 @@
 [phases.setup]
+# Use Node 22 instead of 20
 nixPkgs = [
-  "nodejs_20",           # Node.js version
-  "npm-10_x",             # npm version
-  "yarn"                 # Add Yarn here
+  "nodejs_22",        # Updated Node.js major version
+  "npm-10_x",         # npm 10
+  "yarn"              # Yarn 1.x from Nix
 ]
+# Keep the npm overlay and nixpkgs archive unless you intentionally change them
 nixOverlays = ["https://github.com/railwayapp/nix-npm-overlay/archive/main.tar.gz"]
 nixpkgsArchive = "5624e1334b26ddc18da37e132b6fa8e93b481468"
 aptPkgs = ["curl", "wget"]
 
 [phases.install]
 dependsOn = ["setup"]
-cmds = ["yarn install"]    # Use Yarn to install dependencies
-cacheDirectories = ["/root/.yarn"]  # Update cache directory for Yarn
+cmds = ["yarn install"]
+cacheDirectories = ["/root/.yarn"]
 paths = ["/app/node_modules/.bin"]
 
 [phases.build]
 dependsOn = ["install"]
-cmds = ["npm run build"]   # Adjust this based on your project’s build script
+cmds = ["npm run build"]
 cacheDirectories = [".next/cache", "node_modules/.cache"]
 
 [start]
-cmd = "npm run start"      # Adjust this based on your project’s start script
+cmd = "npm run start"
