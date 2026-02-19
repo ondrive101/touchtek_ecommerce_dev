@@ -88,7 +88,7 @@
     "embla-carousel-react": "^8.0.0-rc17",
     "embla-carousel-wheel-gestures": "^8.0.0-rc05",
     "emoji-mart": "^5.5.2",
-    "eslint": "^8.48.0",
+    "eslint": "^10.0.0",
     "eslint-config-next": "^16.0.10",
     "formidable": "^3.5.2",
     "framer-motion": "^10.16.3",

@@ -7,7 +7,7 @@ nixPkgs = [
 ]
 # Keep the npm overlay and nixpkgs archive unless you intentionally change them
 nixOverlays = ["https://github.com/railwayapp/nix-npm-overlay/archive/main.tar.gz"]
-nixpkgsArchive = "5624e1334b26ddc18da37e132b6fa8e93b481468"
+nixpkgsArchive = "51ad838b03a05b1de6f9f2a0fffecee64a9788ee"
 aptPkgs = ["curl", "wget"]
 
 [phases.install]
