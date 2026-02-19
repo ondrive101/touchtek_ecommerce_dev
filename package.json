@@ -66,7 +66,6 @@
     "@vercel/analytics": "^1.2.2",
     "aes-256-gcm": "^1.0.3",
     "apexcharts": "^4.7.0",
-    "autoprefixer": "^10.4.15",
     "axios": "^1.6.1",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
@@ -78,7 +77,6 @@
     "clsx": "^2.0.0",
     "cmdk": "^0.2.0",
     "cookie": "^1.0.2",
-    "crypto": "^1.0.1",
     "d3-shape": "^3.2.0",
     "dagre": "^0.8.5",
     "date-fns": "^3.3.1",
@@ -88,8 +86,6 @@
     "embla-carousel-react": "^8.0.0-rc17",
     "embla-carousel-wheel-gestures": "^8.0.0-rc05",
     "emoji-mart": "^5.5.2",
-    "eslint": "^10.0.0",
-    "eslint-config-next": "^16.0.10",
     "formidable": "^3.5.2",
     "framer-motion": "^10.16.3",
     "google-map-react": "^2.2.1",
@@ -104,7 +100,6 @@
     "mailparser": "^3.7.3",
     "moment": "^2.29.4",
     "mongoose": "^8.9.3",
-    "multer": "^1.4.5-lts.2",
     "nanoid": "^5.1.5",
     "negotiator": "^0.6.3",
     "next": "^16.1.6",
@@ -112,7 +107,6 @@
     "next-themes": "^0.2.1",
     "nodemailer": "^7.0.3",
     "nookies": "^2.5.2",
-    "postcss": "^8.4.28",
     "quill": "^1.3.7",
     "rc-tree": "^5.8.2",
     "react": "^19.2.4",
@@ -165,6 +159,10 @@
     "@faker-js/faker": "^8.2.0",
     "@svgr/webpack": "^8.1.0",
     "@types/node": "^20.10.0",
-    "@types/react": "18.2.38"
+    "@types/react": "18.2.38",
+    "eslint": "^10.0.0",
+    "eslint-config-next": "^16.1.6",
+    "autoprefixer": "^10.4.15",
+    "postcss": "^8.4.28"
   }
 }

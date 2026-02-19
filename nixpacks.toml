@@ -1,11 +1,8 @@
 [phases.setup]
-# Use Node 22 instead of 20
 nixPkgs = [
-  "nodejs_22",        # Updated Node.js major version
-  "npm-10_x",         # npm 10
-  "yarn"              # Yarn 1.x from Nix
+  "nodejs_22",
+  "yarn"
 ]
-# Keep the npm overlay and nixpkgs archive unless you intentionally change them
 nixOverlays = ["https://github.com/railwayapp/nix-npm-overlay/archive/main.tar.gz"]
 nixpkgsArchive = "51ad838b03a05b1de6f9f2a0fffecee64a9788ee"
 aptPkgs = ["curl", "wget"]
