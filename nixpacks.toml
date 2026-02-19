@@ -1,15 +1,10 @@
 [phases.setup]
-nixPkgs = [
-  "nodejs_22",
-  "yarn"
-]
-nixOverlays = ["https://github.com/railwayapp/nix-npm-overlay/archive/main.tar.gz"]
-nixpkgsArchive = "51ad838b03a05b1de6f9f2a0fffecee64a9788ee"
+nixPkgs = ["nodejs_22", "yarn"]
 aptPkgs = ["curl", "wget"]
 
 [phases.install]
 dependsOn = ["setup"]
-cmds = ["yarn install"]
+cmds = ["yarn install --ignore-engines"]
 cacheDirectories = ["/root/.yarn"]
 paths = ["/app/node_modules/.bin"]
 
