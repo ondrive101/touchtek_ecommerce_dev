@@ -253,6 +253,11 @@ export const getProducts = async (filters) => {
   return apiCall("get", endpoint, null, [], false);
 };
 
+export const getSitemapProducts = async () => {
+  console.log("👤 [INVENTORY ACTION] getSitemapProducts called");
+  return apiCall("get", `/products/get-sitemap-products`, null, [], false);
+};
+
 export const getProductById = async (id) => {
   console.log("👤 [INVENTORY ACTION] getProductById called");
   return apiCall("get", `/products/get-product/${id}`, null, [], false);
