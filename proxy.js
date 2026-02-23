@@ -6,31 +6,48 @@ import { authMiddleware } from "@/middleware.config";
 let defaultLocale = "en";
 let locales = ["bn", "en", "ar"];
 
-// Get the preferred locale, similar to above or using a library
 function getLocale(request) {
-  const acceptedLanguage = request.headers.get("accept-language") ?? undefined;
-  let headers = { "accept-language": acceptedLanguage };
-  let languages = new Negotiator({ headers }).languages();
+  try {
+    const acceptedLanguage = request.headers.get("accept-language");
 
-  return match(languages, locales, defaultLocale); // -> 'en-US'
+    // ✅ If missing, wildcard (*), or invalid — fall back immediately
+    if (!acceptedLanguage || acceptedLanguage.trim() === "*") {
+      return defaultLocale;
+    }
+
+    let headers = { "accept-language": acceptedLanguage };
+    let languages = new Negotiator({ headers }).languages();
+
+    // ✅ Filter out invalid locale tags before passing to match()
+    const validLanguages = languages.filter((lang) => {
+      try {
+        Intl.getCanonicalLocales(lang);
+        return true;
+      } catch {
+        return false;
+      }
+    });
+
+    // ✅ If nothing valid remains, use default
+    if (validLanguages.length === 0) return defaultLocale;
+
+    return match(validLanguages, locales, defaultLocale);
+  } catch {
+    // ✅ Final safety net — never crash, always return default
+    return defaultLocale;
+  }
 }
 
 export function proxy(request) {
-
-  // Check if there is any supported locale in the pathname
   const pathname = request.nextUrl.pathname;
 
- 
   const pathnameIsMissingLocale = locales.every(
-    (locale) => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
+    (locale) =>
+      !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
   );
 
-  // Redirect if there is no locale
   if (pathnameIsMissingLocale) {
     const locale = getLocale(request);
-
-    // e.g. incoming request is /products
-    // The new URL is now /en-US/products
     return NextResponse.redirect(
       new URL(`/${locale}${pathname}`, request.url)
     );
@@ -38,10 +55,5 @@ export function proxy(request) {
 }
 
 export const config = {
-  matcher: [
-    // Skip all internal paths (_next, assets, api)
-    //"/((?!api|assets|.*\\..*|_next).*)",
-    "/((?!api|assets|docs|.*\\..*|_next).*)",
-    // Optional: only run on root (/) URL
-  ],
+  matcher: ["/((?!api|assets|docs|.*\\..*|_next).*)"],
 };
