@@ -4,7 +4,7 @@ import Negotiator from "negotiator";
 import { authMiddleware } from "@/middleware.config";
 
 let defaultLocale = "en";
-let locales = ["bn", "en", "ar"];
+let locales = ["en"];
 
 function getLocale(request) {
   try {
@@ -38,8 +38,31 @@ function getLocale(request) {
   }
 }
 
+
+const GONE_PREFIXES = [
+  "/product/",
+  "/products/",
+  "/ajax/",
+  "/wishlist.php",
+  // Add more patterns from your GSC list
+];
+
 export function proxy(request) {
   const pathname = request.nextUrl.pathname;
+
+
+  console.log('pathname',pathname)
+
+
+// ✅ STEP 1: Check for dead old PHP URLs FIRST (before locale redirect)
+  const isGone = GONE_PREFIXES.some((prefix) => pathname.startsWith(prefix));
+  
+  if (isGone) {
+    return new NextResponse("Gone", { status: 410 });
+  }
+
+
+
 
   const pathnameIsMissingLocale = locales.every(
     (locale) =>

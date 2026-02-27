@@ -44,7 +44,7 @@ export default function ProductCard({ id, name, image, slug, category,productSlu
         
         {/* Hover Overlay */}
         <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-          <Link href={`/product/${cat}/${subcat}/${productSlug}/${id}`}>
+          <Link href={`/en/product/${cat}/${subcat}/${productSlug}/${id}`}>
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
@@ -98,7 +98,7 @@ export default function ProductCard({ id, name, image, slug, category,productSlu
         
         <div className="flex">
           <Link
-            href={`/product/${cat}/${subcat}/${productSlug}/${id}`}
+            href={`/en/product/${cat}/${subcat}/${productSlug}/${id}`}
             className="w-full bg-gradient-to-r from-gray-800 to-black text-white text-center py-3 px-4 rounded-xl hover:from-gray-900 hover:to-gray-900 transition-all duration-300 text-sm font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center justify-center gap-2"
           >
             <Eye className="w-4 h-4" />

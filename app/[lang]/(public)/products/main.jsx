@@ -3,6 +3,7 @@
 import { useState,useEffect } from "react";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import Header from "@/components/layout/components/Header";
+import { toast } from "react-hot-toast";
 import Footer from "@/components/layout/components/Footer";
 import ProductFilters from "@/components/layout/components/ProductsFilter";
 import ProductGrid from "@/components/layout/components/ProductGrid";

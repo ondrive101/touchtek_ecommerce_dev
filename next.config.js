@@ -2,10 +2,31 @@
 
 const nextConfig = {
   turbopack: {},
+  // ✅ Add redirects here - maps old PHP URLs to new Next.js URLs
+  // async redirects() {
+  //   return [
+  //     {
+  //       source: "/product/127/sound-pod",
+  //       destination: "/en/product/accessories/tws/sound-pods-pro/biq77",
+  //       permanent: true,
+  //     },
+  //     {
+  //       source: "/product/89/neon",
+  //       destination: "/en/product/accessories/speakers/neon/ivh14",
+  //       permanent: true,
+  //     },
+  //     {
+  //       source: "/product/97/audio-adapter",
+  //       destination: "/en/product/accessories/otg/tk-3-audio-adapter/gix44",
+  //       permanent: true,
+  //     },
+  //   ];
+  // },
+
   webpack(config) {
     // Grab the existing rule that handles SVG imports
     const fileLoaderRule = config.module.rules.find((rule) =>
-      rule.test?.test?.(".svg")
+      rule.test?.test?.(".svg"),
     );
 
     config.module.rules.push(
@@ -21,7 +42,7 @@ const nextConfig = {
         issuer: fileLoaderRule.issuer,
         resourceQuery: { not: [...fileLoaderRule.resourceQuery.not, /url/] }, // exclude if *.svg?url
         use: ["@svgr/webpack"],
-      }
+      },
     );
 
     // Modify the file loader rule to ignore *.svg, since we have it handled now.
@@ -47,10 +68,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "avatars.githubusercontent.com",
       },
-        {
-        protocol: 'https',
-        hostname: 'images.unsplash.com',
-        pathname: '/**',
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+        pathname: "/**",
       },
       {
         protocol: "http",

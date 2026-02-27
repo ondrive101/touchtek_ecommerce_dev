@@ -14,6 +14,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/autoplay';
 
 export default function HotSellingCarousel({ products}) {
+  // console.log('products', products)
   const prevRef = useRef(null);
   const nextRef = useRef(null);
 
@@ -208,7 +209,7 @@ export default function HotSellingCarousel({ products}) {
 
                       {/* Hover Overlay */}
                       <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <Link href={`/product/${product.productSlug}/${product.id}`}>
+                        <Link href={`/product/${product.categoryId}/${product.subCategoryId}/${product.productSlug}/${product.id}`}>
                           <motion.button
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.95 }}

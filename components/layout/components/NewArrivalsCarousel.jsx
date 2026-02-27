@@ -257,7 +257,7 @@ function ProductCard({ product }) {
           {formatArrivalDate(product.arrivalDate)}
         </div>
         <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
-          <Link href={`/product/${product.productSlug}/${product.id}`}>
+          <Link href={`/product/${product.categoryId}/${product.subCategoryId}/${product.productSlug}/${product.id}`}>
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}

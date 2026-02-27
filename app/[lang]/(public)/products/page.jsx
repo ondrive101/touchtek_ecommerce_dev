@@ -1,4 +1,4 @@
-// app/products/page.tsx (Server Component)
+
 import { Suspense } from "react";
 import ProductsPage from "./main";
 

@@ -1,6 +1,7 @@
 "use server";
 import { revalidatePath } from "next/cache";
 import { getServerSession } from "next-auth";
+import { getToken } from "next-auth/jwt";
 import { authOptions } from "@/lib/auth";
 import axios from "axios";
 
@@ -10,19 +11,12 @@ const BACKEND_URL = process.env.BACKEND_API_URL + "/api/v1/ecommerce";
 const apiClient = axios.create({
   baseURL: BACKEND_URL,
   timeout: 30000,
-  // headers: {
-  //   "Content-Type": "application/json",
-  // },
 });
 
 // Define role permissions
 const ROLES = {
-  SUPERADMIN: "superadmin",
   ADMIN: "admin",
-  EMPLOYEE:"employee",
-  HRM: "hrm",
-  CRM: "crm",
-  USER: "user",
+  CUSTOMER: "customer",
 };
 
 // Get session with role check
@@ -130,12 +124,26 @@ const apiCall = async (method, endpoint, data = null, allowedRoles = [],log=true
     // Add auth headers if required
     if (allowedRoles.length > 0) {
       const session = await getSessionWithRole(allowedRoles);
+       const token = await getToken({
+         req: headers(),
+         secret: process.env.AUTH_SECRET,
+       });
+
+       console.log('access token', token)
+
+       if (!token?.accessToken) {
+  throw new Error("Unauthorized");
+}
+
+
+       
+
+       const accessToken = token?.accessToken;
       
       headers = {
         ...headers,
-        Authorization: `Bearer ${session.user.accessToken}`,
+        Authorization: `Bearer ${accessToken}`,
         "X-User-ID": session.user.id,
-        "X-User-Role": session.user.department,
       };
 
       console.log("🔐 [HEADERS] Authorization headers added");
@@ -181,50 +189,11 @@ export const loginUser = async (data) => {
   return apiCall("post", "/auth/login", data);
 };
 
-// ==================== PROTECTED ACTIONS ====================
+export const refreshAccessToken = async (data) => {
+  console.log("🆕 [PUBLIC ACTION] refresh token called");
+  return apiCall("post", "/auth/refresh-access-token", data);
+};
 
-
-// ==================== SUPERADMIN ONLY ====================
-
-// export const deleteUser = async (userId) => {
-//   console.log("🗑️ [SUPERADMIN ACTION] deleteUser called");
-//   console.log("🗑️ [PARAM] userId:", userId);
-//   return apiCall("delete", `/user/${userId}`, null, [ROLES.SUPERADMIN]);
-// };
-
-// export const updateSystemSettings = async (settings) => {
-//   console.log("⚙️ [SUPERADMIN ACTION] updateSystemSettings called");
-//   console.log("⚙️ [DATA]", settings);
-//   return apiCall("put", "/settings/system", settings, [ROLES.SUPERADMIN]);
-// };
-
-// ==================== ADMIN & SUPERADMIN ====================
-
-// export const createDepartment = async (data) => {
-//   console.log("🏢 [ADMIN ACTION] createDepartment called");
-//   console.log("🏢 [DATA]", data);
-//   return apiCall("post", "/department", data, [ROLES.ADMIN, ROLES.SUPERADMIN]);
-// };
-
-// export const updateDepartment = async (deptId, data) => {
-//   console.log("📝 [ADMIN ACTION] updateDepartment called");
-//   console.log("📝 [PARAM] deptId:", deptId);
-//   console.log("📝 [DATA]", data);
-//   return apiCall("put", `/department/${deptId}`, data, [ROLES.ADMIN, ROLES.SUPERADMIN]);
-// };
-
-// ==================== HRM ACTIONS ====================
-
-// export const addEmployee = async (data) => {
-//   console.log("👤 [HRM ACTION] addEmployee called");
-//   return apiCall("post", "/employee", data, [ROLES.HRM, ROLES.ADMIN, ROLES.SUPERADMIN]);
-// };
-
-// export const updateAttendance = async (employeeId, attendance) => {
-//   console.log("📅 [HRM ACTION] updateAttendance called");
-//   console.log("📅 [PARAM] employeeId:", employeeId);
-//   return apiCall("put", `/employee/${employeeId}/attendance`, attendance, [ROLES.HRM, ROLES.ADMIN, ROLES.SUPERADMIN]);
-// };
 
 
 // ==================== INVENTORY ACTIONS ====================
