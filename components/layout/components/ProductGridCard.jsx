@@ -3,19 +3,67 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { ShoppingCart, Eye, Star } from 'lucide-react';
+import { ShoppingCart, Eye, Star, Minus, Plus } from 'lucide-react';
+import { useCartStore } from '@/store'; // Update path
+import { useState } from 'react';
 
-export default function ProductCard({ id, name, image, slug, category,productSlug,cat, subcat, price, originalPrice, discount }) {
- 
- return (
+export default function ProductCard({ id, name, image, slug, category, productSlug, cat, subcat, price, originalPrice, discount, maxQuantity = 999 }) {
+  const {addItem, updateQuantity, removeItem, getItem } = useCartStore();
+  const [localQuantity, setLocalQuantity] = useState(1);
+
+  // Get current cart item quantity or use local state
+  const cartItem = getItem(id);
+  const currentQuantity = cartItem?.quantity || localQuantity;
+  const isAddedToCart = !!cartItem;
+
+  const handleAddToCart = () => {
+    addItem({
+      id,
+      name,
+      image,
+      price: parseFloat(price),
+      originalPrice: parseFloat(originalPrice || price),
+      category,
+      slug: productSlug,
+      quantity: currentQuantity,
+      maxQuantity
+    });
+    setLocalQuantity(1); // Reset local quantity after adding
+  };
+
+  const handleQuantityChange = (newQuantity) => {
+    if (!isAddedToCart) {
+      setLocalQuantity(newQuantity);
+      return;
+    }
+    
+    updateQuantity(id, newQuantity);
+  };
+
+  const handleRemoveFromCart = () => {
+    removeItem(id);
+    setLocalQuantity(1);
+  };
+
+  const incrementQuantity = () => {
+    const newQty = currentQuantity + 1;
+    handleQuantityChange(newQty);
+  };
+
+  const decrementQuantity = () => {
+    const newQty = currentQuantity - 1;
+    handleQuantityChange(newQty > 0 ? newQty : 1);
+  };
+
+  return (
     <motion.div
-      className="group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2"
+      className="group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 relative"
       whileHover={{ scale: 1.02 }}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="aspect-square relative  overflow-hidden">
+      <div className="aspect-square relative overflow-hidden">
         {/* Product Image */}
         {image ? (
           <img 
@@ -23,7 +71,6 @@ export default function ProductCard({ id, name, image, slug, category,productSlu
             alt={name}
             className="w-full h-full object-contain p-4"
             onError={(e) => {
-              // Fallback to placeholder if image fails to load
               e.target.style.display = 'none';
               e.target.nextElementSibling?.classList.remove('hidden');
             }}
@@ -42,19 +89,18 @@ export default function ProductCard({ id, name, image, slug, category,productSlu
           </div>
         </div>
         
-        {/* Hover Overlay */}
+        {/* Hover Overlay - Quick View */}
         <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
           <Link href={`/en/product/${cat}/${subcat}/${productSlug}/${id}`}>
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
-              className="w-12 h-12 bg-gray-900 rounded-full flex items-center justify-center shadow-lg hover:bg-black transition-colors"
+              className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg hover:bg-gray-100 transition-colors"
             >
-              <Eye className="w-5 h-5 text-white" />
+              <Eye className="w-5 h-5 text-gray-900" />
             </motion.button>
           </Link>
         </div>
-
       </div>
       
       <div className="p-6 border-t border-gray-100">
@@ -97,13 +143,57 @@ export default function ProductCard({ id, name, image, slug, category,productSlu
         </div>
         
         <div className="flex">
-          <Link
-            href={`/en/product/${cat}/${subcat}/${productSlug}/${id}`}
-            className="w-full bg-gradient-to-r from-gray-800 to-black text-white text-center py-3 px-4 rounded-xl hover:from-gray-900 hover:to-gray-900 transition-all duration-300 text-sm font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center justify-center gap-2"
-          >
-            <Eye className="w-4 h-4" />
-            View Details
-          </Link>
+          {/* Add to Cart / Quantity Controls */}
+          {isAddedToCart ? (
+            <motion.div 
+              className="w-full bg-blue-50 border-2 border-blue-200 rounded-xl p-3 flex items-center justify-center gap-3"
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.2 }}
+            >
+              <motion.button
+                onClick={decrementQuantity}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                disabled={currentQuantity <= 1}
+                className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-md hover:bg-blue-50 transition-all duration-200 border border-blue-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <Minus className="w-4 h-4 text-blue-700" />
+              </motion.button>
+              
+              <span className="text-lg font-bold text-gray-900 min-w-[2rem] text-center">
+                {currentQuantity}
+              </span>
+              
+              <motion.button
+                onClick={incrementQuantity}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-md hover:bg-blue-50 transition-all duration-200 border border-blue-200"
+              >
+                <Plus className="w-4 h-4 text-blue-700" />
+              </motion.button>
+              
+              <motion.button
+                onClick={handleRemoveFromCart}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="text-sm text-red-600 font-semibold hover:text-red-700 transition-colors ml-2"
+              >
+                Remove
+              </motion.button>
+            </motion.div>
+          ) : (
+            <motion.button
+              onClick={handleAddToCart}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="w-full bg-gradient-to-r from-gray-800 to-black hover:from-gray-900 hover:to-gray-900 text-white text-center py-3 px-4 rounded-xl transition-all duration-300 text-sm font-semibold shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
+            >
+              <ShoppingCart className="w-4 h-4" />
+              Add to Cart
+            </motion.button>
+          )}
         </div>
       </div>
 

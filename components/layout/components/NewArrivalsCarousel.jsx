@@ -257,7 +257,7 @@ function ProductCard({ product }) {
           {formatArrivalDate(product.arrivalDate)}
         </div>
         <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
-          <Link href={`/product/${product.categoryId}/${product.subCategoryId}/${product.productSlug}/${product.id}`}>
+          <Link href={`/en/product/${product.categoryId}/${product.subCategoryId}/${product.productSlug}/${product.id}`}>
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
@@ -326,18 +326,13 @@ function ProductCard({ product }) {
           </div>
         )}
         <p className="text-gray-600 text-sm mb-4 line-clamp-2">{product.description}</p>
-        <button
-          onClick={handleAddToCart}
-          disabled={isAddedToCart}
-          className={`w-full text-center py-3 px-4 rounded-xl transition-all duration-300 text-sm font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center justify-center gap-2 ${
-            isAddedToCart
-              ? 'bg-green-600 text-white cursor-not-allowed'
-              : 'bg-gradient-to-r from-gray-800 to-black text-white hover:from-gray-900 hover:to-gray-900'
-          }`}
-        >
-          <ShoppingCart className="w-4 h-4" />
-          {isAddedToCart ? 'Added to Cart!' : 'Add to Cart'}
-        </button>
+       <Link
+                        href={`/en/product/${product.categoryId}/${product.subCategoryId}/${product.productSlug}/${product.id}`}
+                        className="w-full bg-gradient-to-r from-gray-800 to-black text-white text-center py-3 px-4 rounded-xl hover:from-gray-900 hover:to-gray-900 transition-all duration-300 text-sm font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center justify-center gap-2"
+                      >
+                        <Eye className="w-4 h-4" />
+                        View Details
+                      </Link>
       </div>
 
       <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
