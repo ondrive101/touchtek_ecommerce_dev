@@ -385,12 +385,12 @@ export default function FAQPage() {
               <div className="bg-white/10 rounded-2xl p-6">
                 <Phone className="w-8 h-8 mx-auto mb-2" />
                 <h3 className="font-semibold mb-2">Call Us</h3>
-                <p className="text-gray-300 text-sm">+91 11 1234 5678</p>
+                <p className="text-gray-300 text-sm">+91 7982215977</p>
               </div>
               <div className="bg-white/10 rounded-2xl p-6">
                 <Mail className="w-8 h-8 mx-auto mb-2" />
                 <h3 className="font-semibold mb-2">Email Us</h3>
-                <p className="text-gray-300 text-sm">support@touchtek.com</p>
+                <p className="text-gray-300 text-sm">support@touchtek.in</p>
               </div>
               <div className="bg-white/10 rounded-2xl p-6">
                 <MessageCircle className="w-8 h-8 mx-auto mb-2" />

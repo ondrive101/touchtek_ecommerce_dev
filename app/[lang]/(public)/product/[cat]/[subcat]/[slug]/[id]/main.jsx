@@ -193,7 +193,7 @@ export default function ProductPage({searchParams}) {
               </div>
 
               {/* Product Name */}
-              <h1 className="text-4xl font-bold text-gray-900">
+              <h1 className="text-4xl font-bold text-gray-900 uppercase">
                 {product?.name}
               </h1>
 
@@ -346,7 +346,7 @@ export default function ProductPage({searchParams}) {
                       />
                     </div>
                     <div className="p-4">
-                      <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-gray-700 transition-colors">
+                      <h3 className="font-semibold text-gray-900 mb-2 group-hover:text-gray-700 transition-colors uppercase">
                         {relatedProduct?.productName}
                       </h3>
                       <p className="text-sm text-gray-600 mb-3 line-clamp-2">

@@ -183,22 +183,22 @@ export default function CategoryCarousel() {
   const nextRef = useRef(null);
 
   return (
-    <section className="py-16 bg-gray-50">
+    <section className="py-8 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <motion.div
-          className="text-center mb-12"
+          className="text-center mb-6"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
         >
           <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-black to-gray-700 bg-clip-text text-transparent mb-4">
-            Explore Our Catalog
+            Explore Our Catalogue
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Browse through our diverse range of categories and find the perfect products for your needs
-          </p>
+          <p className="text-base md:text-lg text-gray-600">
+              Check out our latest products with cutting-edge technology and fresh designs
+            </p>
         </motion.div>
 
         {/* Category Carousel */}

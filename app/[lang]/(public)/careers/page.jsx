@@ -395,7 +395,7 @@ export default function CareersPage() {
 
                     <div>
                       <label htmlFor="coverLetter" className="block text-sm font-medium text-gray-700 mb-2">
-                        Cover Letter *
+                        Description
                       </label>
                       <textarea
                         id="coverLetter"

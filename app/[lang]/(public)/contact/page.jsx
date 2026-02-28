@@ -180,9 +180,9 @@ export default function ContactPage() {
                       <div>
                         <h3 className="font-semibold text-gray-900 mb-1">Address</h3>
                         <p className="text-gray-600">
-                          123 Tech Street<br />
-                          Innovation District<br />
-                          New Delhi, India 110001
+                         3rd floor, 4/61<br />
+                          Padam Singh Rd, Block 12<br />
+                          Karol Bagh, New Delhi, Delhi, 110005
                         </p>
                       </div>
                     </div>
@@ -194,8 +194,7 @@ export default function ContactPage() {
                       <div>
                         <h3 className="font-semibold text-gray-900 mb-1">Phone</h3>
                         <p className="text-gray-600">
-                          +91 11 1234 5678<br />
-                          +91 98765 43210
+                          +91 72822 15977
                         </p>
                       </div>
                     </div>
@@ -207,8 +206,8 @@ export default function ContactPage() {
                       <div>
                         <h3 className="font-semibold text-gray-900 mb-1">Email</h3>
                         <p className="text-gray-600">
-                          info@touchtek.com<br />
-                          support@touchtek.com
+                          hr@touchtek.in<br />
+                          support@touchtek.in
                         </p>
                       </div>
                     </div>
@@ -220,9 +219,7 @@ export default function ContactPage() {
                       <div>
                         <h3 className="font-semibold text-gray-900 mb-1">Business Hours</h3>
                         <p className="text-gray-600">
-                          Monday - Friday: 9:00 AM - 6:00 PM<br />
-                          Saturday: 10:00 AM - 4:00 PM<br />
-                          Sunday: Closed
+                          Monday - Sunday: 9:30 AM - 6:30 PM
                         </p>
                       </div>
                     </div>

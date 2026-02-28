@@ -3,6 +3,14 @@
 import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
+import Airpod from "@/public/images/touchtek/Airpod.jpeg";
+import Cable from "@/public/images/touchtek/Cable.jpeg";
+import Charger from "@/public/images/touchtek/Charger.jpeg";
+import Earphone from "@/public/images/touchtek/Earphone.jpeg";
+import Headphone from "@/public/images/touchtek/Headphone.jpeg";
+import Neckband from "@/public/images/touchtek/Neckband.jpeg";
+import Powerbank from "@/public/images/touchtek/Powerbank.jpeg";
+import Speaker from "@/public/images/touchtek/Speaker.jpeg";
 import { useSession, signOut } from "next-auth/react";
 import { useCartStore } from '@/store';
 import { 
@@ -95,66 +103,24 @@ export default function Header() {
               All Products
             </Link>
 
-            {/* Shop by Category Mega Menu */}
             <div className="relative group">
-              <button className="text-gray-700 hover:text-black px-3 py-2 text-sm font-medium flex items-center gap-1 hover:scale-105 transition-all">
+              <button className="text-gray-700 hover:text-black px-3 py-2 text-sm font-medium flex items-center">
                 Shop by Category
-                <ChevronDown className="h-4 w-4 group-hover:rotate-180 transition-transform duration-200" />
+                <svg className="ml-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
               </button>
               <div className="absolute left-1/2 transform -translate-x-1/2 mt-2 w-[760px] bg-white shadow-2xl rounded-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 border border-gray-100 backdrop-blur-sm">
                 <div className="p-8">
+                  {/* Header */}
                   <div className="text-center mb-6">
                     <h3 className="text-lg font-bold text-gray-900 mb-2">Shop by Category</h3>
                     <p className="text-sm text-gray-600">Explore our complete range of products</p>
                   </div>
 
+                  {/* Main Categories */}
                   <div className="grid grid-cols-2 gap-6 mb-6">
-                    {/* Battery Category */}
-                    <div className="group/item bg-gradient-to-br from-gray-50 to-white rounded-xl p-4 hover:shadow-lg transition-all duration-300 border border-gray-100">
-                      <div className="flex items-center gap-4 mb-3">
-                        <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-gradient-to-br from-blue-50 to-blue-100">
-                          <img
-                            src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=100&h=100&fit=crop&crop=center"
-                            alt="Battery"
-                            className="w-full h-full object-cover group-hover/item:scale-110 transition-transform duration-300"
-                          />
-                        </div>
-                        <div>
-                          <h4 className="font-semibold text-gray-900 text-sm">Battery Solutions</h4>
-                          <p className="text-xs text-gray-500">Power & Energy</p>
-                        </div>
-                      </div>
-                      <div className="grid grid-cols-2 gap-2">
-                        <Link
-                          href="/en/products?category=polymer&parentCategory=batteries"
-                          className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-100 transition-colors group/link"
-                        >
-                          <div className="w-6 h-6 rounded bg-gray-200 overflow-hidden">
-                            <img
-                              src="https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=50&h=50&fit=crop"
-                              alt="Polymer"
-                              className="w-full h-full object-cover"
-                            />
-                          </div>
-                          <span className="text-xs text-gray-700 group-hover/link:text-black">Polymer</span>
-                        </Link>
-                        <Link
-                          href="/en/products?category=lithium&parentCategory=batteries"
-                          className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-100 transition-colors group/link"
-                        >
-                          <div className="w-6 h-6 rounded bg-gray-200 overflow-hidden">
-                            <img
-                              src="https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=100&h=100&fit=crop&crop=center"
-                              alt="Lithium"
-                              className="w-full h-full object-cover"
-                            />
-                          </div>
-                          <span className="text-xs text-gray-700 group-hover/link:text-black">Lithium</span>
-                        </Link>
-                      </div>
-                    </div>
-
-                    {/* Audio Category */}
+                  {/* Audio Category */}
                     <div className="group/item bg-gradient-to-br from-gray-50 to-white rounded-xl p-4 hover:shadow-lg transition-all duration-300 border border-gray-100">
                       <div className="flex items-center gap-4 mb-3">
                         <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-gradient-to-br from-purple-50 to-purple-100">
@@ -174,12 +140,13 @@ export default function Header() {
                           href="/en/products?category=tws&parentCategory=accessories"
                           className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-100 transition-colors group/link"
                         >
-                          <div className="w-6 h-6 rounded bg-gray-200 overflow-hidden">
-                            <img
+                          <div className="w-8 h-8 rounded-lg bg-gray-200 overflow-hidden">
+                            {/* <img
                               src="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=50&h=50&fit=crop"
                               alt="Earbuds"
                               className="w-full h-full object-cover"
-                            />
+                            /> */}
+                            <Image src={Airpod} alt='TWS' className="w-full h-full object-cover" />
                           </div>
                           <span className="text-xs text-gray-700 group-hover/link:text-black">TWS</span>
                         </Link>
@@ -187,12 +154,8 @@ export default function Header() {
                           href="/en/products?category=neckbands&parentCategory=accessories"
                           className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-100 transition-colors group/link"
                         >
-                          <div className="w-6 h-6 rounded bg-gray-200 overflow-hidden">
-                            <img
-                              src="https://images.unsplash.com/photo-1583394838336-acd977736f90?w=50&h=50&fit=crop&saturation=80"
-                              alt="Neckbands"
-                              className="w-full h-full object-cover"
-                            />
+                          <div className="w-8 h-8 rounded-lg bg-gray-200 overflow-hidden">
+                            <Image src={Neckband} alt='Neckband' className="w-full h-full object-cover" />
                           </div>
                           <span className="text-xs text-gray-700 group-hover/link:text-black">Neckbands</span>
                         </Link>
@@ -200,15 +163,213 @@ export default function Header() {
                           href="/en/products?category=headphones&parentCategory=accessories"
                           className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-100 transition-colors group/link"
                         >
-                          <div className="w-6 h-6 rounded bg-gray-200 overflow-hidden">
-                            <img
-                              src="https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=50&h=50&fit=crop&contrast=110"
-                              alt="Headphones"
-                              className="w-full h-full object-cover"
-                            />
+                          <div className="w-8 h-8 rounded-lg bg-gray-200 overflow-hidden">
+                            <Image src={Headphone} alt='Headphone' className="w-full h-full object-cover" />
                           </div>
                           <span className="text-xs text-gray-700 group-hover/link:text-black">Headphones</span>
                         </Link>
+                        <Link
+                          href="/en/products?category=speakers&parentCategory=accessories"
+                          className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-100 transition-colors group/link"
+                        >
+                          <div className="w-8 h-8 rounded-lg bg-gray-200 overflow-hidden">
+                          <Image src={Speaker} alt='Speaker' className="w-full h-full object-cover" />
+                          </div>
+                          <span className="text-xs text-gray-700 group-hover/link:text-black">Speaker</span>
+                        </Link>
+                          <Link
+                          href="/en/products?category=earphones&parentCategory=accessories"
+                          className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-100 transition-colors group/link"
+                        >
+                          <div className="w-8 h-8 rounded-lg bg-gray-200 overflow-hidden">
+                            <Image src={Earphone} alt='Earphone' className="w-full h-full object-cover" />
+                          </div>
+                          <span className="text-xs text-gray-700 group-hover/link:text-black">Earphones</span>
+                        </Link>
+                      </div>
+                    </div>
+              {/* Accessories Category */}
+                    <div className="group/item bg-gradient-to-br from-gray-50 to-white rounded-xl p-4 hover:shadow-lg transition-all duration-300 border border-gray-100">
+                      <div className="flex items-center gap-4 mb-3">
+                        <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-gradient-to-br from-green-50 to-green-100">
+                          <img
+                            src="https://images.unsplash.com/photo-1583394838336-acd977736f90?w=100&h=100&fit=crop&crop=center"
+                            alt="Accessories"
+                            className="w-full h-full object-cover group-hover/item:scale-110 transition-transform duration-300"
+                          />
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-gray-900 text-sm">Accessories</h4>
+                          <p className="text-xs text-gray-500">Charging & Cables</p>
+                        </div>
+                      </div>
+                      <div className="grid grid-cols-2 gap-1">
+                        <Link
+                          href="/en/products?category=chargers&parentCategory=accessories"
+                          className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-gray-100 transition-colors group/link"
+                        >
+                          <div className="w-8 h-8 rounded-lg bg-gray-200 overflow-hidden">
+                            <Image src={Charger} alt='Charger' className="w-full h-full object-cover" />
+                          </div>
+                          <span className="text-xs text-gray-700 group-hover/link:text-black">Charger</span>
+                        </Link>
+                        <Link
+                          href="/en/products?category=carchargers&parentCategory=accessories"
+                          className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-gray-100 transition-colors group/link"
+                        >
+                          <div className="w-8 h-8 rounded bg-gray-200 overflow-hidden">
+                            <img
+                              src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=40&h=40&fit=crop&contrast=120"
+                              alt="Car Charger"
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <span className="text-xs text-gray-700 group-hover/link:text-black">Car Charger</span>
+                        </Link>
+                        <Link
+                          href="/en/products?category=cables&parentCategory=accessories"
+                          className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-gray-100 transition-colors group/link"
+                        >
+                          <div className="w-8 h-8 rounded-lg bg-gray-200 overflow-hidden">
+                            <Image src={Cable} alt='Cable' className="w-full h-full object-cover" />
+                          </div>
+                          <span className="text-xs text-gray-700 group-hover/link:text-black">Data Cable</span>
+                        </Link>
+                        <Link
+                          href="/en/products?category=powerbanks&parentCategory=accessories"
+                          className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-gray-100 transition-colors group/link"
+                        >
+                          <div className="w-8 h-8 rounded-lg bg-gray-200 overflow-hidden">
+                            <Image src={Powerbank} alt='Powerbank' className="w-full h-full object-cover" />
+                          </div>
+                          <span className="text-xs text-gray-700 group-hover/link:text-black">Power Bank</span>
+                        </Link>
+                           <Link
+                          href="/en/products?category=powerbanks&parentCategory=accessories"
+                          className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-gray-100 transition-colors group/link"
+                        >
+                          <div className="w-8 h-8 rounded-lg bg-gray-200 overflow-hidden">
+                            <img
+                              src="https://images.unsplash.com/photo-1609081219090-a6d81d3085bf?w=40&h=40&fit=crop"
+                              alt="Power Bank"
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <span className="text-xs text-gray-700 group-hover/link:text-black">OTG</span>
+                        </Link>
+                      </div>
+                    </div>
+
+
+                 
+
+                    
+                  </div>
+
+                  {/* Secondary Categories */}
+                  <div className="grid grid-cols-2 gap-6">
+
+                       {/* Battery Category */}
+                    <div className="group/item bg-gradient-to-br from-gray-50 to-white rounded-xl p-4 hover:shadow-lg transition-all duration-300 border border-gray-100">
+                      <div className="flex items-center gap-4 mb-3">
+                        <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-gradient-to-br from-blue-50 to-blue-100">
+                          <img
+                            src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=100&h=100&fit=crop&crop=center"
+                            alt="Battery"
+                            className="w-full h-full object-cover group-hover/item:scale-110 transition-transform duration-300"
+                          />
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-gray-900 text-sm">Battery Solutions</h4>
+                          <p className="text-xs text-gray-500">Power & Energy</p>
+                        </div>
+                      </div>
+                      <div className="grid grid-cols-2 gap-2">
+                        <Link
+                          href="/en/products?category=polymer&parentCategory=batteries"
+                          className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-100 transition-colors group/link"
+                        >
+                          <div className="w-8 h-8 rounded-lg bg-gray-200 overflow-hidden">
+                            <img
+                              src="https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=50&h=50&fit=crop"
+                              alt="Polymer"
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <span className="text-xs text-gray-700 group-hover/link:text-black">Polymer</span>
+                        </Link>
+                        <Link
+                          href="/en/products?category=lithium&parentCategory=batteries"
+                          className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-100 transition-colors group/link"
+                        >
+                          <div className="w-8 h-8 rounded-lg bg-gray-200 overflow-hidden">
+                            <img
+                              src="https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=100&h=100&fit=crop&crop=center"
+                              alt="Lithium"
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <span className="text-xs text-gray-700 group-hover/link:text-black">Lithium</span>
+                        </Link>
+                      </div>
+                    </div>
+                    
+
+                    {/* Protection Category */}
+                    <div className="group/item bg-gradient-to-br from-gray-50 to-white rounded-xl p-4 hover:shadow-lg transition-all duration-300 border border-gray-100">
+                      <div className="flex items-center gap-4 mb-3">
+                        <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-gradient-to-br from-orange-50 to-orange-100">
+                          <img
+                            src="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=100&h=100&fit=crop&brightness=120"
+                            alt="Protection"
+                            className="w-full h-full object-cover group-hover/item:scale-110 transition-transform duration-300"
+                          />
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-gray-900 text-sm">Protection</h4>
+                          <p className="text-xs text-gray-500">Cases & Screen</p>
+                        </div>
+                      </div>
+                      <div className="grid grid-cols-2 gap-2">
+                        <Link
+                          href="/en/products"
+                          className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-100 transition-colors group/link"
+                        >
+                          <div className="w-8 h-8 rounded-lg bg-gray-200 overflow-hidden">
+                            <img
+                              src="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=50&h=50&fit=crop&brightness=120"
+                              alt="Cover"
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <span className="text-xs text-gray-700 group-hover/link:text-black">Cover</span>
+                        </Link>
+                        <Link
+                          href="/en/products"
+                          className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-100 transition-colors group/link"
+                        >
+                          <div className="w-8 h-8 rounded-lg bg-gray-200 overflow-hidden">
+                            <img
+                              src="https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=50&h=50&fit=crop&brightness=130"
+                              alt="Tempered Glass"
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <span className="text-xs text-gray-700 group-hover/link:text-black">Tempered Glass</span>
+                        </Link>
+                        {/* <Link
+                          href="/en/products"
+                          className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-100 transition-colors group/link"
+                        >
+                          <div className="w-6 h-6 rounded bg-gray-200 overflow-hidden">
+                            <img
+                              src="https://images.unsplash.com/photo-1583394838336-acd977736f90?w=50&h=50&fit=crop&hue=60"
+                              alt="Combo"
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <span className="text-xs text-gray-700 group-hover/link:text-black">Combo</span>
+                        </Link> */}
                       </div>
                     </div>
                   </div>
@@ -216,7 +377,7 @@ export default function Header() {
                   {/* View All */}
                   <div className="mt-6 pt-4 border-t border-gray-100">
                     <Link
-                      href="/en/products"
+                      href="/products"
                       className="block w-full text-center bg-black text-white py-2 px-4 rounded-lg hover:bg-gray-800 transition-colors text-sm font-medium"
                     >
                       View All Products

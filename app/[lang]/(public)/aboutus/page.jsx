@@ -14,8 +14,8 @@ import Footer from "@/components/layout/components/Footer";
 const stats = [
   { value: '2016', label: 'Established', icon: Building },
   { value: '150+', label: 'Team Members', icon: Users },
-  { value: '5+', label: 'Warehouses', icon: Factory },
-  { value: '10+', label: 'Countries', icon: Globe }
+  { value: '5+', label: 'Offices / Warehouses', icon: Factory },
+  // { value: '10+', label: 'Countries', icon: Globe }
 ];
 
 const values = [
@@ -160,7 +160,7 @@ export default function AboutPage() {
         {/* Stats Section */}
         <section className="py-16 -mt-12 relative z-10">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               {stats.map((stat, index) => (
                 <motion.div
                   key={index}
@@ -202,11 +202,7 @@ export default function AboutPage() {
                 
                 <div className="space-y-4 text-gray-600">
                   <p>
-                    <strong>Touchtek</strong> is a leading name in the mobile accessories industry, committed to 
-                    delivering innovation, quality, and value since our establishment in <strong>2016</strong>. 
-                    As a trusted wholesaler and brand, we specialize in a wide range of tech products including 
-                    chargers, data cables, neckbands, earbuds, power banks, Bluetooth TWS, lithium/polymer batteries, 
-                    and much more.
+                    Established over 9+ years ago, Touchtek is an Indian consumer electronics brand specializing in reliable mobile accessories and battery solutions. Built on a foundation of quality and safety, we deliver products that combine performance, durability, and value.
                   </p>
                   
                   <p>
@@ -220,6 +216,10 @@ export default function AboutPage() {
                     We believe in building long-term partnerships with our clients by ensuring consistent product 
                     performance, sleek design, and timely support. Whether you're looking for everyday essentials 
                     or the next big innovation in tech accessories, Touchtek is your go-to destination.
+                  </p>
+                  <p>
+                    From polymer batteries to chargers, data cables, neckbands, TWS, and speakers, every Touchtek product is designed for everyday efficiency and long-term dependability
+                    
                   </p>
                 </div>
 
