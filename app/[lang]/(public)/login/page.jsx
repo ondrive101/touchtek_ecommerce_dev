@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useRouter } from "next/navigation";
 import {
   Eye,
   EyeOff,
@@ -41,6 +42,7 @@ const FieldError = ({ message }) =>
 // ─── Main Component ───────────────────────────────────────────────────────────
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
 
@@ -118,22 +120,24 @@ export default function LoginPage() {
   // ─── Handlers ─────────────────────────────────────────────────────────────
   const handleLogin = async (payload) => {
     try {
-      toast.error('login disabled by admin');
-      // setIsLoading(true);
-      // console.log("Payload:", payload);
+      // toast.error('login disabled by admin');
+      setIsLoading(true);
+      console.log("Payload:", payload);
 
-      // const response = await signIn("credentials", {
-      //   type:payload.type,
-      //   email: payload.data.email,
-      //   password: payload.data.password,
-      //   redirect: false,
-      // });
+      const response = await signIn("credentials", {
+        type:payload.type,
+        email: payload.data.email,
+        password: payload.data.password,
+        redirect: false,
+      });
 
-      // if (!response?.ok || response?.error) {
-      //   toast.error(response?.error || "Invalid credentials");
-      //   return;
-      // }
-      // toast.success("Login successful!");
+      if (!response?.ok || response?.error) {
+        toast.error(response?.error || "Invalid credentials");
+        return;
+      }
+      toast.success("Login successful!");
+      router.push("/");
+      router.refresh();
       // const session = await getSession();
       // console.log('session', session)
 

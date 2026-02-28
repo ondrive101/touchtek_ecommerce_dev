@@ -51,7 +51,7 @@ export function proxy(request) {
   const pathname = request.nextUrl.pathname;
 
 
-  console.log('pathname',pathname)
+  // console.log('pathname',pathname)
 
 
 // ✅ STEP 1: Check for dead old PHP URLs FIRST (before locale redirect)

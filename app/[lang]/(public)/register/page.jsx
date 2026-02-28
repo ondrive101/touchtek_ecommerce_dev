@@ -160,14 +160,14 @@ export default function RegisterPage() {
   // ─── Handlers ─────────────────────────────────────────────────────────────
 const handleRegister = async (payload) => {
     try {
-      toast.error('registration disabled by admin');
+      // toast.error('registration disabled by admin');
 
-      // const response = await addUser(payload);
-      //    if (!response.success) {
-      //      toast.error(response.message);
-      //    } else {
-      //      setMode("success");
-      //    }
+      const response = await addUser(payload);
+         if (!response.success) {
+           toast.error(response.message);
+         } else {
+           setMode("success");
+         }
     } catch (error) {
       console.error("Error creating account:", error);
       toast.error(error.message || "Error creating account");

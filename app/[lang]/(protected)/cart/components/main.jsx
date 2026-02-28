@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { useCartStore } from '@/store';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -14,97 +15,71 @@ import {
   Truck,
   Shield,
   ArrowLeft,
-  ChevronLeft,
-  ChevronRight,
-  CheckCircle
+  CheckCircle,
 } from 'lucide-react';
 import Header from '@/components/layout/components/Header';
 
-const sampleCartItems = [
-  {
-    id: 1,
-    name: 'Diamond TWS Earbuds',
-    price: 2999,
-    image: 'https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=300&h=300&fit=crop',
-    quantity: 2,
-    category: 'Audio',
-    discount: 15
-  },
-  {
-    id: 2,
-    name: 'Li-Po Battery 5000mAh',
-    price: 1499,
-    image: 'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=300&h=300&fit=crop',
-    quantity: 1,
-    category: 'Battery',
-    discount: 0  // Fixed: was missing
-  },
-  {
-    id: 3,
-    name: '65W Charger + Cable',
-    price: 899,
-    image: 'https://images.unsplash.com/photo-1585776245991-cf89dd7fc73a?w=300&h=300&fit=crop',
-    quantity: 3,
-    category: 'Accessories',
-    discount: 0  // Fixed: was missing
-  }
-];
-
 export default function CartPage() {
-  const [cartItems, setCartItems] = useState(sampleCartItems);
-  const [isCartEmpty, setIsCartEmpty] = useState(false);
-
-  const updateQuantity = (id, delta) => {
-    setCartItems(prev => 
-      prev.map(item => 
-        item.id === id 
-          ? { ...item, quantity: Math.max(1, item.quantity + delta) }
-          : item
-      )
-    );
-  };
-
-  const removeItem = (id) => {
-    setCartItems(prev => prev.filter(item => item.id !== id));
-  };
-
-  // ✅ FIXED: Proper calculation functions
-  const calculateSubtotal = () => {
-    return cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-  };
-
-  const calculateDiscount = () => {
-    return cartItems.reduce((sum, item) => sum + (item.price * item.quantity * (item.discount || 0) / 100), 0);
-  };
-
-  const calculateTax = (subtotal) => {
-    return subtotal * 0.18;
-  };
-
-  const calculateShipping = (subtotal) => {
-    return subtotal > 5000 ? 0 : 99;
-  };
-
-  const subtotal = calculateSubtotal();
-  const discount = calculateDiscount();
-  const tax = calculateTax(subtotal);
-  const shipping = calculateShipping(subtotal);
-  const total = subtotal - discount + tax + shipping;
+  const [mounted, setMounted] = useState(false);
+  const { items, increaseById, decreaseById, removeItem, getSubtotal } = useCartStore();
 
   useEffect(() => {
-    setIsCartEmpty(cartItems.length === 0);
-  }, [cartItems]);
+    setMounted(true);
+  }, []);
 
-  // ✅ Debug: Log calculations (remove in production)
-  console.log({ subtotal, discount, tax, shipping, total });
+  // Show loading skeleton during hydration
+  if (!mounted) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white py-12">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="animate-pulse space-y-6">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-slate-200 rounded-lg"></div>
+              <div className="space-y-2">
+                <div className="h-6 w-48 bg-slate-200 rounded"></div>
+                <div className="h-4 w-24 bg-slate-300 rounded"></div>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+              <section className="xl:col-span-2 space-y-4">
+                <div className="h-24 bg-slate-200 rounded-2xl"></div>
+                <div className="h-24 bg-slate-200 rounded-2xl"></div>
+              </section>
+              <aside className="xl:col-span-1">
+                <div className="bg-white rounded-2xl p-6 space-y-4">
+                  <div className="h-6 w-32 bg-slate-200 rounded"></div>
+                  <div className="space-y-3">
+                    <div className="flex justify-between">
+                      <div className="h-4 w-24 bg-slate-300 rounded"></div>
+                      <div className="h-4 w-20 bg-slate-300 rounded"></div>
+                    </div>
+                    <div className="h-12 bg-slate-200 rounded-xl"></div>
+                  </div>
+                </div>
+              </aside>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
-  if (isCartEmpty) {
+  const calculateShipping = (subtotal) => {
+    return 0;
+  };
+
+  const subtotal = getSubtotal() || 0;
+  const shipping = calculateShipping(subtotal) || 0;
+  const total = subtotal + shipping;
+
+  // Empty cart screen
+  if (items?.length === 0) {
     return (
       <>
         <Header />
         <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white py-20">
           <div className="max-w-5xl mx-auto px-4">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               className="text-center py-20"
@@ -119,15 +94,15 @@ export default function CartPage() {
                 No items in your cart. Add some products to get started.
               </p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                <Link 
-                  href="/products" 
+                <Link
+                  href="/en/products"
                   className="px-6 py-3 bg-gradient-to-r from-slate-900 to-slate-800 text-white rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all text-sm font-semibold flex items-center gap-2 justify-center"
                 >
                   <ShoppingCart className="w-4 h-4" />
                   Browse Products
                 </Link>
-                <Link 
-                  href="/products" 
+                <Link
+                  href="/en/products"
                   className="px-6 py-3 border border-slate-200 text-slate-700 rounded-xl hover:bg-slate-50 hover:border-slate-400 transition-all text-sm font-semibold"
                 >
                   Top Picks
@@ -135,37 +110,19 @@ export default function CartPage() {
               </div>
             </motion.div>
 
-            <section className="mt-16">
-              <h2 className="text-lg font-semibold text-slate-900 mb-6 text-center">Quick Picks</h2>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                {[
-                  { img: 'https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=300', name: 'TWS Pro' },
-                  { img: 'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=300', name: 'Battery' },
-                  { img: 'https://images.unsplash.com/photo-1585776245991-cf89dd7fc73a?w=300', name: 'Charger' }
-                ].map((item, i) => (
-                  <Link key={i} href="/products" className="group">
-                    <div className="bg-white rounded-xl p-4 shadow-md hover:shadow-lg transition-all h-48 flex flex-col">
-                      <div className="flex-1 bg-slate-50 rounded-lg overflow-hidden mb-3">
-                        <Image src={item.img} alt="" fill className="object-cover group-hover:scale-105 transition-transform" />
-                      </div>
-                      <p className="font-medium text-sm text-slate-900">{item.name}</p>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </section>
           </div>
         </div>
       </>
     );
   }
 
+  // Cart with items
   return (
     <>
       <Header />
       <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white py-12">
         <div className="max-w-6xl mx-auto px-4">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             className="flex items-center gap-3 mb-8"
@@ -175,89 +132,100 @@ export default function CartPage() {
             </Link>
             <div>
               <h1 className="text-2xl font-bold text-slate-900">Shopping Cart</h1>
-              <p className="text-sm text-slate-600">{cartItems.length} items</p>
+              <p className="text-sm text-slate-600">{items?.length} items</p>
             </div>
           </motion.div>
 
           <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
             <section className="xl:col-span-2">
               <AnimatePresence>
-                {cartItems.map((item, index) => (
-                  <motion.div
-                    key={item.id}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: 20 }}
-                    transition={{ delay: index * 0.05 }}
-                    className="bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-all p-6 mb-4 last:mb-0 group"
-                  >
-                    <div className="flex items-start gap-4">
-                      <div className="relative flex-shrink-0 w-20 h-20 rounded-xl overflow-hidden bg-slate-50 shadow-sm group-hover:shadow-md transition-shadow">
-                        <Image
-                          src={item.image}
-                          alt={item.name}
-                          fill
-                          className="object-cover group-hover:scale-105 transition-transform"
-                        />
-                        {item.discount > 0 && (
-                          <div className="absolute top-1 right-1 bg-red-500 text-white text-xs px-2 py-0.5 rounded-full font-medium shadow-sm">
-                            -{item.discount}%
-                          </div>
-                        )}
-                      </div>
+                {items?.map((item, index) => {
+                  const originalPricePerItem = Math.round(item?.price / ((100 - (item?.discount || 0)) / 100));
+                  const discountAmountPerItem = originalPricePerItem - Math.round(item?.price);
+                  const totalOriginalPrice = originalPricePerItem * item?.quantity;
+                  const totalDiscountAmount = discountAmountPerItem * item?.quantity;
 
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-start justify-between mb-2">
-                          <h3 className="font-semibold text-sm text-slate-900 pr-2 line-clamp-2 leading-tight">
-                            {item.name}
-                          </h3>
-                          <button
-                            onClick={() => removeItem(item.id)}
-                            className="p-1.5 hover:bg-red-50 rounded-lg hover:text-red-600 transition-all -m-1.5"
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </button>
+                  return (
+                    <motion.div
+                      key={item.id}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: 20 }}
+                      transition={{ delay: index * 0.05 }}
+                      className="bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-all p-6 mb-4 last:mb-0 group"
+                    >
+                      <div className="flex items-start gap-4">
+                        <div className="relative flex-shrink-0 w-24 h-24 rounded-xl overflow-hidden bg-slate-50 shadow-sm group-hover:shadow-md transition-all">
+                          <Image
+                            src={item?.image}
+                            alt={item?.name}
+                            fill
+                            className="object-cover group-hover:scale-105 transition-transform"
+                          />
                         </div>
-                        <p className="text-xs text-slate-500 capitalize mb-3">{item.category}</p>
-                        
-                        <div className="flex items-center justify-between">
-                          <div className="space-y-1">
-                            <div className="flex items-baseline gap-1">
-                              <span className="text-lg font-bold text-slate-900">
-                                ₹{Math.round(item.price * item.quantity).toLocaleString()}
-                              </span>
-                              {item.discount > 0 && (
-                                <span className="text-xs text-slate-400 line-through">
-                                  ₹{Math.round(item.price * item.quantity * 1.15).toLocaleString()}
+
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-start justify-between mb-2">
+                            <h3 className="font-semibold text-sm text-slate-900 pr-2 line-clamp-2 leading-tight uppercase">
+                              {item?.name}
+                            </h3>
+                            <button
+                              onClick={() => removeItem(item?.id)}
+                              className="p-1.5 hover:bg-red-50 rounded-lg hover:text-red-600 transition-all -m-1.5"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          </div>
+                          <p className="text-xs text-slate-500 capitalize mb-3">{item?.category}-{item?.subCategory}</p>
+
+                          <div className="flex items-center justify-between">
+                            <div className="space-y-2">
+                              <div className="flex items-baseline gap-1">
+                                <span className="text-xl font-black text-slate-900 tracking-tight">
+                                  ₹{Math.round(item?.price * item?.quantity).toLocaleString()}
                                 </span>
-                              )}
-                            </div>
-                            <p className="text-xs text-slate-500">₹{item.price.toLocaleString()} each</p>
-                          </div>
+                              </div>
 
-                          <div className="flex items-center bg-slate-100 rounded-lg p-1 ml-4">
-                            <button
-                              onClick={() => updateQuantity(item.id, -1)}
-                              className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white transition-colors disabled:opacity-50"
-                              disabled={item.quantity <= 1}
-                            >
-                              <Minus className="w-3.5 h-3.5 text-slate-600" />
-                            </button>
-                            <span className="w-8 text-center font-mono text-sm font-semibold px-2">
-                              {item.quantity}
-                            </span>
-                            <button
-                              onClick={() => updateQuantity(item.id, 1)}
-                              className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-white transition-colors"
-                            >
-                              <Plus className="w-3.5 h-3.5 text-slate-600" />
-                            </button>
+                              <div className="flex flex-wrap items-center gap-3">
+                                <div className="flex items-center gap-1">
+                                  <span className="text-base font-semibold text-slate-500 line-through">
+                                    ₹{totalOriginalPrice.toLocaleString()}
+                                  </span>
+                                  <span className="text-xs bg-gradient-to-r from-green-500 to-emerald-500 text-white px-2.5 py-1 rounded-full font-bold shadow-md">
+                                    Save ₹{totalDiscountAmount.toLocaleString()}
+                                  </span>
+                                </div>
+
+                                <span className="text-xs text-slate-600 bg-slate-100 px-2 py-0.5 rounded-md font-medium">
+                                  ₹{Math.round(item?.price).toLocaleString()} x {item?.quantity}
+                                </span>
+                              </div>
+                            </div>
+
+                            <div className="flex items-center bg-slate-100 rounded-lg p-1 ml-4">
+                              <button
+                                onClick={() => decreaseById(item?.id)}
+                                className="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-white transition-colors disabled:opacity-50"
+                                disabled={item?.quantity <= 1}
+                              >
+                                <Minus className="w-4 h-4 text-slate-600" />
+                              </button>
+                              <span className="w-10 text-center font-mono text-base font-bold px-2">
+                                {item?.quantity}
+                              </span>
+                              <button
+                                onClick={() => increaseById(item?.id)}
+                                className="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-white transition-colors"
+                              >
+                                <Plus className="w-4 h-4 text-slate-600" />
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </motion.div>
-                ))}
+                    </motion.div>
+                  );
+                })}
               </AnimatePresence>
 
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8 pt-6 border-t border-slate-200">
@@ -285,7 +253,7 @@ export default function CartPage() {
             </section>
 
             <aside className="xl:col-span-1">
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 className="bg-white rounded-2xl shadow-md border border-slate-100 p-6 sticky top-24"
@@ -297,19 +265,10 @@ export default function CartPage() {
 
                 <div className="space-y-3 mb-6">
                   <div className="flex justify-between text-sm">
-                    <span>Subtotal ({cartItems.length} items)</span>
-                    <span>₹{Math.round(subtotal).toLocaleString()}</span>
+                    <span>Subtotal ({items?.length} items)</span>
+                    <span>₹{Math.round(subtotal || 0).toLocaleString()}</span>
                   </div>
-                  {discount > 0 && (
-                    <div className="flex justify-between text-sm text-green-600 font-medium">
-                      <span>Discount</span>
-                      <span>-₹{Math.round(discount).toLocaleString()}</span>
-                    </div>
-                  )}
-                  <div className="flex justify-between text-sm">
-                    <span>GST (18%)</span>
-                    <span>+₹{Math.round(tax).toLocaleString()}</span>
-                  </div>
+
                   <div className="flex justify-between text-sm font-medium">
                     <span>Shipping</span>
                     <span className={shipping === 0 ? 'text-green-600' : ''}>
@@ -323,19 +282,19 @@ export default function CartPage() {
                     <span>Total</span>
                     <span>₹{Math.round(total).toLocaleString()}</span>
                   </div>
-                  <p className="text-xs text-slate-500 text-right">Inclusive of all taxes</p>
+                  <p className="text-xs text-slate-500 text-right">Exclusive of all taxes</p>
                 </div>
 
                 <div className="space-y-3">
-                  <Link 
-                    href="/checkout"
+                  <Link
+                    href="/en/checkout"
                     className="w-full block bg-gradient-to-r from-slate-900 to-slate-800 text-white py-3 px-4 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-px transition-all text-sm font-semibold flex items-center justify-center gap-2"
                   >
                     Proceed to Checkout
                     <CreditCard className="w-4 h-4" />
                   </Link>
-                  <Link 
-                    href="/products"
+                  <Link
+                    href="/en/products"
                     className="w-full block text-center py-3 px-4 border border-slate-200 text-slate-700 rounded-xl hover:bg-slate-50 hover:border-slate-400 transition-all text-sm font-semibold"
                   >
                     Continue Shopping

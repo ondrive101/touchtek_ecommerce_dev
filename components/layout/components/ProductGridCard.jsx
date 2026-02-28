@@ -21,9 +21,11 @@ export default function ProductCard({ id, name, image, slug, category, productSl
       id,
       name,
       image,
+      discount,
       price: parseFloat(price),
       originalPrice: parseFloat(originalPrice || price),
-      category,
+      category:cat,
+      subCategory:subcat,
       slug: productSlug,
       quantity: currentQuantity,
       maxQuantity

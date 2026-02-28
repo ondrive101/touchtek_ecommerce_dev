@@ -148,6 +148,22 @@ export const useCartStore = create(
         toast.success(`Updated quantity to ${newQuantity}`);
       },
 
+      
+      increaseById: (id) => {
+        const item = get().getItem(id);
+        if (!item) return;
+        const nextQty = (item.quantity || 0) + 1;
+        get().updateQuantity(id, nextQty);
+      },
+
+      
+      decreaseById: (id) => {
+        const item = get().getItem(id);
+        if (!item) return;
+        const nextQty = (item.quantity || 0) - 1;
+        get().updateQuantity(id, nextQty);
+      },
+
       // Remove item
       removeItem: (id) => {
         const { items } = get();
