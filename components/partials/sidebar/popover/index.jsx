@@ -13,7 +13,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
-import AddBlock from "../common/add-block";
+import AddBlock from "../common/custom-add-block";
 import { useSession } from "next-auth/react";
 import { Settings } from "@/components/svg";
 import { User } from "@/components/svg";
@@ -149,11 +149,11 @@ const PopoverSidebar = ({ trans }) => {
             </li>
           ))}
         </ul>
-        {/* {!collapsed && (
+        {!collapsed && (
           <div className="-mx-2 ">
             <AddBlock />
           </div>
-        )} */}
+        )}
       </ScrollArea>
     </div>
   );

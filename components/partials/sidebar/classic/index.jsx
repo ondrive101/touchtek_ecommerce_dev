@@ -155,11 +155,11 @@ const ClassicSidebar = ({ trans }) => {
             </li>
           ))}
         </ul>
-        {/* {!collapsed && (
+   {!collapsed && (
           <div className="-mx-2 ">
           <AddBlock />
           </div>
-          )} */}
+          )}
           
       </ScrollArea>
  

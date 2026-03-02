@@ -1,27 +1,14 @@
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
-  turbopack: {},
-  // ✅ Add redirects here - maps old PHP URLs to new Next.js URLs
-  // async redirects() {
-  //   return [
-  //     {
-  //       source: "/product/127/sound-pod",
-  //       destination: "/en/product/accessories/tws/sound-pods-pro/biq77",
-  //       permanent: true,
-  //     },
-  //     {
-  //       source: "/product/89/neon",
-  //       destination: "/en/product/accessories/speakers/neon/ivh14",
-  //       permanent: true,
-  //     },
-  //     {
-  //       source: "/product/97/audio-adapter",
-  //       destination: "/en/product/accessories/otg/tk-3-audio-adapter/gix44",
-  //       permanent: true,
-  //     },
-  //   ];
-  // },
+  turbopack: {
+     rules: {
+      '*.svg': {
+        loaders: ['@svgr/webpack'],
+        as: '*.js',
+      },
+    },
+  },
 
   webpack(config) {
     // Grab the existing rule that handles SVG imports

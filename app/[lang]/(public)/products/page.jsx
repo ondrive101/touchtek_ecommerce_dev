@@ -2,6 +2,30 @@
 import { Suspense } from "react";
 import ProductsPage from "./main";
 
+
+
+
+
+// ✅ Add this — Google reads this for every product page
+export async function generateMetadata({ params }) {
+  const search = await params;
+  
+
+  return {
+    title: `Products | Touchtek`,
+    description: `Buy products at Touchtek. Premium quality products.`,
+    alternates: {
+      canonical: `https://touchtek.in/${search.lang}/products`,
+    },
+    openGraph: {
+      title: `Products | Touchtek`,
+      description: `Buy products at Touchtek.`,
+      url: `https://touchtek.in/${search.lang}/products`,
+    },
+  };
+}
+
+
 export default async function Index({ searchParams }) {
   const search = await searchParams;
 

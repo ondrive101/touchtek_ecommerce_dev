@@ -17,12 +17,12 @@ const SingleMenuItem = ({ item, collapsed,setCollapsed, trans }) => {
 
   const handleMouseEnter = () => {
     // if (collapsed) setCollapsed(false);
-    console.log("handleMouseEnter");
+    // console.log("handleMouseEnter");
   };
 
   const handleMouseLeave = () => {
     // if (!collapsed) setCollapsed(true);
-    console.log("handleMouseLeave");
+    // console.log("handleMouseLeave");
   };
   return (
     <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
@@ -72,7 +72,7 @@ const SingleMenuItem = ({ item, collapsed,setCollapsed, trans }) => {
               }
             ) }
             
-            onClick={() => setCollapsed(true)}
+            // onClick={() => setCollapsed(true)}
           >
             <span className="flex-grow-0">
               <item.icon className="w-5 h-5" />

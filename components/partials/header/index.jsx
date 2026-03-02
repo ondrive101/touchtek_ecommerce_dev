@@ -1,36 +1,54 @@
 "use client";
 import React from "react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import Link from 'next/link'
+import { Bell } from "@/components/svg";
 import { cn } from "@/lib/utils";
 import ThemeButton from "./theme-button";
 import { useSidebar, useThemeStore } from "@/store";
 import ProfileInfo from "./profile-info";
 import VerticalHeader from "./vertical-header";
-import Notification from "@/components/notification";
-import AddTask from "./add-task";
+// import Notification from "@/components/notification";
+// import AddTask from "./add-task";
 import {Search} from "lucide-react";
-import StickyNotes from "./sticky";
+// import StickyNotes from "./sticky";
 import HorizontalMenu from "./horizontal-menu";
-import NotificationMessage from "./notification-message";
+// import NotificationMessage from "./notification-message";
 
 import { useMediaQuery } from "@/hooks/use-media-query";
 import MobileMenuHandler from "./mobile-menu-handler";
 import ClassicHeader from "./layout/classic-header";
 import FullScreen from "./full-screen";
-import { useSession } from "next-auth/react";
+// import { useSession } from "next-auth/react";
 const NavTools = ({ isDesktop, isMobile, sidebarType }) => {
-  const { data: session } = useSession();
+  // const { data: session } = useSession();
   return (
     <div className="nav-tools flex items-center  gap-2">
       {/* {isDesktop && <Language />} */}
-      <AddTask />
+      {/* <AddTask /> */}
       {/* {isDesktop && <FullScreen />} */}
       {/* <Clock /> */}
 
       <ThemeButton />
 
       {/* <NotificationMessage /> */}
-      <Notification/>
-      <StickyNotes/>
+      {/* <Notification/> */}
+      {/* <StickyNotes/> */}
+        <Link href="/en/user/notifications">
+      <Button
+        variant="ghost"
+        size="icon"
+        className="relative md:h-9 md:w-9 h-8 w-8 hover:bg-default-100 dark:hover:bg-default-200 
+          data-[state=open]:bg-default-100 dark:data-[state=open]:bg-default-200 
+          hover:text-primary text-default-500 dark:text-default-800 rounded-full"
+      >
+        <Bell className="h-5 w-5" />
+        <Badge className="w-4 h-4 p-0 text-xs font-medium items-center justify-center absolute left-[calc(100%-18px)] bottom-[calc(100%-16px)] ring-2 ring-primary-foreground">
+          5
+        </Badge>
+      </Button>
+    </Link>
 
 
       <div className="ltr:pl-2 rtl:pr-2">

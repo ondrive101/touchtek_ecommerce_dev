@@ -4,7 +4,7 @@ export const siteConfig = {
   name: "Touchtek | Smart Accessories & Audio Gear",
   description:
     "Discover Touchtek batteries, audio gear, chargers, power banks, and accessories with fast charging and premium design.",
-  theme: "violet",
+  theme: "slate",
   layout: "vertical",
   // semi-box, horizontal, vertical
   hideSideBar: false,
@@ -13,7 +13,7 @@ export const siteConfig = {
   sidebarColor: null,
   navbarType: "sticky",
   // sticky, floating, static
-  footerType: "sticky",
+  footerType: "hidden",
   // sticky,  static, hidden
   sidebarBg: "none",
   radius: 0.5,

@@ -14,24 +14,25 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Icon } from "@iconify/react";
+import avatar1 from "@/public/images/avatar/avatar-7.jpg";
 import Image from "next/image";
 import Link from "next/link";
 
 const ProfileInfo = () => {
   const { data: session } = useSession();
+  console.log('session', session)
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild className=" cursor-pointer">
         <div className=" flex items-center gap-x-3 ">
-          {session?.user?.image && (
+      
             <Image
-              src={session?.user?.image}
+              src={session?.user?.image || avatar1}
               alt={session?.user?.name ?? ""}
               width={27}
               height={27}
               className="rounded-full"
             />
-          )}
             <div className="hidden sm:flex flex-col">
   <span className="text-sm font-semibold text-foreground capitalize">
     {session?.user?.name}
@@ -44,15 +45,15 @@ const ProfileInfo = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56 p-0" align="end">
         <DropdownMenuLabel className="flex gap-2 items-center mb-1 p-3">
-          {session?.user?.image && (
+     
             <Image
-              src={session?.user?.image}
+              src={session?.user?.image || avatar1}
               alt={session?.user?.name ?? ""}
               width={36}
               height={36}
               className="rounded-full"
             />
-          )}
+    
           <div>
             <div className="text-sm font-medium text-default-800 capitalize ">
               {session?.user?.name ?? "Mcc Callem"}
@@ -61,28 +62,30 @@ const ProfileInfo = () => {
               href="#"
               className="text-xs text-default-600 hover:text-primary"
             >
-             @{session?.user?.department}
+             @{session?.user?.role}
             </Link>
           </div>
         </DropdownMenuLabel>
+         <DropdownMenuSeparator className="mb-0 dark:bg-background" />
         <DropdownMenuGroup>
           {[
             {
               name: "profile",
               icon: "heroicons:user",
-              href:"/super/profile"
+              href:"/en/user/profile"
+            },
+             {
+              name: "change password",
+              icon: "heroicons:user",
+              href:"/en/user/password"
+            },
+            {
+              name: "delivery address",
+              icon: "heroicons:user",
+              href:"/en/user/address"
             },
       
-            {
-              name: "Settings",
-              icon: "heroicons:paper-airplane",
-              href:"#"
-            },
-            {
-              name: "Hierarchy",
-              icon: "heroicons:paper-airplane",
-              href:"#"
-            },
+      
         
           ].map((item, index) => (
             <Link
@@ -97,49 +100,7 @@ const ProfileInfo = () => {
             </Link>
           ))}
         </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          <Link href="#" className="cursor-pointer">
-            <DropdownMenuItem className="flex items-center gap-2 text-sm font-medium text-default-600 capitalize px-3 py-1.5 dark:hover:bg-background cursor-pointer">
-              <Icon icon="heroicons:user-group" className="w-4 h-4" />
-              team
-            </DropdownMenuItem>
-          </Link>
      
-          <DropdownMenuSub>
-            <DropdownMenuSubTrigger className="flex items-center gap-2 text-sm font-medium text-default-600 capitalize px-3 py-1.5 dark:hover:bg-background cursor-pointer">
-              <Icon icon="heroicons:phone" className="w-4 h-4" />
-              Support
-            </DropdownMenuSubTrigger>
-            <DropdownMenuPortal>
-              <DropdownMenuSubContent>
-                {[
-                  {
-                    name: "facebook",
-                  },
-                  {
-                    name: "telegram",
-                  },
-                  {
-                    name: "whatsapp",
-                  },
-                  {
-                    name: "email",
-                  },
-                  {
-                    name: "live chat",
-                  },
-                ].map((item, index) => (
-                  <Link href="#" key={`message-sub-${index}`}>
-                    <DropdownMenuItem className="text-sm font-medium text-default-600 capitalize px-3 py-1.5 dark:hover:bg-background cursor-pointer">
-                      {item.name}
-                    </DropdownMenuItem>
-                  </Link>
-                ))}
-              </DropdownMenuSubContent>
-            </DropdownMenuPortal>
-          </DropdownMenuSub>
-        </DropdownMenuGroup>
         <DropdownMenuSeparator className="mb-0 dark:bg-background" />
         <DropdownMenuItem
           onSelect={() => signOut()}
