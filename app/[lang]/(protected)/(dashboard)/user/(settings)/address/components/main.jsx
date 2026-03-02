@@ -445,6 +445,7 @@ export default function DeliveryAddressPage() {
                       <input
                         name="name"
                         value={form.name}
+                        maxLength={60}
                         onChange={handleChange}
                         placeholder="Vishal Singh"
                         className={inputBase('name')}
@@ -485,6 +486,7 @@ export default function DeliveryAddressPage() {
                     <input
                       name="line1"
                       value={form.line1}
+                      maxLength={100}
                       onChange={handleChange}
                       placeholder="House / Flat / Block No., Street"
                       className={inputBase('line1')}
@@ -520,6 +522,7 @@ export default function DeliveryAddressPage() {
                       <input
                         name="city"
                         value={form.city}
+                        maxLength={50}
                         onChange={handleChange}
                         placeholder="New Delhi"
                         className={inputBase('city')}

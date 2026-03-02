@@ -317,7 +317,7 @@ export default function SupportPage() {
                                   <p className="text-xs font-bold text-gray-500 mb-2">Description</p>
                                   <p className="text-sm text-gray-700 leading-relaxed">{ticket.desc}</p>
                                   {ticket.orderId && (
-                                    <div className="flex items-center gap-2 mt-3 pt-3 border-top border-gray-100">
+                                    <div className="flex items-center gap-2 mt-3 pt-3 border-t border-gray-100">
                                       <Package className="w-3.5 h-3.5 text-gray-400" />
                                       <span className="text-xs text-gray-500">Related order:</span>
                                       <span className="text-xs font-bold font-mono text-indigo-600">{ticket.orderId}</span>
