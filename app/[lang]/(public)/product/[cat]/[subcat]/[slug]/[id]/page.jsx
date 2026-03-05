@@ -26,13 +26,13 @@ export async function generateMetadata({ params }) {
     .join(' ');
 
   return {
-    title: `${productName} | ${subCategoryName} | Touchtek`,
+    title: `${productName} | ${subCategoryName}`,
     description: `Buy ${productName} ${subCategoryName} at Touchtek. Premium quality ${categoryName} accessories.`,
     alternates: {
       canonical: `https://touchtek.in/${search.lang}/product/${search.cat}/${search.subcat}/${search.slug}/${search.id}`,
     },
     openGraph: {
-      title: `${productName} | Touchtek`,
+      title: `${productName}`,
       description: `Buy ${productName} ${subCategoryName} at Touchtek.`,
       url: `https://touchtek.in/${search.lang}/product/${search.cat}/${search.subcat}/${search.slug}/${search.id}`,
     },

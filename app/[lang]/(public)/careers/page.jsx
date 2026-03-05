@@ -7,13 +7,13 @@ export async function generateMetadata({ params }) {
   
 
   return {
-    title: `Careers | Touchtek`,
+    title: `Careers`,
     description: `Join our team at Touchtek. We're always looking for talented individuals to join our team.`,
     alternates: {
       canonical: `https://touchtek.in/${search.lang}/careers`,
     },
     openGraph: {
-      title: `Careers | Touchtek`,
+      title: `Careers`,
       description: `Join our team at Touchtek.`,
       url: `https://touchtek.in/${search.lang}/careers`,
     },

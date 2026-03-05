@@ -12,13 +12,13 @@ export async function generateMetadata({ params }) {
   
 
   return {
-    title: `Products | Touchtek`,
+    title: `Products`,
     description: `Buy products at Touchtek. Premium quality products.`,
     alternates: {
       canonical: `https://touchtek.in/${search.lang}/products`,
     },
     openGraph: {
-      title: `Products | Touchtek`,
+      title: `Products`,
       description: `Buy products at Touchtek.`,
       url: `https://touchtek.in/${search.lang}/products`,
     },

@@ -8,6 +8,7 @@ import { getProducts } from "@/action/common";
 // import Unauthorized from "@/components/unauthorised";
 import LayoutLoader from "@/components/layout-loader";
 import ProductCarousel from "@/components/layout/components/ProductCarousel";
+import ProductVideoSection from "@/components/layout/components/VideoCarousel";
 import CategoryCarousel from "@/components/layout/components/CategoryCarousel";
 import HotSellingCarousel from "@/components/layout/components/HotSellingCarousel";
 import FeaturedCarousel from "@/components/layout/components/FeaturedCarousel";
@@ -22,8 +23,8 @@ import { motion } from "framer-motion";
 export default function Home() {
   const [filters, setFilters] = useState({ source: "landing" });
 
-  const [products, setProducts] = useState([]);
-  const [banners, setBanners] = useState([]);
+  // const [products, setProducts] = useState([]);
+  // const [banners, setBanners] = useState([]);
 
 
    const {
@@ -41,8 +42,8 @@ export default function Home() {
     useEffect(() => {
     if (productsData) {
       // console.log("productsData received", productsData?.data?.payload?.products);
-      setProducts(productsData?.data?.payload?.products || []);
-      setBanners(productsData?.data?.payload?.banners || []);
+      // setProducts(productsData?.data?.payload?.products || []);
+      // setBanners(productsData?.data?.payload?.banners || []);
     }
 
   }, [productsData]);
@@ -51,10 +52,14 @@ export default function Home() {
    if (productsLoading) {
     return <LayoutLoader />;
   }
+  
 
   // if (productsError) {
   //   return <Unauthorized errorCode={5633} />;
   // }
+
+  const products = productsData?.data?.payload?.products || [];
+const banners = productsData?.data?.payload?.banners || [];
 
 
   const upcommingProducts = products
@@ -80,6 +85,8 @@ export default function Home() {
 
         {/* Explore Our Catalog Section */}
         <CategoryCarousel />
+
+        <ProductVideoSection />
 
         {/* Hot Selling Products Section */}
 
