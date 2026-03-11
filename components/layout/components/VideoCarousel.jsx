@@ -12,16 +12,16 @@ import "swiper/css/pagination";
 import "swiper/css/autoplay";
 
 const videoData = [
-  { id: 1, video_url: "/videos/test.mp4", thumbnail_url: "/images/touchtek/Airpod.jpeg", name: "AirPod Pro", price: "₹2,999", original_price: "₹5,999" },
+  { id: 1, video_url: "/videos/1.mp4", thumbnail_url: "/images/touchtek/Airpod.jpeg", name: "AirPod Pro", price: "₹2,999", original_price: "₹5,999" },
   { id: 2, video_url: "/videos/2.mp4", thumbnail_url: "/images/touchtek/Headphone.jpeg", name: "Headphone X1", price: "₹1,999", original_price: "₹3,999" },
   { id: 3, video_url: "/videos/3.mp4", thumbnail_url: "/images/touchtek/Powerbank.jpeg", name: "Powerbank 20K", price: "₹1,099", original_price: "₹3,499" },
   { id: 4, video_url: "/videos/4.mp4", thumbnail_url: "/images/touchtek/Charger.jpeg", name: "Fast Charger", price: "₹799", original_price: "₹1,499" },
-  { id: 5, video_url: "/videos/2.mp4", thumbnail_url: "/images/touchtek/Neckband.jpeg", name: "Neckband N10", price: "₹999", original_price: "₹2,499" },
-  { id: 6, video_url: "/videos/3.mp4", thumbnail_url: "/images/touchtek/Neckband.jpeg", name: "Neckband N10", price: "₹999", original_price: "₹2,499" },
-  { id: 7, video_url: "/videos/4.mp4", thumbnail_url: "/images/touchtek/Neckband.jpeg", name: "Neckband N10", price: "₹999", original_price: "₹2,499" },
-  { id: 8, video_url: "/videos/2.mp4", thumbnail_url: "/images/touchtek/Neckband.jpeg", name: "Neckband N10", price: "₹999", original_price: "₹2,499" },
-  { id: 9, video_url: "/videos/3.mp4", thumbnail_url: "/images/touchtek/Neckband.jpeg", name: "Neckband N10", price: "₹999", original_price: "₹2,499" },
-  { id: 10, video_url: "/videos/4.mp4", thumbnail_url: "/images/touchtek/Neckband.jpeg", name: "Neckband N10", price: "₹999", original_price: "₹2,499" },
+  { id: 5, video_url: "/videos/5.mp4", thumbnail_url: "/images/touchtek/Neckband.jpeg", name: "Neckband N10", price: "₹999", original_price: "₹2,499" },
+  { id: 6, video_url: "/videos/6.mp4", thumbnail_url: "/images/touchtek/Neckband.jpeg", name: "Neckband N10", price: "₹999", original_price: "₹2,499" },
+  { id: 7, video_url: "/videos/7.mp4", thumbnail_url: "/images/touchtek/Neckband.jpeg", name: "Neckband N10", price: "₹999", original_price: "₹2,499" },
+  { id: 8, video_url: "/videos/8.mp4", thumbnail_url: "/images/touchtek/Neckband.jpeg", name: "Neckband N10", price: "₹999", original_price: "₹2,499" },
+  { id: 9, video_url: "/videos/9.mp4", thumbnail_url: "/images/touchtek/Neckband.jpeg", name: "Neckband N10", price: "₹999", original_price: "₹2,499" },
+  { id: 10, video_url: "/videos/10.mp4", thumbnail_url: "/images/touchtek/Neckband.jpeg", name: "Neckband N10", price: "₹999", original_price: "₹2,499" },
 ];
 
 export default function ProductVideoSection() {

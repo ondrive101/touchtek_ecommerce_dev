@@ -2,6 +2,9 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import {signOut } from "next-auth/react";
+import { toast } from 'react-hot-toast';
+import { updateUserInfo } from '@/action/common';
 import {
   Lock, Eye, EyeOff, CheckCircle, ShieldCheck,
   KeyRound, ArrowRight, Sparkles, X
@@ -21,7 +24,6 @@ export default function ChangePasswordPage() {
   });
 
   const [errors, setErrors] = useState({});
-  const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const toggleShow = (field) =>
@@ -66,21 +68,47 @@ export default function ChangePasswordPage() {
     setErrors({ ...errors, [e.target.name]: '' });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Client-side validation
     const errs = validate();
-    if (Object.keys(errs).length) { setErrors(errs); return; }
+    if (Object.keys(errs).length) {
+      setErrors(errs);
+      return;
+    }
+
     setLoading(true);
-    setTimeout(() => {
+
+    try {
+      const response = await updateUserInfo({
+        data: {
+          oldPassword: form.currentPassword,
+          newPassword: form.newPassword,
+        },
+      });
+
+      if (!response.success) {
+        toast.error(response?.message || 'Failed to update password');
+      } else {
+        toast.success('Password updated successfully! You will be logged out.');
+        handleReset()
+        setTimeout(() => {
+          signOut({ callbackUrl: "/en" });
+        }, 1000);
+      
+      }
+    } catch (err) {
+      console.error('Error changing password:', err);
+      toast.error(err.message || 'Error changing password');
+    } finally {
       setLoading(false);
-      setSuccess(true);
-    }, 1500);
+    }
   };
 
   const handleReset = () => {
     setForm({ currentPassword: '', newPassword: '', confirmPassword: '' });
     setErrors({});
-    setSuccess(false);
   };
 
   const inputClass = (field) =>
@@ -95,7 +123,17 @@ export default function ChangePasswordPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 flex flex-col">
 
-      {/* Clean Page Header */}
+      {/* Full-page loading overlay */}
+      {loading && (
+        <div className="fixed inset-0 bg-black/20 backdrop-blur-[2px] z-50 flex items-center justify-center">
+          <div className="bg-white rounded-2xl shadow-2xl px-8 py-6 flex items-center gap-4">
+            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gray-900 flex-shrink-0" />
+            <p className="text-sm font-semibold text-gray-700">Updating password...</p>
+          </div>
+        </div>
+      )}
+
+      {/* Page Header */}
       <div className="max-w-2xl mx-auto w-full px-4 sm:px-6 pt-12 pb-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -108,7 +146,6 @@ export default function ChangePasswordPage() {
             <span className="text-gray-300">·</span>
             <span className="text-xs font-bold text-gray-900">Change Password</span>
           </div>
-
           <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-1">
             Change Password
           </h1>
@@ -122,88 +159,7 @@ export default function ChangePasswordPage() {
       <div className="max-w-2xl mx-auto w-full px-4 sm:px-6 pb-20 flex-1">
         <AnimatePresence mode="wait">
 
-          {/* SUCCESS STATE */}
-          {success ? (
-            <motion.div
-              key="success"
-              initial={{ opacity: 0, scale: 0.92 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.92 }}
-              transition={{ duration: 0.4 }}
-              className="bg-white rounded-2xl shadow-xl border border-gray-100 p-10 text-center"
-            >
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
-                className="w-24 h-24 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl"
-              >
-                <CheckCircle className="w-12 h-12 text-white" />
-              </motion.div>
-
-              <motion.h2
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.35 }}
-                className="text-2xl font-bold text-gray-900 mb-2"
-              >
-                Password Updated!
-              </motion.h2>
-
-              <motion.p
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.45 }}
-                className="text-sm text-gray-500 mb-8 max-w-xs mx-auto"
-              >
-                Your password has been changed successfully. All other active sessions will be signed out for security.
-              </motion.p>
-
-              <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 }}
-                className="grid grid-cols-3 gap-3 mb-8"
-              >
-                {[
-                  { icon: ShieldCheck, label: 'Account Secured', color: 'text-green-500', bg: 'bg-green-50 border-green-100' },
-                  { icon: KeyRound, label: 'New Key Active', color: 'text-blue-500', bg: 'bg-blue-50 border-blue-100' },
-                  { icon: Sparkles, label: 'Sessions Cleared', color: 'text-purple-500', bg: 'bg-purple-50 border-purple-100' },
-                ].map((item, i) => (
-                  <div key={i} className={`rounded-xl p-3 border ${item.bg} flex flex-col items-center gap-1.5`}>
-                    <item.icon className={`w-5 h-5 ${item.color}`} />
-                    <p className="text-xs font-semibold text-gray-700 text-center">{item.label}</p>
-                  </div>
-                ))}
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6 }}
-                className="flex gap-3"
-              >
-                <button
-                  onClick={handleReset}
-                  className="flex-1 py-3 border-2 border-gray-200 text-gray-700 rounded-xl font-semibold text-sm hover:bg-gray-50 transition-all"
-                >
-                  Change Again
-                </button>
-                <motion.a
-                  href="/profile"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-black to-gray-800 text-white py-3 rounded-xl font-bold text-sm shadow-lg hover:shadow-xl transition-all"
-                >
-                  Back to Profile
-                  <ArrowRight className="w-4 h-4" />
-                </motion.a>
-              </motion.div>
-            </motion.div>
-
-          ) : (
-
-            /* FORM STATE */
+            
             <motion.div
               key="form"
               initial={{ opacity: 0, y: 24 }}
@@ -237,7 +193,6 @@ export default function ChangePasswordPage() {
                       </div>
                       <h3 className="text-sm font-bold text-gray-900">Current Password</h3>
                     </div>
-
                     <div className="relative">
                       <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                       <input
@@ -369,16 +324,18 @@ export default function ChangePasswordPage() {
                               <X className="w-3 h-3" /> {errors.confirmPassword}
                             </motion.p>
                           )}
-                          {!errors.confirmPassword && form.confirmPassword && form.confirmPassword === form.newPassword && (
-                            <motion.p
-                              initial={{ opacity: 0, y: -4 }}
-                              animate={{ opacity: 1, y: 0 }}
-                              exit={{ opacity: 0 }}
-                              className="text-xs text-green-500 mt-1.5 font-medium flex items-center gap-1"
-                            >
-                              <CheckCircle className="w-3.5 h-3.5" /> Passwords match
-                            </motion.p>
-                          )}
+                          {!errors.confirmPassword &&
+                            form.confirmPassword &&
+                            form.confirmPassword === form.newPassword && (
+                              <motion.p
+                                initial={{ opacity: 0, y: -4 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0 }}
+                                className="text-xs text-green-500 mt-1.5 font-medium flex items-center gap-1"
+                              >
+                                <CheckCircle className="w-3.5 h-3.5" /> Passwords match
+                              </motion.p>
+                            )}
                         </AnimatePresence>
                       </div>
 
@@ -413,11 +370,7 @@ export default function ChangePasswordPage() {
                   >
                     {loading ? (
                       <>
-                        <motion.div
-                          animate={{ rotate: 360 }}
-                          transition={{ repeat: Infinity, duration: 0.8, ease: 'linear' }}
-                          className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full"
-                        />
+                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                         Updating Password...
                       </>
                     ) : (
@@ -446,7 +399,6 @@ export default function ChangePasswordPage() {
                 </div>
               </form>
             </motion.div>
-          )}
         </AnimatePresence>
       </div>
     </div>

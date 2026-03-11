@@ -1,7 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { toast } from 'react-hot-toast';
+import { useQuery } from "@tanstack/react-query";
+import { updateDeliveryAddress, getDeliveryAddressList } from '@/action/common';
 import {
   MapPin, Plus, Edit3, Trash2, Home, Briefcase,
   CheckCircle, X, ShieldCheck, Navigation, Phone,
@@ -68,11 +71,64 @@ const emptyForm = {
 
 export default function DeliveryAddressPage() {
   const [addresses, setAddresses] = useState(initialAddresses);
+  const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [deleteId, setDeleteId] = useState(null);
   const [form, setForm] = useState(emptyForm);
   const [errors, setErrors] = useState({});
+
+
+ const { data: addressList, isLoading, isError, refetch } = useQuery({
+    queryKey: ["address-list"],
+    queryFn: () => getDeliveryAddressList(),
+    staleTime: 30 * 1000,
+  });
+
+
+  useEffect(() => {
+    if (addressList) {
+      // setAddresses(addressList?.data?.list);
+    }
+  }, [addressList]);
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center py-16">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900" />
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">Addresses Not Found</h1>
+          <p className="text-gray-600 mb-8">The addresses you're looking for don't exist.</p>
+        </main>
+      </div>
+    );
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   const openAdd = () => {
     setEditingId(null);
@@ -116,28 +172,132 @@ export default function DeliveryAddressPage() {
     return e;
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const errs = validate();
-    if (Object.keys(errs).length) { setErrors(errs); return; }
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   const errs = validate();
+  //   if (Object.keys(errs).length) { setErrors(errs); return; }
+
+  //   if (editingId) {
+  //     setAddresses(addresses.map(a =>
+  //       a.id === editingId
+  //         ? { ...form, id: editingId, tagIcon: tagOptions.find(t => t.label === form.tag)?.icon || MapPin }
+  //         : a
+  //     ));
+  //   } else {
+  //     const newAddr = {
+  //       ...form,
+  //       id: Date.now(),
+  //       isDefault: addresses.length === 0,
+  //       tagIcon: tagOptions.find(t => t.label === form.tag)?.icon || MapPin,
+  //     };
+  //     setAddresses([...addresses, newAddr]);
+  //   }
+  //   closeModal();
+  // };
+
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  const errs = validate();
+  if (Object.keys(errs).length) { setErrors(errs); return; }
+
+  setLoading(true);
+  try {
+    const tagIcon = tagOptions.find(t => t.label === form.tag)?.icon || MapPin;
 
     if (editingId) {
-      setAddresses(addresses.map(a =>
-        a.id === editingId
-          ? { ...form, id: editingId, tagIcon: tagOptions.find(t => t.label === form.tag)?.icon || MapPin }
-          : a
-      ));
+      const response = await updateUserInfo({
+        data: {
+          type: 'address',
+          action: 'update',
+          addressId: editingId,
+          address: {
+            tag: form.tag,
+            name: form.name,
+            phone: form.phone,
+            address: form.line1,
+            city: form.city,
+            state: form.state,
+            pincode: form.pincode,
+            country: form.country,
+          },
+        },
+      });
+
+      if (!response.success) {
+        toast.error(response?.message || 'Failed to update address');
+        return;
+      }
+
+      setAddresses(prev =>
+        prev.map(a =>
+          a.id === editingId
+            ? { ...form, id: editingId, tagIcon }
+            : a
+        )
+      );
+      toast.success('Address updated successfully!');
+
     } else {
-      const newAddr = {
-        ...form,
-        id: Date.now(),
-        isDefault: addresses.length === 0,
-        tagIcon: tagOptions.find(t => t.label === form.tag)?.icon || MapPin,
+
+      const payload = {
+        action: "add",
+        address: {
+          tag: form.tag,
+          name: form.name,
+          phone: form.phone,
+          address: form.line1,
+          city: form.city,
+          state: form.state,
+          pincode: form.pincode,
+          country: form.country,
+          isDefault: addresses.length === 0,
+        },
       };
-      setAddresses([...addresses, newAddr]);
+      console.log('payload address', payload)
+      const response = await updateDeliveryAddress({
+        data: {
+          type: 'address',
+          action: 'add',
+          address: {
+            tag: form.tag,
+            name: form.name,
+            phone: form.phone,
+            line1: form.line1,
+            line2: form.line2,
+            city: form.city,
+            state: form.state,
+            pincode: form.pincode,
+            country: form.country,
+            isDefault: addresses.length === 0,
+          },
+        },
+      });
+
+      if (!response.success) {
+        toast.error(response?.message || 'Failed to add address');
+        return;
+      }
+
+      // Use server-returned ID if available, fallback to Date.now()
+      // const newAddr = {
+      //   ...form,
+      //   id: response?.data?.id ?? Date.now(),
+      //   isDefault: addresses.length === 0,
+      //   tagIcon,
+      // };
+      // setAddresses(prev => [...prev, newAddr]);
+      toast.success('Address added successfully!');
     }
-    closeModal();
-  };
+
+    // closeModal();
+  } catch (err) {
+    console.error('Error saving address:', err);
+    toast.error(err.message || 'Something went wrong');
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   const handleDelete = () => {
     const remaining = addresses.filter(a => a.id !== deleteId);
@@ -478,9 +638,9 @@ export default function DeliveryAddressPage() {
                   </div>
                 </div>
 
-                {/* Address Line 1 */}
+                {/* Address */}
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 mb-1.5">Address Line 1 *</label>
+                  <label className="block text-xs font-bold text-gray-700 mb-1.5">Address *</label>
                   <div className="relative">
                     <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                     <input
@@ -495,22 +655,7 @@ export default function DeliveryAddressPage() {
                   {errors.line1 && <p className="text-xs text-red-500 mt-1 font-medium">{errors.line1}</p>}
                 </div>
 
-                {/* Address Line 2 */}
-                <div>
-                  <label className="block text-xs font-bold text-gray-700 mb-1.5">
-                    Address Line 2 <span className="text-gray-400 font-normal">(Optional)</span>
-                  </label>
-                  <div className="relative">
-                    <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                    <input
-                      name="line2"
-                      value={form.line2}
-                      onChange={handleChange}
-                      placeholder="Landmark, Area, Colony"
-                      className="w-full pl-9 pr-3 py-2.5 border-2 border-gray-200 focus:border-black focus:ring-2 focus:ring-black/10 rounded-xl text-sm outline-none transition-all text-gray-900 placeholder:text-gray-400 bg-white"
-                    />
-                  </div>
-                </div>
+                
 
                 {/* City & State */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
