@@ -126,7 +126,7 @@ const AddBlock = ({ className }) => {
   return (
     <div
       className={cn(
-        "bg-primary dark:bg-default-400 mb-16 mt-24 p-4 relative text-center rounded-2xl text-white hidden xl:block overflow-hidden",
+        "bg-primary dark:bg-default-400 mb-16 p-4 relative text-center rounded-2xl text-white hidden xl:block overflow-hidden",
         className
       )}
     >
@@ -140,7 +140,7 @@ const AddBlock = ({ className }) => {
 
       {/* Scroll Window */}
       <div
-        className="relative h-[200px] overflow-hidden cursor-grab active:cursor-grabbing"
+        className="relative h-[450px] overflow-hidden cursor-grab active:cursor-grabbing"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >

@@ -256,36 +256,34 @@ export const updateUserInfo = async (payload) => {
 };
 export const getDeliveryAddressList = async () => {
   console.log("👤 [User ACTION] getDeliveryAddressList called");
-  return apiCall("get", `/users/get-delivery-addresses-list`, null, [ROLES.CUSTOMER], true);
+  return apiCall("get", `/users/get-delivery-addresses-list`, null, [ROLES.CUSTOMER], false);
 };
 export const updateDeliveryAddress = async (payload) => {
   console.log("👤 [User ACTION] updateDeliveryAddress called");
-  return apiCall("post", `/users/update-delivery-address`, payload, [ROLES.CUSTOMER], true);
+  return apiCall("post", `/users/update-delivery-address`, payload, [ROLES.CUSTOMER], false);
 };
 
 // ==================== Checkout ACTIONS ====================
-
 export const getCheckoutInfo = async () => {
   console.log("👤 [User ACTION] getCheckoutInfo called");
-  return apiCall("get", `/checkout/get-checkout-info`, null, [ROLES.CUSTOMER], true);
+  return apiCall("get", `/checkout/get-checkout-info`, null, [ROLES.CUSTOMER], false);
 };
 
 export const createOrder = async (data) => {
   console.log("👤 [User ACTION] createOrder called");
-  return apiCall("post", `/payment/create-order`, data, [ROLES.CUSTOMER], true);
+  return apiCall("post", `/payment/create-order`, data, [ROLES.CUSTOMER], false);
 };
 
 export const verifyPayment = async (data) => {
   console.log("👤 [User ACTION] verifyPayment called");
-  return apiCall("post", `/payment/verify-payment`, data, [ROLES.CUSTOMER], true);
+  return apiCall("post", `/payment/verify-payment`, data, [ROLES.CUSTOMER], false);
 };
 
 
 // ==================== Orders ACTIONS ====================
-
 export const getSalesOrders = async () => {
   console.log("👤 [User ACTION] getSalesOrders");
-  return apiCall("get", `/orders/get-sales-orders`, null, [ROLES.CUSTOMER], true);
+  return apiCall("get", `/orders/get-sales-orders`, null, [ROLES.CUSTOMER], false);
 };
 
 
