@@ -1,6 +1,7 @@
 import { SiteLogo, TouchtekLogo } from "@/components/svg";
 import { useSidebar } from "@/store";
 import logo from './logo.png'
+import touchtek from './touchtek.png'
 import Image from "next/image";
 import React from "react";
 
@@ -15,7 +16,8 @@ const SidebarLogo = ({ hovered }) => {
   )}
 
   {(!collapsed || hovered) && (
-    <TouchtekLogo className="h-8 w-auto" />
+    // <TouchtekLogo className="h-8 w-auto" />
+    <Image src={touchtek} alt="logo" className="object-contain h-6 w-auto" />
   )}
 </div>
 

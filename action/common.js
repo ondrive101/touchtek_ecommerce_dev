@@ -263,5 +263,29 @@ export const updateDeliveryAddress = async (payload) => {
   return apiCall("post", `/users/update-delivery-address`, payload, [ROLES.CUSTOMER], true);
 };
 
-// ==================== GENERAL USER ACTIONS ====================
+// ==================== Checkout ACTIONS ====================
+
+export const getCheckoutInfo = async () => {
+  console.log("👤 [User ACTION] getCheckoutInfo called");
+  return apiCall("get", `/checkout/get-checkout-info`, null, [ROLES.CUSTOMER], true);
+};
+
+export const createOrder = async (data) => {
+  console.log("👤 [User ACTION] createOrder called");
+  return apiCall("post", `/payment/create-order`, data, [ROLES.CUSTOMER], true);
+};
+
+export const verifyPayment = async (data) => {
+  console.log("👤 [User ACTION] verifyPayment called");
+  return apiCall("post", `/payment/verify-payment`, data, [ROLES.CUSTOMER], true);
+};
+
+
+// ==================== Orders ACTIONS ====================
+
+export const getSalesOrders = async () => {
+  console.log("👤 [User ACTION] getSalesOrders");
+  return apiCall("get", `/orders/get-sales-orders`, null, [ROLES.CUSTOMER], true);
+};
+
 

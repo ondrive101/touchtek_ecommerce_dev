@@ -194,7 +194,7 @@ const AddBlock = ({ className }) => {
 
       {/* CTA Button */}
       <div className="mt-3">
-        <Link href="/store" className="block w-full">
+        <Link href="/en/products" className="block w-full">
           <button className="bg-white text-primary hover:bg-background/90 px-3 py-1.5 text-xs font-bold rounded-lg w-full transition-colors">
             🏪 Visit Store
           </button>

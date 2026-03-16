@@ -175,7 +175,7 @@ export const useCartStore = create(
       // Clear entire cart
       clearCart: () => {
         set({ items: [], totalItems: 0, totalAmount: 0, discountCode: '', discountAmount: 0 });
-        toast.info('Cart cleared');
+        toast.success('Cart cleared');
       },
 
       // Discount code

@@ -11,36 +11,6 @@ import {
   User, Building2, Hash, ChevronDown, Star
 } from 'lucide-react';
 
-const initialAddresses = [
-  {
-    id: 1,
-    tag: 'Home',
-    tagIcon: Home,
-    isDefault: true,
-    name: 'Vishal Singh',
-    phone: '9876543210',
-    line1: '42, Sector 15, Rohini',
-    line2: 'Near Metro Station',
-    city: 'New Delhi',
-    state: 'Delhi',
-    pincode: '110085',
-    country: 'India',
-  },
-  {
-    id: 2,
-    tag: 'Work',
-    tagIcon: Briefcase,
-    isDefault: false,
-    name: 'Vishal Singh',
-    phone: '9123456789',
-    line1: 'Plot 7, Cyber City',
-    line2: 'DLF Phase 2',
-    city: 'Gurugram',
-    state: 'Haryana',
-    pincode: '122002',
-    country: 'India',
-  },
-];
 
 const tagOptions = [
   { label: 'Home', icon: Home },
@@ -61,8 +31,7 @@ const emptyForm = {
   tag: 'Home',
   name: '',
   phone: '',
-  line1: '',
-  line2: '',
+  address: '',
   city: '',
   state: '',
   pincode: '',
@@ -70,7 +39,7 @@ const emptyForm = {
 };
 
 export default function DeliveryAddressPage() {
-  const [addresses, setAddresses] = useState(initialAddresses);
+  const [addresses, setAddresses] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [editingId, setEditingId] = useState(null);
@@ -88,7 +57,8 @@ export default function DeliveryAddressPage() {
 
   useEffect(() => {
     if (addressList) {
-      // setAddresses(addressList?.data?.list);
+      console.log('address list',addressList?.data?.list )
+      setAddresses(addressList?.data?.list);
     }
   }, [addressList]);
 
@@ -110,24 +80,6 @@ export default function DeliveryAddressPage() {
       </div>
     );
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
   const openAdd = () => {
@@ -165,151 +117,132 @@ export default function DeliveryAddressPage() {
     const e = {};
     if (!form.name.trim()) e.name = 'Full name is required';
     if (form.phone.length !== 10) e.phone = 'Phone number must be exactly 10 digits';
-    if (!form.line1.trim()) e.line1 = 'Address line 1 is required';
+    if (!form.address.trim()) e.address = 'Address is required';
     if (!form.city.trim()) e.city = 'City is required';
     if (!form.state) e.state = 'Please select a state';
     if (!/^\d{6}$/.test(form.pincode)) e.pincode = 'Enter a valid 6-digit pincode';
     return e;
   };
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   const errs = validate();
-  //   if (Object.keys(errs).length) { setErrors(errs); return; }
-
-  //   if (editingId) {
-  //     setAddresses(addresses.map(a =>
-  //       a.id === editingId
-  //         ? { ...form, id: editingId, tagIcon: tagOptions.find(t => t.label === form.tag)?.icon || MapPin }
-  //         : a
-  //     ));
-  //   } else {
-  //     const newAddr = {
-  //       ...form,
-  //       id: Date.now(),
-  //       isDefault: addresses.length === 0,
-  //       tagIcon: tagOptions.find(t => t.label === form.tag)?.icon || MapPin,
-  //     };
-  //     setAddresses([...addresses, newAddr]);
-  //   }
-  //   closeModal();
-  // };
-
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  const errs = validate();
-  if (Object.keys(errs).length) { setErrors(errs); return; }
+    e.preventDefault();
+    const errs = validate();
+    if (Object.keys(errs).length) {
+      setErrors(errs);
+      return;
+    }
 
-  setLoading(true);
-  try {
-    const tagIcon = tagOptions.find(t => t.label === form.tag)?.icon || MapPin;
+    setLoading(true);
+    try {
+      if (editingId) {
+        const payload = {
+          action: "edit",
 
-    if (editingId) {
-      const response = await updateUserInfo({
-        data: {
-          type: 'address',
-          action: 'update',
-          addressId: editingId,
           address: {
+            addressId: editingId,
             tag: form.tag,
             name: form.name,
             phone: form.phone,
-            address: form.line1,
+            address: form.address,
             city: form.city,
             state: form.state,
             pincode: form.pincode,
             country: form.country,
           },
-        },
-      });
+        };
+        const response = await updateDeliveryAddress(payload);
 
-      if (!response.success) {
-        toast.error(response?.message || 'Failed to update address');
-        return;
-      }
+        if (!response.success) {
+          toast.error(response?.message || "Failed to update address");
+          return;
+        }
 
-      setAddresses(prev =>
-        prev.map(a =>
-          a.id === editingId
-            ? { ...form, id: editingId, tagIcon }
-            : a
-        )
-      );
-      toast.success('Address updated successfully!');
-
-    } else {
-
-      const payload = {
-        action: "add",
-        address: {
-          tag: form.tag,
-          name: form.name,
-          phone: form.phone,
-          address: form.line1,
-          city: form.city,
-          state: form.state,
-          pincode: form.pincode,
-          country: form.country,
-          isDefault: addresses.length === 0,
-        },
-      };
-      console.log('payload address', payload)
-      const response = await updateDeliveryAddress({
-        data: {
-          type: 'address',
-          action: 'add',
+        toast.success("Address updated successfully!");
+      } else {
+        const payload = {
+          action: "add",
           address: {
             tag: form.tag,
             name: form.name,
             phone: form.phone,
-            line1: form.line1,
-            line2: form.line2,
+            address: form.address,
             city: form.city,
             state: form.state,
             pincode: form.pincode,
             country: form.country,
             isDefault: addresses.length === 0,
           },
+        };
+        const response = await updateDeliveryAddress(payload);
+
+        if (!response.success) {
+          toast.error(response?.message || "Failed to add address");
+          return;
+        }
+
+        toast.success("Address added successfully!");
+      }
+      closeModal();
+    } catch (err) {
+      console.error("Error saving address:", err);
+      toast.error(err.message || "Something went wrong");
+    } finally {
+      refetch();
+      setLoading(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    setLoading(true);
+    try {
+      const payload = {
+        action: "delete",
+        address: {
+          addressId: deleteId,
         },
-      });
+      };
+      const response = await updateDeliveryAddress(payload);
 
       if (!response.success) {
-        toast.error(response?.message || 'Failed to add address');
+        toast.error(response?.message || "Failed to delete address");
         return;
       }
 
-      // Use server-returned ID if available, fallback to Date.now()
-      // const newAddr = {
-      //   ...form,
-      //   id: response?.data?.id ?? Date.now(),
-      //   isDefault: addresses.length === 0,
-      //   tagIcon,
-      // };
-      // setAddresses(prev => [...prev, newAddr]);
-      toast.success('Address added successfully!');
+      toast.success("Address deleted successfully!");
+    } catch (err) {
+      console.error("Error saving address:", err);
+      toast.error(err.message || "Something went wrong");
+    } finally {
+      refetch();
+      setDeleteId(null);
+      setLoading(false);
     }
-
-    // closeModal();
-  } catch (err) {
-    console.error('Error saving address:', err);
-    toast.error(err.message || 'Something went wrong');
-  } finally {
-    setLoading(false);
-  }
-};
-
-
-  const handleDelete = () => {
-    const remaining = addresses.filter(a => a.id !== deleteId);
-    if (remaining.length > 0 && addresses.find(a => a.id === deleteId)?.isDefault) {
-      remaining[0].isDefault = true;
-    }
-    setAddresses(remaining);
-    setDeleteId(null);
   };
 
-  const setDefault = (id) => {
-    setAddresses(addresses.map(a => ({ ...a, isDefault: a.id === id })));
+  const setDefault = async (id) => {
+   setLoading(true);
+    try {
+      const payload = {
+        action: "setDefault",
+        address: {
+          addressId: id,
+        },
+      };
+      const response = await updateDeliveryAddress(payload);
+
+      if (!response.success) {
+        toast.error(response?.message || "Failed to set default address");
+        return;
+      }
+
+      toast.success("Address set as default successfully!");
+    } catch (err) {
+      console.error("Error setting default address:", err);
+      toast.error(err.message || "Something went wrong");
+    } finally {
+      refetch();
+      setLoading(false);
+    }
   };
 
   const inputBase = (field) =>
@@ -345,7 +278,7 @@ export default function DeliveryAddressPage() {
                 Manage your saved delivery locations.
               </p>
             </div>
-            {addresses.length > 0 && (
+            {addresses?.length > 0 && (
               <motion.button
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
@@ -365,7 +298,7 @@ export default function DeliveryAddressPage() {
         <AnimatePresence mode="wait">
 
           {/* EMPTY STATE */}
-          {addresses.length === 0 && (
+          {addresses?.length === 0 && (
             <motion.div
               key="empty"
               initial={{ opacity: 0, scale: 0.95 }}
@@ -417,7 +350,7 @@ export default function DeliveryAddressPage() {
           )}
 
           {/* ADDRESS LIST */}
-          {addresses.length > 0 && (
+          {addresses?.length > 0 && (
             <motion.div
               key="list"
               initial={{ opacity: 0 }}
@@ -426,11 +359,11 @@ export default function DeliveryAddressPage() {
               className="grid grid-cols-1 md:grid-cols-2 gap-4"
             >
               <AnimatePresence>
-                {addresses.map((addr, i) => {
-                  const Icon = addr.tagIcon || MapPin;
+                {addresses?.map((addr, i) => {
+                  const Icon = addr?.tag === 'Work' ? Briefcase : addr?.tag === 'Home' ? Home :  MapPin;
                   return (
                     <motion.div
-                      key={addr.id}
+                      key={addr?.id}
                       initial={{ opacity: 0, y: 24 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, scale: 0.92, transition: { duration: 0.2 } }}
@@ -441,7 +374,7 @@ export default function DeliveryAddressPage() {
                           : 'border-gray-100 hover:border-gray-300 hover:shadow-xl'
                       }`}
                     >
-                      {addr.isDefault && (
+                      {addr?.isDefault && (
                         <div className="absolute -top-3 left-4">
                           <span className="inline-flex items-center gap-1 bg-gradient-to-r from-black to-gray-800 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">
                             <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
@@ -455,17 +388,17 @@ export default function DeliveryAddressPage() {
                         <div className="flex items-center justify-between mb-4">
                           <div className="flex items-center gap-2">
                             <div className={`w-9 h-9 rounded-xl flex items-center justify-center ${
-                              addr.tag === 'Home' ? 'bg-gradient-to-br from-blue-100 to-blue-200'
-                              : addr.tag === 'Work' ? 'bg-gradient-to-br from-purple-100 to-purple-200'
+                              addr?.tag === 'Home' ? 'bg-gradient-to-br from-blue-100 to-blue-200'
+                              : addr?.tag === 'Work' ? 'bg-gradient-to-br from-purple-100 to-purple-200'
                               : 'bg-gradient-to-br from-green-100 to-green-200'
                             }`}>
                               <Icon className={`w-4 h-4 ${
-                                addr.tag === 'Home' ? 'text-blue-600'
-                                : addr.tag === 'Work' ? 'text-purple-600'
+                                addr?.tag === 'Home' ? 'text-blue-600'
+                                : addr?.tag === 'Work' ? 'text-purple-600'
                                 : 'text-green-600'
                               }`} />
                             </div>
-                            <span className="text-sm font-bold text-gray-900">{addr.tag}</span>
+                            <span className="text-sm font-bold text-gray-900">{addr?.tag}</span>
                           </div>
 
                           <div className="flex items-center gap-1.5">
@@ -480,7 +413,7 @@ export default function DeliveryAddressPage() {
                             <motion.button
                               whileHover={{ scale: 1.1 }}
                               whileTap={{ scale: 0.9 }}
-                              onClick={() => setDeleteId(addr.id)}
+                              onClick={() => setDeleteId(addr?.id)}
                               className="w-8 h-8 bg-gray-100 hover:bg-red-500 hover:text-white text-gray-500 rounded-lg flex items-center justify-center transition-all"
                             >
                               <Trash2 className="w-3.5 h-3.5" />
@@ -490,24 +423,24 @@ export default function DeliveryAddressPage() {
 
                         {/* Details */}
                         <div className="space-y-1.5 mb-4">
-                          <p className="text-sm font-bold text-gray-900">{addr.name}</p>
+                          <p className="text-sm font-bold text-gray-900">{addr?.name}</p>
                           <p className="text-xs text-gray-500 flex items-center gap-1.5">
-                            <Phone className="w-3 h-3 flex-shrink-0" /> {addr.phone}
+                            <Phone className="w-3 h-3 flex-shrink-0" /> {addr?.phone}
                           </p>
                           <p className="text-xs text-gray-700 leading-relaxed">
-                            {addr.line1}{addr.line2 ? `, ${addr.line2}` : ''}
+                            {addr?.address}
                           </p>
                           <p className="text-xs text-gray-700">
-                            {addr.city}, {addr.state} — {addr.pincode}
+                            {addr?.city}, {addr?.state} — {addr?.pincode}
                           </p>
-                          <p className="text-xs text-gray-500">{addr.country}</p>
+                          <p className="text-xs text-gray-500">{addr?.country}</p>
                         </div>
 
-                        {!addr.isDefault ? (
+                        {!addr?.isDefault ? (
                           <motion.button
                             whileHover={{ scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
-                            onClick={() => setDefault(addr.id)}
+                            onClick={() => setDefault(addr?.id)}
                             className="w-full flex items-center justify-center gap-1.5 py-2 border-2 border-dashed border-gray-200 hover:border-black text-gray-400 hover:text-black rounded-xl text-xs font-semibold transition-all"
                           >
                             <CheckCircle className="w-3.5 h-3.5" />
@@ -644,15 +577,15 @@ export default function DeliveryAddressPage() {
                   <div className="relative">
                     <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                     <input
-                      name="line1"
-                      value={form.line1}
+                      name="address"
+                      value={form.address}
                       maxLength={100}
                       onChange={handleChange}
                       placeholder="House / Flat / Block No., Street"
-                      className={inputBase('line1')}
+                      className={inputBase('address')}
                     />
                   </div>
-                  {errors.line1 && <p className="text-xs text-red-500 mt-1 font-medium">{errors.line1}</p>}
+                  {errors.address && <p className="text-xs text-red-500 mt-1 font-medium">{errors.address}</p>}
                 </div>
 
                 

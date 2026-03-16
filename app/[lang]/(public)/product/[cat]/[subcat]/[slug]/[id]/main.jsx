@@ -168,7 +168,7 @@ function SpecificationsSection({ specifications = [], isOpen, onToggle }) {
                         <div className="w-7 h-7 rounded-md bg-white border border-gray-200 flex items-center justify-center flex-shrink-0 shadow-sm">
                           <IconComponent className="w-3.5 h-3.5 text-gray-600" />
                         </div>
-                        <span className="font-semibold text-gray-700 leading-snug">
+                        <span className="font-semibold text-gray-700 leading-snug uppercase">
                           {spec.type}
                         </span>
                       </div>
@@ -179,7 +179,7 @@ function SpecificationsSection({ specifications = [], isOpen, onToggle }) {
 
                     {/* Value cell */}
                     <td className="px-5 py-3.5 bg-white align-top">
-                      <span className="text-gray-800 leading-snug">
+                      <span className="text-gray-800 leading-snug uppercase">
                         {spec.description}
                       </span>
                     </td>
@@ -673,26 +673,26 @@ export default function ProductPage() {
                SPECIFICATIONS / ABOUT / REVIEWS
           ══════════════════════════════════════════════ */}
           <div className="mt-16 space-y-4">
-            {/* {variant?.specifications?.length > 0 && (
+            {variant?.specifications?.length > 0 && (
               <SpecificationsSection
                 specifications={variant.specifications}
                 isOpen={showSpecifications}
                 onToggle={() => setShowSpecifications((p) => !p)}
               />
-            )} */}
+            )}
 
-            {/* {variant?.about?.length > 0 && (
+            {variant?.about?.length > 0 && (
               <AboutSection
                 about={variant.about}
                 isOpen={showAbout}
                 onToggle={() => setShowAbout((p) => !p)}
               />
-            )} */}
+            )}
 
-            {/* <ReviewsSection
+            <ReviewsSection
               isOpen={showReviews}
               onToggle={() => setShowReviews((p) => !p)}
-            /> */}
+            />
           </div>
         </div>
 

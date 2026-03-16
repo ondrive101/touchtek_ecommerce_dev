@@ -119,7 +119,7 @@ export default function HotSellingCarousel({ products}) {
   </div>
 
   {/* Description with icon */}
-  <div className="flex items-center justify-center gap-2 max-w-2xl mx-auto">
+  <div className="flex items-center justify-center gap-2 max-w-3xl mx-auto">
     <div className="hidden sm:block">
       <div className="w-6 h-6 rounded-full bg-orange-50 flex items-center justify-center">
         <div className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />

@@ -58,6 +58,7 @@ export { default as Map } from "./duel-tone/map.svg";
 // export { default as SiteLogo } from "./duel-tone/logo.svg";
 export { default as SiteLogo } from "./duel-tone/touchtek.svg";
 export { default as TouchtekLogo } from "./duel-tone/touchtek-logo.svg";
+// export { default as TouchtekLogo } from "./duel-tone/touchtek-icon.png";
 export { default as Settings } from "./duel-tone/settings.svg";
 export { default as Files } from "./duel-tone/files.svg";
 export { default as Graph } from "./duel-tone/graph.svg";

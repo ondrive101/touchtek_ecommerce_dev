@@ -1,6 +1,43 @@
 import Link from 'next/link';
+import Image from "next/image";
+import facebook from "@/public/images/social/facebook-1.png"
+import dribble from "@/public/images/social/dribble-1.png"
+import linkedin from "@/public/images/social/linkedin-1.png"
+import instagram from "@/public/images/social/instagram.png"
+import github from "@/public/images/social/github-1.png"
+import behance from "@/public/images/social/behance-1.png"
+import twitter from "@/public/images/social/twitter-1.png"
+import youtube from "@/public/images/social/youtube.png"
+
+
+
+ const socials = [
+    {
+      icon: facebook,
+      href: "https://www.facebook.com/people/Touchtek-India/61573722944708/"
+    },
+      {
+      icon: instagram,
+      href: "https://www.instagram.com/touchtek.official?igsh=MTJlODAzbnFpOXpxeA=="
+    },
+    {
+      icon: linkedin,
+      href: "https://www.linkedin.com/company/company"
+    },
+    {
+      icon: youtube,
+      href: "https://youtube.com/@touchtekindia?si=I1wDSVpTaW0CPaEx"
+    },
+    {
+      icon: twitter,
+      href: "https://twitter.com/TouchtekIndia"
+    },
+
+   
+  ]
 
 export default function Footer() {
+  
   return (
     <footer className="bg-gray-900 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -74,11 +111,11 @@ export default function Footer() {
           <div>
             <h4 className="text-md font-semibold mb-4">Categories</h4>
             <ul className="space-y-2">
-              <li>
+              {/* <li>
                 <Link href="/stores" className="text-gray-300 hover:text-white text-sm transition-colors">
                   Stores
                 </Link>
-              </li>
+              </li> */}
               <li>
                 <Link href="/products/battery" className="text-gray-300 hover:text-white text-sm transition-colors">
                   Battery
@@ -99,10 +136,29 @@ export default function Footer() {
         </div>
 
         {/* Bottom Section */}
-        <div className="border-t border-gray-700 mt-8 pt-8">
+
+        <div className="flex flex-col items-center">
+       
+
+        <div className="mt-8 flex items-center justify-center flex-wrap gap-5">
+                    {
+                      socials.map((item, index) => (
+                        <Link
+                          href={item.href}
+                          key={`social-link-${index}`}
+                          target="_blank"
+                        >
+                          <Image src={item.icon} alt="social" width={30} height={30} />
+                        </Link>
+                      ))
+                    }
+                  </div>
+
+                 <div className="border-t border-gray-700 mt-8 pt-8">
           <div className="text-center text-gray-400 text-sm">
             <p>&copy; 2026 Touchtek. All rights reserved.</p>
           </div>
+        </div>
         </div>
       </div>
     </footer>

@@ -238,7 +238,7 @@ export default function CategoryCarousel() {
               },
               1280: {
                 slidesPerView: 5,
-                spaceBetween: 30,
+                spaceBetween: 16,
               },
             }}
             className="category-carousel"
@@ -283,7 +283,7 @@ export default function CategoryCarousel() {
           {/* Navigation Buttons */}
           <button
             ref={prevRef}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50 transition-colors group"
+            className="absolute -left-10 top-1/3 -translate-y-1/2 -translate-x-4 z-10 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50 transition-colors group"
             aria-label="Previous category"
           >
             <ChevronLeft className="w-5 h-5 text-gray-600 group-hover:text-gray-800" />
@@ -291,7 +291,7 @@ export default function CategoryCarousel() {
 
           <button
             ref={nextRef}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50 transition-colors group"
+            className="absolute -right-10 top-1/3 -translate-y-1/2 translate-x-4 z-10 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50 transition-colors group"
             aria-label="Next category"
           >
             <ChevronRight className="w-5 h-5 text-gray-600 group-hover:text-gray-800" />

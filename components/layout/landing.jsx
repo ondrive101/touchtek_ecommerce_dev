@@ -108,13 +108,13 @@ const banners = productsData?.data?.payload?.banners || [];
             >
               <div>
                 <div className="text-4xl md:text-5xl font-bold mb-2">
-                  <AnimatedCounter end={50} suffix="+" />
+                  <AnimatedCounter end={350} suffix="+" />
                 </div>
                 <p className="text-gray-300">Products</p>
               </div>
               <div>
                 <div className="text-4xl md:text-5xl font-bold mb-2">
-                  <AnimatedCounter end={10000} suffix="+" />
+                  <AnimatedCounter end={9000000} suffix="+" />
                 </div>
                 <p className="text-gray-300">Happy Customers</p>
               </div>
