@@ -14,19 +14,19 @@ import youtube from "@/public/images/social/youtube.png"
  const socials = [
     {
       icon: facebook,
-      href: "https://www.facebook.com/people/Touchtek-India/61573722944708/"
+      href: "https://www.facebook.com/profile.php?id=61573722944708"
     },
       {
       icon: instagram,
-      href: "https://www.instagram.com/touchtek.official?igsh=MTJlODAzbnFpOXpxeA=="
+      href: "https://www.instagram.com/touchtek.official?igsh=enc1dWFzMWY2NWg1"
     },
     {
       icon: linkedin,
-      href: "https://www.linkedin.com/company/company"
+      href: "https://www.linkedin.com/in/touchtek-india-499a08383/"
     },
     {
       icon: youtube,
-      href: "https://youtube.com/@touchtekindia?si=I1wDSVpTaW0CPaEx"
+      href: "https://www.youtube.com/@touchtekofficial"
     },
     {
       icon: twitter,

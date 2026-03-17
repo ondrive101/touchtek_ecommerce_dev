@@ -6,6 +6,11 @@ import {
   Rocket, Building, ChevronRight, Sparkles, Factory,
   ThumbsUp, Crown, Linkedin, Mail
 } from 'lucide-react';
+import Image from "next/image";
+import NeerajGoel from "@/public/images/touchtek/Neeraj.jpeg";
+import AanchalGoel from "@/public/images/touchtek/Aanchal.jpeg";
+import TouchtekBuilding from "@/public/images/touchtek/Building.jpeg";
+import RiteshGupta from "@/public/images/touchtek/Ritesh.jpeg";
 
 import Header from "@/components/layout/components/Header";
 import Footer from "@/components/layout/components/Footer";
@@ -54,23 +59,23 @@ const teamDepts = [
 const owners = [
   {
     name: 'Neeraj Goel', title: 'Founder & CEO',
-    image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=500&fit=crop',
+    image: NeerajGoel,
     bio: 'Visionary entrepreneur with 15+ years in consumer electronics. Rajesh founded Touchtek with a singular mission — to make quality tech accessories accessible to every Indian household.',
     quote: '"Quality is not an act, it is a habit."',
     linkedin: '#', email: 'rajesh@touchtek.in', badge: 'Founder',
     accent: 'from-amber-400 to-orange-500', glow: 'rgba(251,146,60,0.35)'
   },
   {
-    name: 'Anchal Goel', title: 'Co-Founder & COO',
-    image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=500&fit=crop',
+    name: 'Anchal Goel', title: 'Director',
+    image: AanchalGoel,
     bio: "Operations expert who built Touchtek's 5-warehouse network from scratch. Priya oversees supply chain, logistics, and the 150+ member team with precision and passion.",
     quote: '"Excellence is in the details of every shipment."',
-    linkedin: '#', email: 'priya@touchtek.in', badge: 'Co-Founder',
+    linkedin: '#', email: 'priya@touchtek.in', badge: 'Director',
     accent: 'from-violet-400 to-pink-500', glow: 'rgba(167,139,250,0.35)'
   },
   {
     name: 'Ritesh Gupta', title: 'Co-Founder & CTO',
-    image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&h=500&fit=crop',
+    image: RiteshGupta,
     bio: "Tech innovator leading Touchtek's R&D center. Amit drives product innovation across charging, audio, and battery solutions, holding multiple patents in mobile accessory design.",
     quote: '"The next big thing is always being built."',
     linkedin: '#', email: 'amit@touchtek.in', badge: 'Co-Founder',
@@ -153,8 +158,9 @@ function OwnerCard({ owner, index }) {
         >
           {/* FRONT */}
           <div className="absolute inset-0 rounded-2xl overflow-hidden" style={{ backfaceVisibility: 'hidden' }}>
-            <img src={owner.image} alt={owner.name} className="w-full h-full object-cover" />
-            <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, #000000f0 40%, #00000055 70%, transparent 100%)' }} />
+            {/* <img src={owner.image} alt={owner.name} className="w-full h-full object-cover" /> */}
+            <Image src={owner?.image} alt={owner?.name} className="w-full h-full object-cover" />
+            <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, #000000f0 30%, #00000055 60%, transparent 100%)' }} />
             <div className="absolute top-4 left-4 right-4 flex items-center justify-between">
               <div className={`bg-gradient-to-r ${owner.accent} text-white text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-lg`}>
                 <Crown className="w-3 h-3" />{owner.badge}
@@ -407,7 +413,8 @@ export default function AboutPage() {
               </motion.div>
               <motion.div initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true }} className="relative">
                 <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-                  <img src="https://images.unsplash.com/photo-1556656793-08538906a9f8?w=600&h=400&fit=crop" alt="Touchtek Office" className="w-full h-[400px] object-cover" />
+                  {/* <img src="https://images.unsplash.com/photo-1556656793-08538906a9f8?w=600&h=400&fit=crop" alt="Touchtek Office" className="w-full h-[400px] object-cover" /> */}
+                  <Image src={TouchtekBuilding} alt="Touchtek Office" className="w-full h-[400px] object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
                 </div>
                 <motion.div initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }} transition={{ delay: 0.4 }} viewport={{ once: true }}
