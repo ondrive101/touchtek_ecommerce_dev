@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import { siteConfig } from "@/config/site";
 import Providers from "@/provider/providers";
 import "simplebar-react/dist/simplebar.min.css";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import TanstackProvider from "@/provider/providers.client";
 import AuthProvider from "@/provider/auth.provider";
 
@@ -40,6 +41,8 @@ const initialTheme = "light";
           </DirectionProvider>
         </Providers>
       </body>
+
+      <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
     </html>
   );
 }
