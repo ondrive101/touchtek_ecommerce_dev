@@ -23,7 +23,8 @@ const DUMMY_RELATED = [
 ];
 
 export default function RelatedProducts({ products = [], category }) {
-  const displayProducts = products.length > 0 ? products.slice(0, 4) : DUMMY_RELATED;
+  
+  const displayProducts = products.length > 0 ? products.slice(0, 4) : [];
 
   return (
     <section className="bg-white py-16">
