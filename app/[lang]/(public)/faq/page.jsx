@@ -11,7 +11,9 @@ import {
   Shield,
   HelpCircle,
   MessageCircle,
+  Cable,
   Phone,
+  SmartphoneCharging,
   Mail,
 } from 'lucide-react';
 import Header from "@/components/layout/components/Header";
@@ -19,128 +21,237 @@ import Footer from "@/components/layout/components/Footer";
 
 const faqCategories = [
   {
-    id: 'general',
-    name: 'General',
-    icon: Shield,
-    faqs: [
-      {
-        question: 'What is Touchtek?',
-        answer:
-          'Touchtek is a leading manufacturer of premium batteries, audio accessories, and smart charging solutions. We specialize in innovative technology products designed for modern lifestyles.',
-      },
-      {
-        question: 'Where are Touchtek products manufactured?',
-        answer:
-          'Our products are manufactured in state-of-the-art facilities with strict quality control measures. We maintain high standards across all our manufacturing processes.',
-      },
-      {
-        question: 'Do you offer international shipping?',
-        answer:
-          'Currently, we primarily serve the Indian market. For international shipping inquiries, please contact our customer support team for specific availability in your region.',
-      },
-      {
-        question: 'How can I become a Touchtek dealer or distributor?',
-        answer:
-          'We welcome partnership opportunities. Please contact us through our careers page or email partnerships@touchtek.com with your business details.',
-      },
-    ],
-  },
-  {
     id: 'batteries',
     name: 'Batteries',
     icon: Battery,
     faqs: [
       {
-        question: 'What types of batteries does Touchtek offer?',
+        question: 'What is the difference between polymer and lithium batteries?',
         answer:
-          'We offer both Lithium and Polymer batteries with fast charging capabilities. Our Diamond Exclusive Series features premium battery technology with enhanced performance and durability.',
+          'Polymer batteries are lighter and slimmer compared to traditional lithium-ion batteries. They offer stable power output and improved safety design, making them ideal for modern smartphones.',
       },
       {
-        question: 'How long do Touchtek batteries last?',
+        question: 'Are Touchtek batteries safe?',
         answer:
-          'Our batteries are designed for extended lifespan with proper usage. Lithium batteries typically last 2-3 years, while Polymer batteries can last 3-4 years depending on usage patterns.',
+          'Yes. Touchtek batteries are manufactured using quality-tested cells and include built-in protection against overcharging, overheating, and short circuits',
       },
       {
-        question: 'Are Touchtek batteries safe to use?',
+        question: 'How long does a Touchtek battery last?',
         answer:
-          'Yes, all our batteries include multiple safety features: over-voltage protection, over-current protection, overcharge protection, and short-circuit protection.',
+          'Battery life depends on usage, but a Touchtek battery is designed to deliver consistent backup and reliable long-term performance when properly maintained.',
       },
       {
-        question: 'Can I use Touchtek batteries in any device?',
+        question: 'How can I increase the life of my Touchtek battery?',
         answer:
-          'Our batteries are designed for specific device compatibility. Please check the product specifications or contact our support team to ensure compatibility with your device.',
+          'Use certified chargers, avoid overcharging, and keep your device away from extreme temperatures.',
       },
       {
-        question: 'How should I dispose of old batteries?',
+        question: 'Will replacing my old battery with a Touchtek battery improve performance?',
         answer:
-          'Please dispose of batteries responsibly at designated e-waste collection centers. Do not throw batteries in regular trash as they contain materials that require proper recycling.',
+          'Yes. Replacing a worn-out battery with a Touchtek battery can significantly improve backup time and overall device performance.',
       },
     ],
   },
+    {
+    id: 'chargers',
+    name: 'Chargers',
+    icon: Zap,
+    faqs: [
+      {
+        question: 'Is it safe to use Touchtek chargers daily?',
+        answer:
+          'Yes. Every Touchtek charger is built with multiple safety protections, including Over Voltage Protection and Short Circuit Protection, ensuring safe and stable charging.',
+      },
+      {
+        question: 'Can I use a higher watt Touchtek charger for my phone?',
+        answer:
+          'Yes, if your device supports higher wattage. Touchtek chargers automatically adjust power output based on device requirements.',
+      },
+      {
+        question: 'Does fast charging damage the battery?',
+        answer:
+          'No. Touchtek fast chargers are engineered to deliver controlled power safely when used with compatible devices.',
+      },
+      {
+        question: 'Why does my Touchtek charger feel slightly warm?',
+        answer:
+          'Mild warmth during charging is normal. Ensure proper ventilation and use a quality Touchtek cable for optimal performance.',
+      },
+    ],
+  },
+  {
+    id: 'cables',
+    name: 'Cables',
+    icon: Shield,
+    faqs: [
+      {
+        question: 'Does cable quality affect charging speed?',
+        answer:
+          'Yes. A Touchtek data cable ensures stable current flow, faster charging, and secure data transfer.',
+      },
+      {
+        question: 'How durable are Touchtek data cables?',
+        answer:
+          'Touchtek cables are designed with reinforced connectors and strong outer materials for long-lasting daily use.',
+      },
+      {
+        question: 'Why does charging disconnect sometimes?',
+        answer:
+          'This may happen due to connector wear or dust inside the device port. Using a well-maintained Touchtek cable helps ensure consistent performance.',
+      },
+      {
+        question: 'Can I use any cable with a Touchtek charger?',
+        answer:
+          'For best results, use a Touchtek cable that matches your device type and supports the required power output.',
+      },
+    ],
+  },
+  
   {
     id: 'audio',
     name: 'Audio Products',
     icon: Headphones,
     faqs: [
       {
-        question: 'What audio products does Touchtek offer?',
+        question: 'How long does the battery last in Touchtek TWS?',
         answer:
-          'We offer wireless audio products like Mini Pods, Trendy Pods, Moon Pods (earbuds), neckbands, earphones, and speakers with premium sound quality.',
+          'Battery life varies by model, but Touchtek TWS are designed to provide extended playback time with additional charging support from the case.',
       },
       {
-        question: 'How do I pair Touchtek earbuds with my device?',
+        question: 'How do I connect Touchtek TWS to my phone?',
         answer:
-          'Turn on Bluetooth on your device, take the earbuds out of the case, and select "Touchtek" in your Bluetooth settings. Most of our earbuds pair automatically.',
+          'Enable Bluetooth on your device, select the Touchtek TWS name, and connect. It will automatically reconnect after the first pairing.',
       },
       {
-        question: 'What is the battery life of Touchtek earbuds?',
+        question: 'What is the Bluetooth range of Touchtek TWS?',
         answer:
-          'Our earbuds typically provide 6–8 hours of playback, with the charging case extending total usage to 24–30 hours.',
+          'Touchtek TWS typically offer up to 10 meters of wireless range in open space.',
       },
       {
-        question: 'Are Touchtek earbuds water-resistant?',
+        question: 'What should I do if one earbud is not working?',
         answer:
-          'Many models have IPX4 or higher water resistance for workouts and light rain. Check each product’s specifications for details.',
+          'Reset the Touchtek TWS and reconnect. Ensure both earbuds are properly charged.',
       },
       {
-        question: 'Can I use just one earbud at a time?',
+        question: 'How long does a Touchtek neckband battery last?',
         answer:
-          'Yes, our true wireless earbuds support mono mode, so you can use either the left or right earbud alone.',
+          'Battery performance depends on usage, but Touchtek neckbands are engineered for long music and standby time.',
       },
+      {
+        question: 'Is a Touchtek neckband suitable for calls?',
+        answer:
+          'Yes. Touchtek neckbands deliver clear voice quality with stable Bluetooth connectivity.',
+      },
+      {
+        question: 'Are Touchtek neckbands suitable for workouts?',
+        answer:
+          'Many Touchtek neckband models are designed for daily use and light physical activity.',
+      },
+      {
+        question: 'Do Touchtek wired earphones provide better sound stability?',
+        answer:
+          'Yes. Touchtek wired earphones offer uninterrupted audio without battery dependency.',
+      },
+      {
+        question: 'Are Touchtek earphones compatible with all smartphones?',
+        answer:
+          'Compatibility depends on your device port type, such as 3.5mm jack or Type-C connection.',
+      },
+      {
+        question: 'How long does a Touchtek Bluetooth speaker battery last?',
+        answer:
+          'Battery backup depends on volume level and usage, but Touchtek speakers are designed for extended playback.',
+      },
+      {
+        question: 'Can a Touchtek speaker connect to a TV or laptop?',
+        answer:
+          'Yes, if your device supports Bluetooth connectivity.',
+      },
+      {
+        question: 'Are Touchtek Bluetooth speakers water-resistant?',
+        answer:
+          'Water resistance depends on the specific Touchtek model. Please check product specifications.',
+      },
+      {
+        question: 'Are Touchtek headphones better than earbuds?',
+        answer:
+          'Touchtek headphones typically provide deeper bass and improved sound isolation for an immersive listening experience.',
+      },
+      {
+        question: 'Can I use Touchtek headphones for gaming?',
+        answer:
+          'Yes. Touchtek headphones deliver clear sound output suitable for gaming and media.',
+      },
+     
+      
     ],
   },
   {
-    id: 'charging',
-    name: 'Charging & Accessories',
-    icon: Zap,
+    id: 'powerbanks',
+    name: 'Power Banks',
+    icon: SmartphoneCharging,
     faqs: [
       {
-        question: 'What charging solutions does Touchtek provide?',
+        question: 'How many times can a Touchtek powerbank charge my phone?',
         answer:
-          'We offer DC Chargers, Hyper Pro chargers, Insta Chargers, power banks, and silicon data cables with fast charging capabilities.',
+          'Charging cycles depend on the Touchtek powerbank capacity and your phone’s battery size.',
       },
       {
-        question: 'Are Touchtek chargers compatible with all devices?',
+        question: 'Is it safe to leave a Touchtek powerbank charging overnight?',
         answer:
-          'Our chargers are designed for universal compatibility. They support multiple charging protocols and connector types.',
+          'Yes, but disconnecting once fully charged helps maintain battery health.',
       },
       {
-        question: 'What safety features do Touchtek chargers have?',
+        question: 'Can I carry a Touchtek powerbank during flights?',
         answer:
-          'Our chargers have over-current, over-voltage, temperature, and short-circuit protection for safe operation.',
+          'Yes, within airline-approved capacity limits.',
       },
-      {
-        question: 'How fast can Touchtek chargers charge my device?',
-        answer:
-          'Charging speed depends on your device and charger model. Hyper Pro chargers can deliver up to 100W of power for ultra-fast charging.',
-      },
-      {
-        question: 'Do Touchtek cables support data transfer?',
-        answer:
-          'Yes. Our silicon data cables handle both charging and high-speed data transfer with a tangle-free, durable design.',
-      },
+  
+  
     ],
   },
+   {
+    id: 'connectors',
+    name: 'OTG and Connectors',
+    icon: Cable,
+    faqs: [
+      {
+        question: 'What is a Touchtek OTG used for?',
+        answer:
+          'A Touchtek OTG allows you to connect USB devices such as pen drives, keyboards, and accessories directly to your smartphone.',
+      },
+      {
+        question: 'Are all Touchtek connectors compatible with every device?',
+        answer:
+          'No. Always check your device port type before purchasing a Touchtek connector.',
+      },
+  
+  
+  
+    ],
+  },
+     {
+    id: 'stands',
+    name: 'Mobile and Car Stands',
+    icon: Shield,
+    faqs: [
+      {
+        question: 'Will a Touchtek stand fit my phone?',
+        answer:
+          'Most Touchtek stands are adjustable and compatible with a wide range of smartphone sizes.',
+      },
+      {
+        question: 'Is it safe to use a Touchtek car stand while driving?',
+        answer:
+          'Yes, when properly mounted. A Touchtek car stand enables safer hands-free navigation.',
+      },
+  
+  
+  
+    ],
+  },
+
+
 ];
 
 export default function FAQPage() {

@@ -34,6 +34,18 @@ export default async function sitemap() {
       priority: 0.7,
     },
     {
+      url: `${BASE_URL}/${locale}/privacy-policy`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
+      url: `${BASE_URL}/${locale}/terms`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+    {
       url: `${BASE_URL}/${locale}/aboutus`,
       lastModified: new Date(),
       changeFrequency: 'monthly',

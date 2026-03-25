@@ -88,7 +88,7 @@ export default function ProductInfo({ product, variant }) {
             <button
               key={idx}
               onClick={() => setSelectedColor(color.name)}
-              className={`relative p-1 rounded-lg border-2 transition-all w-20 h-20 flex-shrink-0 ${
+              className={`relative p-1 rounded-full border-2 transition-all w-10 h-10 flex-shrink-0 ${
                 selectedColor === color.name
                   ? 'border-orange-500 ring-2 ring-orange-200 bg-orange-50'
                   : 'border-gray-200 hover:border-gray-400'
@@ -99,7 +99,7 @@ export default function ProductInfo({ product, variant }) {
                 alt={color.name}
                 width={60}
                 height={60}
-                className="w-16 h-16 rounded-md object-cover mx-auto"
+                className="w-6 h-6 rounded-md object-cover mx-auto"
               />
               {selectedColor === color.name && (
                 <div className="absolute -top-1 -right-1 w-5 h-5 bg-orange-500 text-white rounded-full flex items-center justify-center text-xs font-bold">

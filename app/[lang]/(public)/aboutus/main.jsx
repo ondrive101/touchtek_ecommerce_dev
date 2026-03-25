@@ -11,6 +11,11 @@ import NeerajGoel from "@/public/images/touchtek/Neeraj.jpeg";
 import AanchalGoel from "@/public/images/touchtek/Aanchal.jpeg";
 import TouchtekBuilding from "@/public/images/touchtek/Building.jpeg";
 import RiteshGupta from "@/public/images/touchtek/Ritesh.jpeg";
+import Harsh from "@/public/images/touchtek/team/team_harsh.jpeg";
+import Anas from "@/public/images/touchtek/team/team_anas.jpeg";
+import Karambir from "@/public/images/touchtek/team/team_karambir.jpeg";
+import Rohit from "@/public/images/touchtek/team/team_rohit_gupta.jpeg";
+import Shiv from "@/public/images/touchtek/team/team_shiv_ratan.jpeg";
 
 import Header from "@/components/layout/components/Header";
 import Footer from "@/components/layout/components/Footer";
@@ -86,46 +91,75 @@ const owners = [
 // ─── Team Members (40) ────────────────────────────────────────────────────────
 
 const teamMembers = [
-  { name: 'Sneha Gupta',      role: 'Product Designer',       dept: 'Design',        avatar: 'https://i.pravatar.cc/150?img=1',  accent: 'from-pink-400 to-rose-500',      glow: 'rgba(244,114,182,0.3)' },
-  { name: 'Vikram Singh',     role: 'Supply Chain Manager',   dept: 'Operations',    avatar: 'https://i.pravatar.cc/150?img=2',  accent: 'from-orange-400 to-amber-500',   glow: 'rgba(251,146,60,0.3)'  },
-  { name: 'Neha Joshi',       role: 'QA Engineer',            dept: 'Quality',       avatar: 'https://i.pravatar.cc/150?img=3',  accent: 'from-green-400 to-emerald-500',  glow: 'rgba(74,222,128,0.3)'  },
-  { name: 'Arjun Mehta',      role: 'Sales Executive',        dept: 'Sales',         avatar: 'https://i.pravatar.cc/150?img=4',  accent: 'from-blue-400 to-indigo-500',    glow: 'rgba(96,165,250,0.3)'  },
-  { name: 'Kavya Reddy',      role: 'Marketing Lead',         dept: 'Marketing',     avatar: 'https://i.pravatar.cc/150?img=5',  accent: 'from-purple-400 to-violet-500',  glow: 'rgba(192,132,252,0.3)' },
-  { name: 'Rohit Verma',      role: 'Warehouse Supervisor',   dept: 'Logistics',     avatar: 'https://i.pravatar.cc/150?img=6',  accent: 'from-teal-400 to-cyan-500',      glow: 'rgba(45,212,191,0.3)'  },
-  { name: 'Pooja Nair',       role: 'Customer Support',       dept: 'Support',       avatar: 'https://i.pravatar.cc/150?img=7',  accent: 'from-yellow-400 to-orange-400',  glow: 'rgba(250,204,21,0.3)'  },
-  { name: 'Sanjay Dubey',     role: 'R&D Engineer',           dept: 'Innovation',    avatar: 'https://i.pravatar.cc/150?img=8',  accent: 'from-cyan-400 to-blue-500',      glow: 'rgba(34,211,238,0.3)'  },
-  { name: 'Ananya Das',       role: 'Finance Analyst',        dept: 'Finance',       avatar: 'https://i.pravatar.cc/150?img=9',  accent: 'from-emerald-400 to-green-500',  glow: 'rgba(52,211,153,0.3)'  },
-  { name: 'Karan Malhotra',   role: 'IT Manager',             dept: 'Technology',    avatar: 'https://i.pravatar.cc/150?img=10', accent: 'from-indigo-400 to-purple-500',  glow: 'rgba(129,140,248,0.3)' },
-  { name: 'Ritu Chopra',      role: 'Brand Manager',          dept: 'Marketing',     avatar: 'https://i.pravatar.cc/150?img=11', accent: 'from-fuchsia-400 to-pink-500',   glow: 'rgba(232,121,249,0.3)' },
-  { name: 'Deepak Sharma',    role: 'Logistics Coordinator',  dept: 'Logistics',     avatar: 'https://i.pravatar.cc/150?img=12', accent: 'from-teal-400 to-green-500',     glow: 'rgba(45,212,191,0.3)'  },
-  { name: 'Meera Pillai',     role: 'HR Manager',             dept: 'HR',            avatar: 'https://i.pravatar.cc/150?img=13', accent: 'from-rose-400 to-pink-500',      glow: 'rgba(251,113,133,0.3)' },
-  { name: 'Aakash Tiwari',    role: 'Product Manager',        dept: 'Product',       avatar: 'https://i.pravatar.cc/150?img=14', accent: 'from-violet-400 to-indigo-500',  glow: 'rgba(167,139,250,0.3)' },
-  { name: 'Sunita Rao',       role: 'Accounts Lead',          dept: 'Finance',       avatar: 'https://i.pravatar.cc/150?img=15', accent: 'from-emerald-400 to-teal-500',   glow: 'rgba(52,211,153,0.3)'  },
-  { name: 'Nikhil Bansal',    role: 'Hardware Engineer',      dept: 'Innovation',    avatar: 'https://i.pravatar.cc/150?img=16', accent: 'from-sky-400 to-blue-500',       glow: 'rgba(56,189,248,0.3)'  },
-  { name: 'Pallavi Mishra',   role: 'Social Media Manager',   dept: 'Marketing',     avatar: 'https://i.pravatar.cc/150?img=17', accent: 'from-pink-400 to-fuchsia-500',   glow: 'rgba(244,114,182,0.3)' },
-  { name: 'Gaurav Sinha',     role: 'Regional Sales Head',    dept: 'Sales',         avatar: 'https://i.pravatar.cc/150?img=18', accent: 'from-blue-400 to-cyan-500',      glow: 'rgba(96,165,250,0.3)'  },
-  { name: 'Tanvi Agarwal',    role: 'UX Designer',            dept: 'Design',        avatar: 'https://i.pravatar.cc/150?img=19', accent: 'from-rose-400 to-orange-500',    glow: 'rgba(251,113,133,0.3)' },
-  { name: 'Manish Pandey',    role: 'Factory Supervisor',     dept: 'Manufacturing', avatar: 'https://i.pravatar.cc/150?img=20', accent: 'from-amber-400 to-yellow-500',   glow: 'rgba(251,191,36,0.3)'  },
-  { name: 'Ishaan Kapoor',    role: 'Business Analyst',       dept: 'Strategy',      avatar: 'https://i.pravatar.cc/150?img=21', accent: 'from-sky-400 to-indigo-500',     glow: 'rgba(56,189,248,0.3)'  },
-  { name: 'Divya Menon',      role: 'Compliance Officer',     dept: 'Legal',         avatar: 'https://i.pravatar.cc/150?img=22', accent: 'from-slate-400 to-gray-500',     glow: 'rgba(148,163,184,0.3)' },
-  { name: 'Rahul Saxena',     role: 'Network Engineer',       dept: 'Technology',    avatar: 'https://i.pravatar.cc/150?img=23', accent: 'from-indigo-400 to-blue-500',    glow: 'rgba(129,140,248,0.3)' },
-  { name: 'Shruti Kulkarni',  role: 'Content Writer',         dept: 'Marketing',     avatar: 'https://i.pravatar.cc/150?img=24', accent: 'from-purple-400 to-pink-500',    glow: 'rgba(192,132,252,0.3)' },
-  { name: 'Piyush Jain',      role: 'Operations Analyst',     dept: 'Operations',    avatar: 'https://i.pravatar.cc/150?img=25', accent: 'from-orange-400 to-red-500',     glow: 'rgba(251,146,60,0.3)'  },
-  { name: 'Nisha Goswami',    role: 'Customer Success',       dept: 'Support',       avatar: 'https://i.pravatar.cc/150?img=26', accent: 'from-yellow-400 to-amber-500',   glow: 'rgba(250,204,21,0.3)'  },
-  { name: 'Vivek Thakur',     role: 'Production Engineer',    dept: 'Manufacturing', avatar: 'https://i.pravatar.cc/150?img=27', accent: 'from-amber-400 to-orange-500',   glow: 'rgba(251,191,36,0.3)'  },
-  { name: 'Ankita Bose',      role: 'Legal Counsel',          dept: 'Legal',         avatar: 'https://i.pravatar.cc/150?img=28', accent: 'from-gray-400 to-slate-500',     glow: 'rgba(156,163,175,0.3)' },
-  { name: 'Suresh Nambiar',   role: 'Export Manager',         dept: 'Sales',         avatar: 'https://i.pravatar.cc/150?img=29', accent: 'from-blue-400 to-sky-500',       glow: 'rgba(96,165,250,0.3)'  },
-  { name: 'Priyanka Ghosh',   role: 'Training Manager',       dept: 'HR',            avatar: 'https://i.pravatar.cc/150?img=30', accent: 'from-rose-400 to-red-500',       glow: 'rgba(251,113,133,0.3)' },
-  { name: 'Mohit Aggarwal',   role: 'Inventory Controller',   dept: 'Logistics',     avatar: 'https://i.pravatar.cc/150?img=31', accent: 'from-teal-400 to-cyan-500',      glow: 'rgba(45,212,191,0.3)'  },
-  { name: 'Swati Bajaj',      role: 'PR Specialist',          dept: 'Marketing',     avatar: 'https://i.pravatar.cc/150?img=32', accent: 'from-fuchsia-400 to-purple-500', glow: 'rgba(232,121,249,0.3)' },
-  { name: 'Ajay Rawat',       role: 'Security Head',          dept: 'Operations',    avatar: 'https://i.pravatar.cc/150?img=33', accent: 'from-red-400 to-rose-500',       glow: 'rgba(248,113,113,0.3)' },
-  { name: 'Leena Shah',       role: 'Packaging Designer',     dept: 'Design',        avatar: 'https://i.pravatar.cc/150?img=34', accent: 'from-pink-400 to-rose-400',      glow: 'rgba(244,114,182,0.3)' },
-  { name: 'Harsh Vardhan',    role: 'Test Engineer',          dept: 'Quality',       avatar: 'https://i.pravatar.cc/150?img=35', accent: 'from-green-400 to-teal-500',     glow: 'rgba(74,222,128,0.3)'  },
-  { name: 'Kamla Srivastava', role: 'Admin Executive',        dept: 'Admin',         avatar: 'https://i.pravatar.cc/150?img=36', accent: 'from-lime-400 to-green-500',     glow: 'rgba(163,230,53,0.3)'  },
-  { name: 'Rajan Iyer',       role: 'Procurement Head',       dept: 'Operations',    avatar: 'https://i.pravatar.cc/150?img=37', accent: 'from-orange-400 to-amber-400',   glow: 'rgba(251,146,60,0.3)'  },
-  { name: 'Payal Chauhan',    role: 'Digital Marketer',       dept: 'Marketing',     avatar: 'https://i.pravatar.cc/150?img=38', accent: 'from-violet-400 to-purple-500',  glow: 'rgba(167,139,250,0.3)' },
-  { name: 'Dinesh Choudhary', role: 'Electrician Supervisor', dept: 'Manufacturing', avatar: 'https://i.pravatar.cc/150?img=39', accent: 'from-yellow-400 to-orange-500',  glow: 'rgba(250,204,21,0.3)'  },
-  { name: 'Taruna Bhatt',     role: 'Recruitment Specialist', dept: 'HR',            avatar: 'https://i.pravatar.cc/150?img=40', accent: 'from-rose-400 to-fuchsia-500',   glow: 'rgba(251,113,133,0.3)' },
+  {
+    name: "Harshvardahan",
+    role: "Head of Design",
+    dept: "Design",
+    avatar: Harsh,
+    accent: "from-pink-400 to-rose-500",
+    glow: "rgba(244,114,182,0.3)",
+  },
+  {
+    name: "Mohd. Anas",
+    role: "MIS Head",
+    dept: "Reporting",
+    avatar: Anas,
+    accent: "from-pink-400 to-rose-500",
+    glow: "rgba(244,114,182,0.3)",
+  },
+  {
+    name: "Shiv Ratan",
+    role: "Sales Head",
+    dept: "Sales",
+    avatar: Shiv,
+    accent: "from-orange-400 to-amber-500",
+    glow: "rgba(251,146,60,0.3)",
+  },
+  {
+    name: "Karambir Patra",
+    role: "Product Manager",
+    dept: "Product",
+    avatar: Karambir,
+    accent: "from-green-400 to-emerald-500",
+    glow: "rgba(74,222,128,0.3)",
+  },
+  { name: 'Rohit Gupta',      role: 'Account Head',        dept: 'Accounts',         avatar: Rohit,  accent: 'from-blue-400 to-indigo-500',    glow: 'rgba(96,165,250,0.3)'  },
+  // { name: 'Kavya Reddy',      role: 'Marketing Lead',         dept: 'Marketing',     avatar: 'https://i.pravatar.cc/150?img=5',  accent: 'from-purple-400 to-violet-500',  glow: 'rgba(192,132,252,0.3)' },
+  // { name: 'Rohit Verma',      role: 'Warehouse Supervisor',   dept: 'Logistics',     avatar: 'https://i.pravatar.cc/150?img=6',  accent: 'from-teal-400 to-cyan-500',      glow: 'rgba(45,212,191,0.3)'  },
+  // { name: 'Pooja Nair',       role: 'Customer Support',       dept: 'Support',       avatar: 'https://i.pravatar.cc/150?img=7',  accent: 'from-yellow-400 to-orange-400',  glow: 'rgba(250,204,21,0.3)'  },
+  // { name: 'Sanjay Dubey',     role: 'R&D Engineer',           dept: 'Innovation',    avatar: 'https://i.pravatar.cc/150?img=8',  accent: 'from-cyan-400 to-blue-500',      glow: 'rgba(34,211,238,0.3)'  },
+  // { name: 'Ananya Das',       role: 'Finance Analyst',        dept: 'Finance',       avatar: 'https://i.pravatar.cc/150?img=9',  accent: 'from-emerald-400 to-green-500',  glow: 'rgba(52,211,153,0.3)'  },
+  // { name: 'Karan Malhotra',   role: 'IT Manager',             dept: 'Technology',    avatar: 'https://i.pravatar.cc/150?img=10', accent: 'from-indigo-400 to-purple-500',  glow: 'rgba(129,140,248,0.3)' },
+  // { name: 'Ritu Chopra',      role: 'Brand Manager',          dept: 'Marketing',     avatar: 'https://i.pravatar.cc/150?img=11', accent: 'from-fuchsia-400 to-pink-500',   glow: 'rgba(232,121,249,0.3)' },
+  // { name: 'Deepak Sharma',    role: 'Logistics Coordinator',  dept: 'Logistics',     avatar: 'https://i.pravatar.cc/150?img=12', accent: 'from-teal-400 to-green-500',     glow: 'rgba(45,212,191,0.3)'  },
+  // { name: 'Meera Pillai',     role: 'HR Manager',             dept: 'HR',            avatar: 'https://i.pravatar.cc/150?img=13', accent: 'from-rose-400 to-pink-500',      glow: 'rgba(251,113,133,0.3)' },
+  // { name: 'Aakash Tiwari',    role: 'Product Manager',        dept: 'Product',       avatar: 'https://i.pravatar.cc/150?img=14', accent: 'from-violet-400 to-indigo-500',  glow: 'rgba(167,139,250,0.3)' },
+  // { name: 'Sunita Rao',       role: 'Accounts Lead',          dept: 'Finance',       avatar: 'https://i.pravatar.cc/150?img=15', accent: 'from-emerald-400 to-teal-500',   glow: 'rgba(52,211,153,0.3)'  },
+  // { name: 'Nikhil Bansal',    role: 'Hardware Engineer',      dept: 'Innovation',    avatar: 'https://i.pravatar.cc/150?img=16', accent: 'from-sky-400 to-blue-500',       glow: 'rgba(56,189,248,0.3)'  },
+  // { name: 'Pallavi Mishra',   role: 'Social Media Manager',   dept: 'Marketing',     avatar: 'https://i.pravatar.cc/150?img=17', accent: 'from-pink-400 to-fuchsia-500',   glow: 'rgba(244,114,182,0.3)' },
+  // { name: 'Gaurav Sinha',     role: 'Regional Sales Head',    dept: 'Sales',         avatar: 'https://i.pravatar.cc/150?img=18', accent: 'from-blue-400 to-cyan-500',      glow: 'rgba(96,165,250,0.3)'  },
+  // { name: 'Tanvi Agarwal',    role: 'UX Designer',            dept: 'Design',        avatar: 'https://i.pravatar.cc/150?img=19', accent: 'from-rose-400 to-orange-500',    glow: 'rgba(251,113,133,0.3)' },
+  // { name: 'Manish Pandey',    role: 'Factory Supervisor',     dept: 'Manufacturing', avatar: 'https://i.pravatar.cc/150?img=20', accent: 'from-amber-400 to-yellow-500',   glow: 'rgba(251,191,36,0.3)'  },
+  // { name: 'Ishaan Kapoor',    role: 'Business Analyst',       dept: 'Strategy',      avatar: 'https://i.pravatar.cc/150?img=21', accent: 'from-sky-400 to-indigo-500',     glow: 'rgba(56,189,248,0.3)'  },
+  // { name: 'Divya Menon',      role: 'Compliance Officer',     dept: 'Legal',         avatar: 'https://i.pravatar.cc/150?img=22', accent: 'from-slate-400 to-gray-500',     glow: 'rgba(148,163,184,0.3)' },
+  // { name: 'Rahul Saxena',     role: 'Network Engineer',       dept: 'Technology',    avatar: 'https://i.pravatar.cc/150?img=23', accent: 'from-indigo-400 to-blue-500',    glow: 'rgba(129,140,248,0.3)' },
+  // { name: 'Shruti Kulkarni',  role: 'Content Writer',         dept: 'Marketing',     avatar: 'https://i.pravatar.cc/150?img=24', accent: 'from-purple-400 to-pink-500',    glow: 'rgba(192,132,252,0.3)' },
+  // { name: 'Piyush Jain',      role: 'Operations Analyst',     dept: 'Operations',    avatar: 'https://i.pravatar.cc/150?img=25', accent: 'from-orange-400 to-red-500',     glow: 'rgba(251,146,60,0.3)'  },
+  // { name: 'Nisha Goswami',    role: 'Customer Success',       dept: 'Support',       avatar: 'https://i.pravatar.cc/150?img=26', accent: 'from-yellow-400 to-amber-500',   glow: 'rgba(250,204,21,0.3)'  },
+  // { name: 'Vivek Thakur',     role: 'Production Engineer',    dept: 'Manufacturing', avatar: 'https://i.pravatar.cc/150?img=27', accent: 'from-amber-400 to-orange-500',   glow: 'rgba(251,191,36,0.3)'  },
+  // { name: 'Ankita Bose',      role: 'Legal Counsel',          dept: 'Legal',         avatar: 'https://i.pravatar.cc/150?img=28', accent: 'from-gray-400 to-slate-500',     glow: 'rgba(156,163,175,0.3)' },
+  // { name: 'Suresh Nambiar',   role: 'Export Manager',         dept: 'Sales',         avatar: 'https://i.pravatar.cc/150?img=29', accent: 'from-blue-400 to-sky-500',       glow: 'rgba(96,165,250,0.3)'  },
+  // { name: 'Priyanka Ghosh',   role: 'Training Manager',       dept: 'HR',            avatar: 'https://i.pravatar.cc/150?img=30', accent: 'from-rose-400 to-red-500',       glow: 'rgba(251,113,133,0.3)' },
+  // { name: 'Mohit Aggarwal',   role: 'Inventory Controller',   dept: 'Logistics',     avatar: 'https://i.pravatar.cc/150?img=31', accent: 'from-teal-400 to-cyan-500',      glow: 'rgba(45,212,191,0.3)'  },
+  // { name: 'Swati Bajaj',      role: 'PR Specialist',          dept: 'Marketing',     avatar: 'https://i.pravatar.cc/150?img=32', accent: 'from-fuchsia-400 to-purple-500', glow: 'rgba(232,121,249,0.3)' },
+  // { name: 'Ajay Rawat',       role: 'Security Head',          dept: 'Operations',    avatar: 'https://i.pravatar.cc/150?img=33', accent: 'from-red-400 to-rose-500',       glow: 'rgba(248,113,113,0.3)' },
+  // { name: 'Leena Shah',       role: 'Packaging Designer',     dept: 'Design',        avatar: 'https://i.pravatar.cc/150?img=34', accent: 'from-pink-400 to-rose-400',      glow: 'rgba(244,114,182,0.3)' },
+  // { name: 'Harsh Vardhan',    role: 'Test Engineer',          dept: 'Quality',       avatar: 'https://i.pravatar.cc/150?img=35', accent: 'from-green-400 to-teal-500',     glow: 'rgba(74,222,128,0.3)'  },
+  // { name: 'Kamla Srivastava', role: 'Admin Executive',        dept: 'Admin',         avatar: 'https://i.pravatar.cc/150?img=36', accent: 'from-lime-400 to-green-500',     glow: 'rgba(163,230,53,0.3)'  },
+  // { name: 'Rajan Iyer',       role: 'Procurement Head',       dept: 'Operations',    avatar: 'https://i.pravatar.cc/150?img=37', accent: 'from-orange-400 to-amber-400',   glow: 'rgba(251,146,60,0.3)'  },
+  // { name: 'Payal Chauhan',    role: 'Digital Marketer',       dept: 'Marketing',     avatar: 'https://i.pravatar.cc/150?img=38', accent: 'from-violet-400 to-purple-500',  glow: 'rgba(167,139,250,0.3)' },
+  // { name: 'Dinesh Choudhary', role: 'Electrician Supervisor', dept: 'Manufacturing', avatar: 'https://i.pravatar.cc/150?img=39', accent: 'from-yellow-400 to-orange-500',  glow: 'rgba(250,204,21,0.3)'  },
+  // { name: 'Taruna Bhatt',     role: 'Recruitment Specialist', dept: 'HR',            avatar: 'https://i.pravatar.cc/150?img=40', accent: 'from-rose-400 to-fuchsia-500',   glow: 'rgba(251,113,133,0.3)' },
 ];
 
 // ─── Founder Flip Card ────────────────────────────────────────────────────────
@@ -238,11 +272,8 @@ function TeamCard({ member }) {
     >
       
       <div className="relative w-full" style={{ height: 190 }}>
-        <img
-          src={member.avatar}
-          alt={member.name}
-          className="w-full h-full object-cover transition-transform duration-500"
-        />
+      <Image src={member?.avatar} alt={member.name} className="w-full h-full object-cover transition-transform duration-500" />
+        
         {/* Gradient overlay */}
         {/* <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, #0d0d0d 5%, rgba(0,0,0,0.35) 60%, transparent 100%)' }} /> */}
 
@@ -414,7 +445,7 @@ export default function AboutPage() {
               <motion.div initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }} viewport={{ once: true }} className="relative">
                 <div className="relative rounded-2xl overflow-hidden shadow-2xl">
                   {/* <img src="https://images.unsplash.com/photo-1556656793-08538906a9f8?w=600&h=400&fit=crop" alt="Touchtek Office" className="w-full h-[400px] object-cover" /> */}
-                  <Image src={TouchtekBuilding} alt="Touchtek Office" className="w-full h-[400px] object-cover" />
+                  <Image src={TouchtekBuilding} alt="Touchtek Office" className="w-full h-full object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
                 </div>
                 <motion.div initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }} transition={{ delay: 0.4 }} viewport={{ once: true }}
@@ -424,7 +455,7 @@ export default function AboutPage() {
                       <Award className="w-6 h-6 text-white" />
                     </div>
                     <div>
-                      <div className="text-2xl font-bold text-gray-900">9+ Years</div>
+                      <div className="text-2xl font-bold text-gray-900">10+ Years</div>
                       <div className="text-sm text-gray-600">Industry Excellence</div>
                     </div>
                   </div>
