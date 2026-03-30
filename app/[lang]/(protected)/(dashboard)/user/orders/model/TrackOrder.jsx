@@ -1,20 +1,28 @@
 'use client';
 
-import { motion, AnimatePresence } from 'framer-motion';
-import { Truck, X, MapPin, CheckCircle, Navigation } from 'lucide-react';
+import { motion} from 'framer-motion';
+import { Truck, X, MapPin, CheckCircle} from 'lucide-react';
+import Image from 'next/image';
+import dayjs from "dayjs";
+import { getOrderStatusTimelineConfig } from "@/lib/utils/functions";
 
-const buildTrackingSteps = (status) => [
-  { label: 'Order Placed',     desc: 'Your order has been received',          time: '01 Mar, 10:32 AM', done: true },
-  { label: 'Order Confirmed',  desc: 'Seller confirmed your order',           time: '01 Mar, 11:15 AM', done: true },
-  { label: 'Packed',           desc: 'Item packed and ready to dispatch',     time: '02 Mar, 09:00 AM', done: status !== 'processing' },
-  { label: 'Shipped',          desc: 'Picked up by delivery partner',         time: '02 Mar, 03:45 PM', done: status === 'shipped' || status === 'delivered' },
-  { label: 'Out for Delivery', desc: 'With delivery agent — arriving today',  time: '04 Mar, 08:12 AM', done: status === 'delivered' },
-  { label: 'Delivered',        desc: 'Package delivered successfully',        time: '04 Mar, 01:30 PM', done: status === 'delivered' },
-];
 
-export default function TrackOrderDialog({ order, onClose }) {
+
+export default function TrackOrderDialog({ order, onClose, timeline = [] }) {
+
+  console.log('order in track order', timeline)
   if (!order) return null;
-  const steps = buildTrackingSteps(order.status);
+  const steps = timeline.map((step)=>{
+    const statusConfig = getOrderStatusTimelineConfig(step?.orderStatus)
+  
+    return {
+      label: statusConfig?.label,
+      desc:statusConfig?.desc,
+      time:dayjs(step?.timeStamp).format('DD MMM, hh:mm A'),
+      done:true
+    }
+
+  });
 
   return (
     <motion.div
@@ -47,7 +55,7 @@ export default function TrackOrderDialog({ order, onClose }) {
 
         <div className="p-6 space-y-6">
           {/* Tracking ID + ETA */}
-          <div className="bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100 rounded-2xl p-4">
+          {/* <div className="bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100 rounded-2xl p-4">
             <div className="flex items-center justify-between flex-wrap gap-3">
               <div>
                 <p className="text-xs text-gray-500 mb-0.5">Tracking ID</p>
@@ -64,7 +72,7 @@ export default function TrackOrderDialog({ order, onClose }) {
                 </p>
               </div>
             </div>
-          </div>
+          </div> */}
 
           {/* Delivery Address */}
           <div className="flex items-start gap-3 bg-gray-50 border border-gray-100 rounded-xl px-4 py-3">
@@ -103,16 +111,9 @@ export default function TrackOrderDialog({ order, onClose }) {
                         <motion.div
                           initial={{ scale: 0 }} animate={{ scale: 1 }}
                           transition={{ delay: idx * 0.08 + 0.1, type: 'spring', stiffness: 300 }}
-                          className={`w-9 h-9 rounded-xl flex items-center justify-center shadow-md ${
-                            isCurrent
-                              ? 'bg-gradient-to-br from-blue-500 to-indigo-600 ring-4 ring-blue-100'
-                              : 'bg-gradient-to-br from-green-400 to-green-600'
-                          }`}
+                          className={`w-9 h-9 rounded-xl flex items-center justify-center shadow-md bg-gradient-to-br from-green-400 to-green-600`}
                         >
-                          {isCurrent
-                            ? <Truck className="w-4 h-4 text-white" />
-                            : <CheckCircle className="w-4 h-4 text-white" />
-                          }
+                         <CheckCircle className="w-4 h-4 text-white" />
                         </motion.div>
                       ) : (
                         <div className="w-9 h-9 rounded-xl bg-gray-100 border-2 border-gray-200 flex items-center justify-center">
@@ -127,11 +128,7 @@ export default function TrackOrderDialog({ order, onClose }) {
                         <div>
                           <p className={`text-sm font-bold ${step.done ? 'text-gray-900' : 'text-gray-400'}`}>
                             {step.label}
-                            {isCurrent && (
-                              <span className="ml-2 text-xs bg-blue-100 text-blue-600 px-2 py-0.5 rounded-full font-bold">
-                                Current
-                              </span>
-                            )}
+                           
                           </p>
                           <p className={`text-xs mt-0.5 ${step.done ? 'text-gray-500' : 'text-gray-300'}`}>
                             {step.desc}
@@ -156,10 +153,17 @@ export default function TrackOrderDialog({ order, onClose }) {
             <div className="space-y-2">
               {order.items.map((item, idx) => (
                 <div key={idx} className="flex items-center gap-2.5">
-                  <span className="text-xl">{item.image}</span>
+                  <div className="relative flex-shrink-0 w-12 h-12 rounded-xl overflow-hidden bg-slate-50 shadow-sm group-hover:shadow-md transition-all">
+                    <Image
+                      src={item?.image}
+                      alt={item?.name}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform"
+                    />
+                  </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-xs font-semibold text-gray-800 truncate">{item.name}</p>
-                    <p className="text-xs text-gray-500">Qty: {item.qty}</p>
+                    <p className="text-xs font-semibold text-gray-800 truncate capitalize">{item.name}</p>
+                    <p className="text-xs text-gray-500">Qty: {item.quantity}</p>
                   </div>
                 </div>
               ))}

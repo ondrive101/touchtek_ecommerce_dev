@@ -3,6 +3,7 @@ import { revalidatePath } from "next/cache";
 import { headers as nextHeaders, cookies as nextCookies } from "next/headers";
 import { getServerSession } from "next-auth";
 import { getToken } from "next-auth/jwt";
+import {signOut } from "next-auth/react";
 import { authOptions } from "@/lib/auth";
 import axios from "axios";
 
@@ -32,13 +33,18 @@ const getSessionWithRole = async (allowedRoles = []) => {
     throw new Error("Unauthorized: No session found");
   }
   
-  console.log("✅ [SESSION CHECK] Session found");
+  console.log("✅ [SESSION CHECK] Session found", session);
   console.log("👤 [USER INFO]", {
     id: session.user.id,
     name: session.user.name,
     email: session.user.email,
     role: session.user.role,
   });
+
+  if(!session.user.role){
+    console.log("❌ [SESSION CHECK] No role found");
+    throw new Error("Unauthorized: No role found");
+  }
 
   // Check if user role is allowed
   if (allowedRoles.length > 0) {
@@ -284,6 +290,11 @@ export const verifyPayment = async (data) => {
 export const getSalesOrders = async () => {
   console.log("👤 [User ACTION] getSalesOrders");
   return apiCall("get", `/orders/get-sales-orders`, null, [ROLES.CUSTOMER], false);
+};
+
+export const cancelOrder = async (payload) => {
+  console.log("👤 [User ACTION] cancelOrder");
+  return apiCall("post", `/orders/cancel-order`, payload, [ROLES.CUSTOMER], false);
 };
 
 

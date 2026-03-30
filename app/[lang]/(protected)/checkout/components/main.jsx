@@ -216,8 +216,7 @@ export default function CheckoutPage() {
         },
 
         // ── Step 4: Handle successful payment ─────────────────────────────
-        // Razorpay calls this ONLY after successful payment
-        // razorpayResponse contains: razorpay_payment_id, razorpay_order_id, razorpay_signature
+      
 
         handler: async function (razorpayResponse) {
           try {

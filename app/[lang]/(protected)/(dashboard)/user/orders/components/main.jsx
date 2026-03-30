@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { getSalesOrders } from "@/action/common";
 import Image from 'next/image';
 import { ERROR_CODES } from "@/lib/utils/constants";
+import { getStatusConfig } from "@/lib/utils/functions";
 import { useQuery } from "@tanstack/react-query";
 import {
   Package,
@@ -34,147 +35,6 @@ import TrackOrderDialog from "../model/TrackOrder";
 import CancelOrderDialog from "../model/CancelOrder";
 import ReturnOrderDialog from "../model/ReturnOrder";
 
-const statusConfig = {
-  delivered: {
-    label: "Delivered",
-    icon: CheckCircle,
-    color: "text-green-600",
-    bg: "bg-green-50",
-    border: "border-green-200",
-    dot: "bg-green-500",
-  },
-  shipped: {
-    label: "Shipped",
-    icon: Truck,
-    color: "text-blue-600",
-    bg: "bg-blue-50",
-    border: "border-blue-200",
-    dot: "bg-blue-500",
-  },
-  processing: {
-    label: "Processing",
-    icon: Clock,
-    color: "text-yellow-600",
-    bg: "bg-yellow-50",
-    border: "border-yellow-200",
-    dot: "bg-yellow-500",
-  },
-  cancelled: {
-    label: "Cancelled",
-    icon: XCircle,
-    color: "text-red-600",
-    bg: "bg-red-50",
-    border: "border-red-200",
-    dot: "bg-red-400",
-  },
-  returned: {
-    label: "Returned",
-    icon: RotateCcw,
-    color: "text-purple-600",
-    bg: "bg-purple-50",
-    border: "border-purple-200",
-    dot: "bg-purple-400",
-  },
-};
-
-// const orders = [
-//   {
-//     id: "ORD-20250301",
-//     date: "01 Mar 2025",
-//     month: "Mar",
-//     year: "2025",
-//     status: "delivered",
-//     total: 2499,
-//     subtotal: 2200,
-//     gst: 299,
-//     couponDiscount: 150,
-//     rewardDiscount: 50,
-//     paymentMethod: "UPI",
-//     deliveredOn: "04 Mar 2025",
-//     address: "42, Sector 15, Rohini, New Delhi — 110085",
-//     items: [
-//       {
-//         name: "Diamond Pro Wireless Earbuds",
-//         qty: 1,
-//         price: 1999,
-//         image: "🎧",
-//       },
-//       { name: "Type-C Charging Cable", qty: 2, price: 250, image: "🔌" },
-//     ],
-//   },
-//   {
-//     id: "ORD-20250218",
-//     date: "18 Feb 2025",
-//     month: "Feb",
-//     year: "2025",
-//     status: "shipped",
-//     total: 3999,
-//     subtotal: 3600,
-//     gst: 399,
-//     couponDiscount: 0,
-//     rewardDiscount: 0,
-//     paymentMethod: "Credit Card",
-//     estimatedDelivery: "22 Feb 2025",
-//     address: "Plot 7, Cyber City, DLF Phase 2, Gurugram — 122002",
-//     trackingId: "TRK9823741",
-//     items: [
-//       { name: "PowerBank 20000mAh Ultra", qty: 1, price: 3999, image: "🔋" },
-//     ],
-//   },
-//   {
-//     id: "ORD-20250110",
-//     date: "10 Jan 2025",
-//     month: "Jan",
-//     year: "2025",
-//     status: "processing",
-//     total: 1299,
-//     subtotal: 1150,
-//     gst: 149,
-//     couponDiscount: 0,
-//     rewardDiscount: 0,
-//     paymentMethod: "Net Banking",
-//     address: "42, Sector 15, Rohini, New Delhi — 110085",
-//     items: [
-//       { name: "Bluetooth Speaker Mini", qty: 1, price: 1299, image: "🔊" },
-//     ],
-//   },
-//   {
-//     id: "ORD-20241215",
-//     date: "15 Dec 2024",
-//     month: "Dec",
-//     year: "2024",
-//     status: "cancelled",
-//     total: 899,
-//     subtotal: 800,
-//     gst: 99,
-//     couponDiscount: 0,
-//     rewardDiscount: 0,
-//     paymentMethod: "COD",
-//     cancelReason: "Cancelled by customer",
-//     address: "42, Sector 15, Rohini, New Delhi — 110085",
-//     items: [
-//       { name: "Phone Stand Adjustable", qty: 1, price: 599, image: "📱" },
-//       { name: "Screen Cleaning Kit", qty: 1, price: 300, image: "🧹" },
-//     ],
-//   },
-//   {
-//     id: "ORD-20241105",
-//     date: "05 Nov 2024",
-//     month: "Nov",
-//     year: "2024",
-//     status: "returned",
-//     total: 5499,
-//     subtotal: 4999,
-//     gst: 500,
-//     couponDiscount: 200,
-//     rewardDiscount: 100,
-//     paymentMethod: "Debit Card",
-//     returnReason: "Product defective",
-//     refundStatus: "Refund Processed",
-//     address: "42, Sector 15, Rohini, New Delhi — 110085",
-//     items: [{ name: "Smart Watch Series X", qty: 1, price: 5499, image: "⌚" }],
-//   },
-// ];
 
 const filterTabs = [
   { key: "all", label: "All Orders" },
@@ -425,7 +285,7 @@ export default function OrdersPage() {
               className="space-y-4"
             >
               {filtered.map((order, i) => {
-                const status = statusConfig[order.status];
+                const status = getStatusConfig(order.status);
                 const isExpanded = expandedId === order.id;
 
                 return (
@@ -540,15 +400,7 @@ export default function OrdersPage() {
                                 </span>
                               </div>
                             )}
-                            {order.status === "processing" && (
-                              <div className="flex items-center gap-2 bg-yellow-50 border border-yellow-200 rounded-xl px-4 py-2.5">
-                                <Clock className="w-4 h-4 text-yellow-600 animate-pulse" />
-                                <p className="text-xs font-semibold text-yellow-700">
-                                  Your order is being prepared. Tracking ID will
-                                  be shared soon.
-                                </p>
-                              </div>
-                            )}
+                           
                             {order.status === "cancelled" && (
                               <div className="flex items-center gap-2 bg-red-50 border border-red-200 rounded-xl px-4 py-2.5">
                                 <XCircle className="w-4 h-4 text-red-500" />
@@ -719,15 +571,15 @@ export default function OrdersPage() {
                                   />
                                 </>
                               )}
-                              {order.status === "shipped" && (
+                             
                                 <Btn
                                   icon={Truck}
                                   label="Track Order"
                                   className="bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md"
                                   onClick={() => setTrackOrder(order)}
                                 />
-                              )}
-                              {order.status === "processing" && (
+                           
+                              {!order?.isDelivered && (
                                 <Btn
                                   icon={XCircle}
                                   label="Cancel Order"
@@ -766,18 +618,25 @@ export default function OrdersPage() {
           <TrackOrderDialog
             order={trackOrder}
             onClose={() => setTrackOrder(null)}
+            timeline={trackOrder?.orderStatusTimeline}
           />
         )}
         {cancelOrder && (
           <CancelOrderDialog
             order={cancelOrder}
-            onClose={() => setCancelOrder(null)}
+            onClose={() => {
+              setCancelOrder(null)
+              refetch()
+            }}
           />
         )}
         {returnOrder && (
           <ReturnOrderDialog
             order={returnOrder}
-            onClose={() => setReturnOrder(null)}
+            onClose={() => {
+              setReturnOrder(null)
+              refetch()
+            }}
           />
         )}
       </AnimatePresence>
