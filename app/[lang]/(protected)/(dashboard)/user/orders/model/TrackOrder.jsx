@@ -154,12 +154,15 @@ export default function TrackOrderDialog({ order, onClose, timeline = [] }) {
               {order.items.map((item, idx) => (
                 <div key={idx} className="flex items-center gap-2.5">
                   <div className="relative flex-shrink-0 w-12 h-12 rounded-xl overflow-hidden bg-slate-50 shadow-sm group-hover:shadow-md transition-all">
-                    <Image
-                      src={item?.image}
-                      alt={item?.name}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform"
-                    />
+                    {item.image !== "" && (
+                      <Image
+                        src={item?.image}
+                        alt={item?.name}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform"
+                      />
+
+                    ) }
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-xs font-semibold text-gray-800 truncate capitalize">{item.name}</p>

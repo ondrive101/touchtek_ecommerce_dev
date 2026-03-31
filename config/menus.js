@@ -1034,11 +1034,11 @@ export const menusConfig = {
         title: "MENU",
       },
 
-      {
-        title: "Dashboard",
-        icon: DashBoard,
-        href: "/user/dashboard",
-      },
+      // {
+      //   title: "Dashboard",
+      //   icon: DashBoard,
+      //   href: "/user/dashboard",
+      // },
       {
         title: "Orders",
         icon: Cart,

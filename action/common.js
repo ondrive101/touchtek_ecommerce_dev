@@ -297,4 +297,11 @@ export const cancelOrder = async (payload) => {
   return apiCall("post", `/orders/cancel-order`, payload, [ROLES.CUSTOMER], false);
 };
 
+export const getHotSellingProducts = async () => {
+  console.log("👤 [INVENTORY ACTION] getHotSellingProducts called");
+
+  return apiCall("get", `/products/get-hot-selling-products`, null, [], false);
+};
+
+
 

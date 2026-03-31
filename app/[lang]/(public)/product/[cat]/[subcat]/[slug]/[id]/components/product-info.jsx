@@ -4,10 +4,12 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useParams } from 'next/navigation';
+import { useCartStore } from '@/store';
 import Image from 'next/image';
 import { Star, Shield, Truck, Award, MapPin } from 'lucide-react';
 
 export default function ProductInfo({ product, variant,types }) {
+  const {addItem, updateQuantity, removeItem, getItem } = useCartStore();
   console.log('variant in product info', variant)
   console.log('types in product info', types)
   const router = useRouter();
@@ -19,6 +21,13 @@ export default function ProductInfo({ product, variant,types }) {
   });
   const [pincode, setPincode] = useState('');
   const [showDelivery, setShowDelivery] = useState(false);
+
+    const [localQuantity, setLocalQuantity] = useState(1);
+  
+    // Get current cart item quantity or use local state
+    const cartItem = getItem(id);
+    const currentQuantity = cartItem?.quantity || localQuantity;
+    const isAddedToCart = !!cartItem;
 
 
   const handleColorSelect = (colorOption) => {
@@ -63,22 +72,26 @@ export default function ProductInfo({ product, variant,types }) {
     <div className="space-y-6">
       <div id="product-info-sentinel" />
       {/* Category badges */}
-      <div className="flex items-center gap-3 flex-wrap">
-        <span className="bg-gray-100 text-gray-800 text-sm font-semibold px-3 py-1 rounded-full">
-          {product?.category?.name || "TWS Earbuds"}
-        </span>
-        {variant?.is_hot_selling && (
+
+      {variant?.is_hot_selling && (
+        <div className="flex items-center gap-3 flex-wrap">
           <span className="bg-gradient-to-r from-orange-500 to-orange-600 text-white text-sm font-semibold px-3 py-1 rounded-full flex items-center gap-1">
             <Star className="w-3 h-3 fill-current" />
             Hot Selling
           </span>
-        )}
-      </div>
+        </div>
+      )}
 
-      {/* Product name */}
-      <h1 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight">
-        {product?.name || "Desire Pods TWS Earbuds"}
-      </h1>
+      {/* Product name and description */}
+      <div>
+        <h1 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight uppercase">
+          {product?.name || "Desire Pods TWS Earbuds"}
+        </h1>
+        {/* Product description */}
+        <p className="text-sm font-light text-gray-400 mt-1">
+          {product?.description || "Your product description goes here"}
+        </p>
+      </div>
 
       {/* Rating */}
       <div className="flex items-center gap-2">
@@ -160,10 +173,10 @@ export default function ProductInfo({ product, variant,types }) {
       )}
 
       {/* Description */}
-      <p className="text-lg text-gray-700 leading-relaxed">
+      {/* <p className="text-lg text-gray-700 leading-relaxed">
         {variant?.description ||
           "Premium quality TWS earbuds with advanced features and sleek design."}
-      </p>
+      </p> */}
 
       {/* Delivery Check - Delivery message BELOW input */}
       <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-5 rounded-xl border border-blue-100">

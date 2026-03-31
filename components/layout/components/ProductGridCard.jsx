@@ -59,12 +59,14 @@ export default function ProductCard({ id, name, image, slug, category, productSl
 
   return (
     <motion.div
-      className="group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 relative"
+      className="group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 relative cursor-pointer"
       whileHover={{ scale: 1.02 }}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
+
+      <Link href={`/en/product/${cat}/${subcat}/${productSlug}/${id}`}>
       <div className="aspect-square relative overflow-hidden">
         {/* Product Image */}
         {image ? (
@@ -92,7 +94,7 @@ export default function ProductCard({ id, name, image, slug, category, productSl
         </div>
         
         {/* Hover Overlay - Quick View */}
-        <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+        {/* <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
           <Link href={`/en/product/${cat}/${subcat}/${productSlug}/${id}`}>
             <motion.button
               whileHover={{ scale: 1.1 }}
@@ -102,24 +104,26 @@ export default function ProductCard({ id, name, image, slug, category, productSl
               <Eye className="w-5 h-5 text-gray-900" />
             </motion.button>
           </Link>
-        </div>
+        </div> */}
       </div>
+      </Link>
       
       <div className="p-6 border-t border-gray-100">
+        <Link href={`/en/product/${cat}/${subcat}/${productSlug}/${id}`}>
         <div className="mb-4">
-          {category && (
+          {/* {category && (
             <span className="inline-block bg-gray-100 text-gray-800 text-xs font-semibold px-2.5 py-0.5 rounded-full mb-2">
               {category}
             </span>
-          )}
-          <h3 className="font-bold text-gray-900 mb-2 line-clamp-2 text-lg group-hover:text-gray-700 transition-colors">
+          )} */}
+          <h3 className="font-bold text-gray-900 mb-2 line-clamp-2 text-lg group-hover:text-gray-700 transition-colors uppercase">
             {name}
           </h3>
           
           {/* Rating */}
           <div className="flex items-center gap-1 mb-3">
             {[...Array(5)].map((_, i) => (
-              <Star key={i} className="w-4 h-4 fill-gray-700 text-gray-700" />
+              <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
             ))}
             <span className="text-sm text-gray-500 ml-1">(4.8)</span>
           </div>
@@ -143,7 +147,7 @@ export default function ProductCard({ id, name, image, slug, category, productSl
             )}
           </div>
         </div>
-        
+        </Link>
         <div className="flex">
           {/* Add to Cart / Quantity Controls */}
           {isAddedToCart ? (
@@ -198,11 +202,12 @@ export default function ProductCard({ id, name, image, slug, category, productSl
           )}
         </div>
       </div>
+      
 
       {/* Animated Border */}
-      <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+      {/* <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
         <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-gray-700 via-gray-600 to-gray-800 opacity-20"></div>
-      </div>
+      </div> */}
     </motion.div>
   );
 }

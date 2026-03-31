@@ -73,7 +73,7 @@ export default function ProductPage() {
       <StickyHeader product={product} variant={variant} />
 
       <main>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 ">
           {/* Back link */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -82,7 +82,7 @@ export default function ProductPage() {
           >
             <Link
               href="/products"
-              className="inline-flex items-center gap-2 text-gray-800 hover:text-orange-600 mb-12 group font-semibold"
+              className="inline-flex items-center gap-2 text-gray-800 hover:text-orange-600 mb-4 group font-semibold"
             >
               <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
               Back to Products

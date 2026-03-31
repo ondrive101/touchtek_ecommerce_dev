@@ -36,7 +36,7 @@ export default function ProductsPage({searchParams}) {
     minRating: null,
   });
 
-  // ✅ No useQueryClient needed
+
   const { data, isLoading, isError, error, isFetching } = useQuery({
     queryKey: ["products", filters],
     queryFn: () => getProducts(filters),

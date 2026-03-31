@@ -1,6 +1,8 @@
 "use client";
 import React, { useRef, useEffect } from "react";
 import { cn } from "@/lib/utils";
+import { getHotSellingProducts } from "@/action/common";
+import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -115,13 +117,21 @@ const AddBlock = ({ className }) => {
     return () => container.removeEventListener("wheel", onWheel);
   }, []);
 
+    const { data:hotSellingProducts, isLoading, isError, error, isFetching } = useQuery({
+      queryKey: ["products-hot-selling"],
+      queryFn: () => getHotSellingProducts(),
+      staleTime: 30 * 1000,
+    });
+
   const handleMouseEnter = () => { isPausedRef.current = true; };
   const handleMouseLeave = () => {
     isPausedRef.current = false;
     velocityRef.current = 0; // reset momentum when leaving
   };
 
-  const allProducts = [...dummyProducts, ...dummyProducts];
+  const allProducts = [...(hotSellingProducts?.data?.list || [])];
+  console.log('allProducts', allProducts)
+  console.log('hotSellingProducts', hotSellingProducts)
 
   return (
     <div
@@ -176,10 +186,10 @@ const AddBlock = ({ className }) => {
                   </div>
                   <div className="flex items-center gap-1 mt-0.5 flex-wrap">
                     <span className="text-xs font-bold">
-                      ₹{discountedPrice.toLocaleString("en-IN")}
+                      ₹{product.price.toLocaleString("en-IN")}
                     </span>
                     <span className="text-[10px] line-through opacity-60">
-                      ₹{product.price.toLocaleString("en-IN")}
+                      ₹{product.originalPrice.toLocaleString("en-IN")}
                     </span>
                     <span className="text-[10px] bg-white/25 rounded px-1 font-medium">
                       -{product.discount}%

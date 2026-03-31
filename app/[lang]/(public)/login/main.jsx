@@ -136,7 +136,7 @@ export default function LoginPage() {
         return;
       }
       toast.success("Login successful!");
-      router.push("/");
+      router.push("/en");
       router.refresh();
       // const session = await getSession();
       // console.log('session', session)

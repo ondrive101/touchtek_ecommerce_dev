@@ -435,13 +435,16 @@ export default function OrdersPage() {
                                     className="flex items-center gap-3 p-3 bg-gray-50 rounded-xl border border-gray-100"
                                   >
                                     <div className="w-12 h-12 bg-white rounded-xl border border-gray-200 flex items-center justify-center text-2xl flex-shrink-0 shadow-sm">
-                                      <Image
-                                        src={item.image}
-                                        alt={item.name}
-                                        width={600}
-                                        height={600}
-                                        className="w-full h-full object-cover rounded-full"
-                                      />
+                                      {item.image !== "" && (
+                                        <Image
+                                          src={item.image}
+                                          alt={item.name}
+                                          width={600}
+                                          height={600}
+                                          className="w-full h-full object-cover rounded-full"
+                                        />
+
+                                      )}
                                     </div>
                                     <div className="flex-1 min-w-0">
                                       <p className="text-sm font-bold text-gray-900 truncate uppercase">

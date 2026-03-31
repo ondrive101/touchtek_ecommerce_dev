@@ -304,7 +304,7 @@ export default function Header() {
 
                 {/* ✅ Dashboard Button (replaces profile dropdown) */}
                 <Link
-                  href="/en/user/dashboard"
+                  href="/en/user/orders"
                   className="relative px-4 py-2 text-sm font-semibold text-white bg-gradient-to-r from-gray-800 to-black rounded-xl shadow-lg hover:shadow-xl hover:from-gray-900 hover:to-black active:scale-95 transform transition-all duration-200 hover:-translate-y-0.5 overflow-hidden group"
                 >
                   <span className="relative z-10 flex items-center gap-2">
@@ -380,7 +380,7 @@ export default function Header() {
                 <>
                   {/* ✅ Mobile Dashboard Button */}
                   <Link
-                    href="/en/user/dashboard"
+                    href="/en/user/orders"
                     className="group relative flex items-center justify-center gap-2 px-4 py-3 mt-2 mx-2 bg-gradient-to-r from-gray-800 to-black text-white text-base font-semibold rounded-2xl shadow-lg hover:shadow-2xl active:scale-[0.98] transition-all duration-200 overflow-hidden"
                     onClick={() => setIsMenuOpen(false)}
                   >
