@@ -2,22 +2,48 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import Image from 'next/image';
 import { Star, Shield, Truck, Award, MapPin } from 'lucide-react';
 
-export default function ProductInfo({ product, variant }) {
+export default function ProductInfo({ product, variant,types }) {
   console.log('variant in product info', variant)
-  const [selectedColor, setSelectedColor] = useState('Metallic Grey');
+  console.log('types in product info', types)
+  const router = useRouter();
+  const params = useParams();
+  const { cat, subcat, slug, id } = params;
+  const [selectedColor, setSelectedColor] = useState({
+    value: variant?.attributes?.color,
+    skuId: variant?.skuCode
+  });
   const [pincode, setPincode] = useState('');
   const [showDelivery, setShowDelivery] = useState(false);
 
-  const colors = [
-    { name: 'Metallic Grey', image: 'https://via.placeholder.com/60x60/8A8A8A/FFFFFF?text=MG', code: 'MG' },
-    { name: 'Black', image: 'https://via.placeholder.com/60x60/000000/FFFFFF?text=BLK', code: 'BLK' },
-    { name: 'Sky Blue', image: 'https://via.placeholder.com/60x60/87CEEB/000000?text=SB', code: 'SB' },
-    { name: 'White Green', image: 'https://via.placeholder.com/60x60/FFFFFF/00FF00?text=WG', code: 'WG' },
-    { name: 'Mint Green', image: 'https://via.placeholder.com/60x60/98FF98/000000?text=MG', code: 'MG2' },
-  ];
+
+  const handleColorSelect = (colorOption) => {
+    // colorOption = { value: 'Red', skuCode: 'hvsg' }
+    setSelectedColor(colorOption);
+    router.push(`/en/product/${cat}/${subcat}/${slug}/${colorOption?.skuId}`);
+  };
+
+ const COLOR_CONFIG = {
+  "Black":       { bg: "#1a1a1a",  text: "#ffffff" },
+  "White":       { bg: "#ffffff",  text: "#1a1a1a" },
+  "Blue":        { bg: "#2563eb",  text: "#ffffff" },
+  "Red":         { bg: "#dc2626",  text: "#ffffff" },
+  "Silver":      { bg: "#94a3b8",  text: "#ffffff" },
+  "Gold":        { bg: "#d97706",  text: "#ffffff" },
+  "Rose Gold":   { bg: "#e8a598",  text: "#ffffff" },
+  "Green":       { bg: "#16a34a",  text: "#ffffff" },
+  "Purple":      { bg: "#9333ea",  text: "#ffffff" },
+  "Orange":      { bg: "#ea580c",  text: "#ffffff" },
+  "Yellow":      { bg: "#eab308",  text: "#1a1a1a" },
+  "Camouflage":  { bg: "#4a5240",  text: "#ffffff" },
+  "Metallic":    { bg: "#71717a",  text: "#ffffff" },
+  "Gun-Black":   { bg: "#2d2d2d",  text: "#ffffff" },
+  "Peach":       { bg: "#ffb385",  text: "#1a1a1a" },
+};
 
   const handleAddToCart = () => {
     console.log('Add to cart:', { productId: variant.id, color: selectedColor });
@@ -35,12 +61,11 @@ export default function ProductInfo({ product, variant }) {
 
   return (
     <div className="space-y-6">
-
       <div id="product-info-sentinel" />
       {/* Category badges */}
       <div className="flex items-center gap-3 flex-wrap">
         <span className="bg-gray-100 text-gray-800 text-sm font-semibold px-3 py-1 rounded-full">
-          {product?.category?.name || 'TWS Earbuds'}
+          {product?.category?.name || "TWS Earbuds"}
         </span>
         {variant?.is_hot_selling && (
           <span className="bg-gradient-to-r from-orange-500 to-orange-600 text-white text-sm font-semibold px-3 py-1 rounded-full flex items-center gap-1">
@@ -52,7 +77,7 @@ export default function ProductInfo({ product, variant }) {
 
       {/* Product name */}
       <h1 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight">
-        {product?.name || 'Desire Pods TWS Earbuds'}
+        {product?.name || "Desire Pods TWS Earbuds"}
       </h1>
 
       {/* Rating */}
@@ -62,7 +87,9 @@ export default function ProductInfo({ product, variant }) {
             <Star
               key={i}
               className={`w-5 h-5 ${
-                i < 4.5 ? 'fill-amber-400 text-amber-400' : 'fill-gray-200 text-gray-200'
+                i < 4.5
+                  ? "fill-amber-400 text-amber-400"
+                  : "fill-gray-200 text-gray-200"
               }`}
             />
           ))}
@@ -73,47 +100,69 @@ export default function ProductInfo({ product, variant }) {
       {/* Price Section */}
       <div className="space-y-2">
         <div className="flex items-baseline gap-2 flex-wrap">
-          <span className="text-3xl md:text-4xl font-black text-gray-900">₹{variant?.consumer_price}</span>
-          <span className="text-xl md:text-2xl text-gray-400 line-through">₹{variant?.printed_price}</span>
-          <span className="text-lg font-bold text-green-600 bg-green-100 px-3 py-1 rounded-full">{Math.round(variant?.discount_percent)}% Off</span>
+          <span className="text-3xl md:text-4xl font-black text-gray-900">
+            ₹{variant?.consumer_price}
+          </span>
+          <span className="text-xl md:text-2xl text-gray-400 line-through">
+            ₹{variant?.printed_price}
+          </span>
+          <span className="text-lg font-bold text-green-600 bg-green-100 px-3 py-1 rounded-full">
+            {Math.round(variant?.discount_percent)}% Off
+          </span>
         </div>
-        <span className="text-sm text-gray-500">MRP (inclusive of all taxes)</span>
+        <span className="text-sm text-gray-500">
+          MRP (inclusive of all taxes)
+        </span>
       </div>
 
       {/* Color Selector */}
-      <div className="space-y-3">
-        <label className="text-sm font-semibold text-gray-700 block">Choose your color : {selectedColor}</label>
-        <div className="flex gap-2 flex-wrap">
-          {colors.map((color, idx) => (
-            <button
-              key={idx}
-              onClick={() => setSelectedColor(color.name)}
-              className={`relative p-1 rounded-full border-2 transition-all w-10 h-10 flex-shrink-0 ${
-                selectedColor === color.name
-                  ? 'border-orange-500 ring-2 ring-orange-200 bg-orange-50'
-                  : 'border-gray-200 hover:border-gray-400'
-              }`}
-            >
-              <Image
-                src={color.image}
-                alt={color.name}
-                width={60}
-                height={60}
-                className="w-6 h-6 rounded-md object-cover mx-auto"
-              />
-              {selectedColor === color.name && (
-                <div className="absolute -top-1 -right-1 w-5 h-5 bg-orange-500 text-white rounded-full flex items-center justify-center text-xs font-bold">
-                  ✓
-                </div>
-              )}
-            </button>
-          ))}
+
+      {types?.colors && (
+        <div className="space-y-3">
+          <div className="space-y-3">
+            <label className="text-sm font-semibold text-gray-700 block">
+              Choose your color : {selectedColor?.value}
+            </label>
+            <div className="flex gap-2 flex-wrap">
+              {types?.colors?.map((color, idx) => {
+                const colorStyle = COLOR_CONFIG[color.value] ?? {
+                  bg: "#e5e7eb",
+                  text: "#1a1a1a",
+                };
+                const isSelected = selectedColor?.skuId === color.skuId;
+
+                return (
+                  <button
+                    key={idx}
+                    onClick={() => handleColorSelect(color)}
+                    title={color.value}
+                    style={{ backgroundColor: colorStyle.bg }}
+                    className={`relative p-1 rounded-full border-2 transition-all w-8 h-8 flex-shrink-0 ${
+                      isSelected
+                        ? "border-orange-500 ring-2 ring-orange-200"
+                        : "border-gray-200 hover:border-gray-400"
+                    }`}
+                  >
+                    {isSelected && (
+                      <div
+                        style={{ color: colorStyle.text }}
+                        className="absolute inset-0 flex items-center justify-center text-xs font-bold"
+                      >
+                        ✓
+                      </div>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Description */}
       <p className="text-lg text-gray-700 leading-relaxed">
-        {variant?.description || 'Premium quality TWS earbuds with advanced features and sleek design.'}
+        {variant?.description ||
+          "Premium quality TWS earbuds with advanced features and sleek design."}
       </p>
 
       {/* Delivery Check - Delivery message BELOW input */}
@@ -123,7 +172,9 @@ export default function ProductInfo({ product, variant }) {
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2 flex-shrink-0">
               <MapPin className="w-5 h-5 text-blue-600" />
-              <span className="font-semibold text-gray-900 text-sm">Check delivery</span>
+              <span className="font-semibold text-gray-900 text-sm">
+                Check delivery
+              </span>
             </div>
             <div className="flex flex-1 gap-2">
               <input
@@ -143,15 +194,15 @@ export default function ProductInfo({ product, variant }) {
               </button>
             </div>
           </div>
-          
+
           {/* Delivery message - SHOWS BELOW input box */}
           {showDelivery && (
             <div className="flex items-center justify-between pt-1">
               <span className="text-sm text-green-700 font-medium bg-green-50 px-4 py-2 rounded-lg flex-1">
                 Free delivery by Saturday, 21 Mar
               </span>
-              <button 
-                onClick={() => setShowDelivery(false)} 
+              <button
+                onClick={() => setShowDelivery(false)}
                 className="ml-3 text-gray-500 hover:text-gray-700 text-sm font-medium px-4 py-2 border border-gray-300 rounded-lg transition-colors whitespace-nowrap flex-shrink-0"
               >
                 Change

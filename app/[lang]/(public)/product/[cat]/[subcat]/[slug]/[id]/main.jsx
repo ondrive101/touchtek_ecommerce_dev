@@ -63,6 +63,7 @@ export default function ProductPage() {
 
   const product = productData.data.product;
   const variant = productData.data.variant;
+  const variantTypes = productData.data.variantsTypes;
   const relatedVariants = productData.data.relatedVariants || [];
 
   return (
@@ -107,7 +108,7 @@ export default function ProductPage() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="order-1 lg:order-2 space-y-6 lg:pr-8"
             >
-              <ProductInfo product={product} variant={variant} />
+              <ProductInfo product={product} variant={variant} types={variantTypes} />
             </motion.div>
           </section>
 
