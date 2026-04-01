@@ -53,7 +53,7 @@ export default function Header() {
 
           {/* Logo */}
           <div className="flex-shrink-0">
-            <Link href="/" className="flex items-center">
+            <Link href="/" className="flex items-center mt-3">
               <Image
                 src={logo}
                 alt="Touchtek"

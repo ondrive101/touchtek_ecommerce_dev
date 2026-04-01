@@ -430,7 +430,7 @@ export default function AboutPage() {
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Pioneering Excellence in Mobile Accessories</h2>
                 <div className="space-y-4 text-gray-600">
-                  <p>Established over 9+ years ago, Touchtek is an Indian consumer electronics brand specializing in reliable mobile accessories and battery solutions.</p>
+                  <p>Established over 10+ years ago, Touchtek is an Indian consumer electronics brand specializing in reliable mobile accessories and battery solutions.</p>
                   <p>At Touchtek, our motto <strong>"Passion for Quality"</strong> drives everything we do. With a dedicated team of over <strong>150 professionals</strong> and <strong>5+ warehouses</strong>.</p>
                   <p>We believe in building long-term partnerships ensuring consistent product performance, sleek design, and timely support.</p>
                   <p>From polymer batteries to chargers, data cables, neckbands, TWS, and speakers — designed for everyday efficiency.</p>

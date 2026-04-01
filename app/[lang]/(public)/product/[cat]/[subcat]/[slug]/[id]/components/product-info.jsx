@@ -4,6 +4,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useParams } from 'next/navigation';
+
+
 import { useCartStore } from '@/store';
 import Image from 'next/image';
 import { Star, Shield, Truck, Award, MapPin } from 'lucide-react';
@@ -129,49 +131,43 @@ export default function ProductInfo({ product, variant,types }) {
       </div>
 
       {/* Color Selector */}
+{types?.colors && (
+  <div className="space-y-3">
+    <label className="text-sm font-semibold text-gray-700 block">
+      Choose your color : {selectedColor?.value}
+    </label>
+    <div className="flex gap-2 flex-wrap">
+      {types?.colors?.map((color, idx) => {
+        const isSelected = selectedColor?.skuId === color.skuId;
 
-      {types?.colors && (
-        <div className="space-y-3">
-          <div className="space-y-3">
-            <label className="text-sm font-semibold text-gray-700 block">
-              Choose your color : {selectedColor?.value}
-            </label>
-            <div className="flex gap-2 flex-wrap">
-              {types?.colors?.map((color, idx) => {
-                const colorStyle = COLOR_CONFIG[color.value] ?? {
-                  bg: "#e5e7eb",
-                  text: "#1a1a1a",
-                };
-                const isSelected = selectedColor?.skuId === color.skuId;
-
-                return (
-                  <button
-                    key={idx}
-                    onClick={() => handleColorSelect(color)}
-                    title={color.value}
-                    style={{ backgroundColor: colorStyle.bg }}
-                    className={`relative p-1 rounded-full border-2 transition-all w-8 h-8 flex-shrink-0 ${
-                      isSelected
-                        ? "border-orange-500 ring-2 ring-orange-200"
-                        : "border-gray-200 hover:border-gray-400"
-                    }`}
-                  >
-                    {isSelected && (
-                      <div
-                        style={{ color: colorStyle.text }}
-                        className="absolute inset-0 flex items-center justify-center text-xs font-bold"
-                      >
-                        ✓
-                      </div>
-                    )}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-      )}
-
+        return (
+          <button
+            key={idx}
+            onClick={() => handleColorSelect(color)}
+            title={color.value}
+            className={`relative w-20 h-20 flex-shrink-0 rounded-md overflow-hidden transition-all ${
+              isSelected
+                ? " border-1 border-gray-700 ring-2 ring-gray-300"
+                : "border-gray-200 hover:border-gray-400"
+            }`}
+          >
+            <Image
+              src={color.image}
+              alt={color.value}
+              fill
+              className="object-cover"
+              
+            />
+            {/* {isSelected && (
+              <div className="absolute inset-0 flex items-center justify-center">
+              </div>
+            )} */}
+          </button>
+        );
+      })}
+    </div>
+  </div>
+)}
       {/* Description */}
       {/* <p className="text-lg text-gray-700 leading-relaxed">
         {variant?.description ||

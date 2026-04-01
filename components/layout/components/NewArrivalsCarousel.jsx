@@ -243,11 +243,13 @@ function ProductCard({ product }) {
     <div className="group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100 relative">
       {/* Product Image */}
       <div className="relative aspect-square overflow-hidden">
+        <Link href={`/en/product/${product.categoryId}/${product.subCategoryId}/${product.productSlug}/${product.id}`}>
         <img
           src={product.image}
           alt={product.name}
           className="w-full h-full object-contain p-4 group-hover:scale-110 transition-transform duration-500"
         />
+        </Link>
         <div className="absolute top-3 left-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1 shadow-lg animate-pulse">
           <Sparkles className="w-3 h-3" />
           NEW
@@ -256,7 +258,7 @@ function ProductCard({ product }) {
           <Clock className="w-3 h-3" />
           {formatArrivalDate(product.arrivalDate)}
         </div>
-        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
+        {/* <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3">
           <Link href={`/en/product/${product.categoryId}/${product.subCategoryId}/${product.productSlug}/${product.id}`}>
             <motion.button
               whileHover={{ scale: 1.1 }}
@@ -276,7 +278,7 @@ function ProductCard({ product }) {
           >
             <ShoppingCart className="w-5 h-5 text-gray-700" />
           </motion.button>
-        </div>
+        </div> */}
       </div>
 
       {/* Product Info */}
@@ -335,9 +337,9 @@ function ProductCard({ product }) {
                       </Link>
       </div>
 
-      <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+      {/* <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
         <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-gray-500 via-gray-800 to-gray-600 opacity-20" />
-      </div>
+      </div> */}
 
       {product.isNew && (
         <div className="absolute top-8 -right-10 bg-gradient-to-r from-green-600 to-emerald-600 text-white text-xs font-bold py-1 px-10 transform rotate-45 shadow-lg">

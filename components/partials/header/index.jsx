@@ -35,7 +35,7 @@ const NavTools = ({ isDesktop, isMobile, sidebarType }) => {
       {/* <NotificationMessage /> */}
       {/* <Notification/> */}
       {/* <StickyNotes/> */}
-        <Link href="/en/user/notifications">
+        {/* <Link href="/en/user/notifications">
       <Button
         variant="ghost"
         size="icon"
@@ -48,10 +48,10 @@ const NavTools = ({ isDesktop, isMobile, sidebarType }) => {
           5
         </Badge>
       </Button>
-    </Link>
+    </Link> */}
 
 
-      <div className="ltr:pl-2 rtl:pr-2">
+      <div className="rtl:pr-2">
         <ProfileInfo />
       </div>
       {!isDesktop && sidebarType !== "module" && <MobileMenuHandler />}

@@ -14,7 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Icon } from "@iconify/react";
-import avatar1 from "@/public/images/avatar/avatar-7.jpg";
+import avatar1 from "@/public/images/avatar/man.png";
 import Image from "next/image";
 import Link from "next/link";
 
