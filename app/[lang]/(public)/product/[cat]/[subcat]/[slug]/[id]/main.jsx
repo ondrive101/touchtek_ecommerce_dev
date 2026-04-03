@@ -29,6 +29,8 @@ export default function ProductPage() {
     staleTime: 30 * 1000,
   });
 
+  console.log('productData', productData)
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -127,7 +129,7 @@ export default function ProductPage() {
           </section>
         </div>
         {/* Hero */}
-        <Hero banners={variant?.banners || []} />
+        <Hero banners={variant?.banners || []}  videos={variant?.videos || []}/>
 
 
         {/* Related products */}
