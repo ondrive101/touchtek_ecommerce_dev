@@ -2,6 +2,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { useParams } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import StarRating from './star-rating';
@@ -23,6 +24,8 @@ const DUMMY_RELATED = [
 ];
 
 export default function RelatedProducts({ products = [], category }) {
+  const params = useParams();
+  const { cat, subcat, slug, id } = params;
   
   const displayProducts = products.length > 0 ? products.slice(0, 4) : [];
 
@@ -93,7 +96,7 @@ export default function RelatedProducts({ products = [], category }) {
                   )}
                 </div>
                 <Link
-                  href={`/products/${p.skuCode}`}
+                  href={`/en/product/${cat}/${subcat}/${slug}/${p.skuCode}`}
                   className="block w-full mt-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white py-3 px-4 rounded-xl font-semibold text-center hover:shadow-lg transform hover:-translate-y-1 transition-all duration-200 text-sm"
                 >
                   View Details
