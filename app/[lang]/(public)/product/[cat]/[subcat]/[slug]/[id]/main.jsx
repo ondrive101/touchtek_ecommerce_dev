@@ -29,8 +29,6 @@ export default function ProductPage() {
     staleTime: 30 * 1000,
   });
 
-  console.log('productData', productData)
-
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">

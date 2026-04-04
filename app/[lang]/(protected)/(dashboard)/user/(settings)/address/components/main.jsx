@@ -57,7 +57,6 @@ export default function DeliveryAddressPage() {
 
   useEffect(() => {
     if (addressList) {
-      console.log('address list',addressList?.data?.list )
       setAddresses(addressList?.data?.list);
     }
   }, [addressList]);

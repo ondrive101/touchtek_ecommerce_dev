@@ -14,8 +14,6 @@ import { Filter, Grid, List } from "lucide-react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 
 export default function ProductsPage({searchParams}) {
-  
-  // console.log('search params', searchParams )
   const router = useRouter();
   const pathname = usePathname();
   const [viewMode, setViewMode] = useState("grid");
@@ -47,7 +45,6 @@ export default function ProductsPage({searchParams}) {
 
     useEffect(() => {
       if (data) {
-        // console.log("productsData received",data);
         setProducts(data?.data?.payload?.products || []);
         setProductsPagination(data?.data?.payload?.pagination || {});
       }
@@ -55,7 +52,6 @@ export default function ProductsPage({searchParams}) {
     }, [data]);
 
   const handleFilterChange = (newFilters) => {
-    // console.log('filter', newFilters)
     // Reset to page 1 if any filter other than page changed
     if (
       newFilters.search !== filters.search ||

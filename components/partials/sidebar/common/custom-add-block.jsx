@@ -130,8 +130,6 @@ const AddBlock = ({ className }) => {
   };
 
   const allProducts = [...(hotSellingProducts?.data?.list || [])];
-  console.log('allProducts', allProducts)
-  console.log('hotSellingProducts', hotSellingProducts)
 
   return (
     <div

@@ -4,8 +4,6 @@
 import Image from 'next/image';
 
 export default function Gallery({ images = [] }) {
-  console.log('images in gallery', images);
-
   if (!images || images.length === 0) {
     return (
       <div className="w-full h-96 bg-gray-200 rounded-2xl flex items-center justify-center">

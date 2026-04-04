@@ -48,7 +48,6 @@ const Profile = () => {
 
   useEffect(() => {
     if (profileData) {
-      // console.log("profileData", profileData?.data);
       setProfile(profileData?.data);
     }
   }, [profileData]);
@@ -124,7 +123,6 @@ const Profile = () => {
         setLoading(false);
       }
     } catch (error) {
-      console.log(error);
       setLoading(false);
       toast.error(error.response.data.msg, {
         autoClose: 1000,
@@ -144,7 +142,6 @@ const Profile = () => {
   };
 
   const handleSaveProfile = async (data) => {
-    // console.log('called save function');
     try {
       setLoading(true);
       const payload = {
@@ -152,7 +149,7 @@ const Profile = () => {
         data: data.data,
       };
 
-      // console.log('payload send', payload);
+    
 
       const response = await editProfile(payload, session?.data);
       if (response.status === "success") {
@@ -168,7 +165,6 @@ const Profile = () => {
         setLoading(false);
       }
     } catch (error) {
-      console.log(error);
       setLoading(false);
       toast.error(error.message, {
         autoClose: 1000,

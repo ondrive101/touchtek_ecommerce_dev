@@ -47,9 +47,6 @@ function LazyVideo({ src, isFirst }) {
 }
 
 export default function PerfectGallery({ banners, videos }) {
-  console.log('banners', banners);
-  console.log('videos', videos);
-
   const sectionStyle = {
     position: 'relative',
     width: '100vw',

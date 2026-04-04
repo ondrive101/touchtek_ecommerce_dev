@@ -21,7 +21,6 @@ const cancelReasons = [
 ];
 
 export default function CancelOrderDialog({ order, onClose }) {
-  // console.log("order in cancel order", order);
   const [loading, setLoading] = useState(false);
   const [reason, setReason] = useState("");
   const [otherText, setOther] = useState("");
@@ -29,7 +28,6 @@ export default function CancelOrderDialog({ order, onClose }) {
 
   if (!order) return null;
   const handleSubmit = async () => {
-    console.log("reason", reason);
 
     try {
       setLoading(true);

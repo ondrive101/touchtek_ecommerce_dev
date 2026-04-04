@@ -29,7 +29,6 @@ export default function ForgotPasswordPage() {
 
   const onSubmit = async (data) => {
     setIsLoading(true);
-    console.log('Reset password for:', data);
     setTimeout(() => {
       setIsLoading(false);
       setIsSent(true);

@@ -2,11 +2,23 @@
 
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { Star } from 'lucide-react';
+import { useParams } from 'next/navigation';
+import { useCartStore } from '@/store';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function StickyHeader({ product, variant }) {
   const [isVisible, setIsVisible] = useState(false);
+   // Get current cart item quantity or use local state
+   const router = useRouter();
+    const params = useParams();
+   const { id } = params;
+   const [localQuantity, setLocalQuantity] = useState(1);
+   const { addItem, getItem } = useCartStore();
+   const cartItem = getItem(id);
+   const currentQuantity = cartItem?.quantity || localQuantity;
+   const isAddedToCart = !!cartItem;
 
   useEffect(() => {
     const sentinel = document.getElementById('product-info-sentinel');
@@ -20,6 +32,30 @@ export default function StickyHeader({ product, variant }) {
     observer.observe(sentinel);
     return () => observer.disconnect();
   }, []);
+
+   const handleAddToCart = () => {
+      addItem({
+      id,
+      name: product?.name,
+      image: variant?.image,
+      discount: variant.discount_percent,
+      price: parseFloat(variant.consumer_price),
+      originalPrice: parseFloat(variant.printed_price || variant.consumer_price),
+      category:product.category?.id,
+      subCategory:product.subCategory?.id,
+      slug: product.slug,
+      quantity: currentQuantity,
+      maxQuantity: 999
+    });
+    setLocalQuantity(1); 
+  };
+
+  const handleBuyNow = () => {
+    if (!isAddedToCart) {
+      handleAddToCart();
+    }
+    router.push("/en/cart");
+  };
 
   // Mirror your hardcoded values as fallbacks
   const productName = product?.name || 'Desire Pods TWS Earbuds';
@@ -86,7 +122,7 @@ export default function StickyHeader({ product, variant }) {
 
               {/* Buy Now CTA */}
               <button
-                onClick={() => console.log('sticky buy now')}
+                onClick={handleBuyNow}
                 className="bg-gray-900 hover:bg-gray-700 text-white text-sm font-bold px-5 py-2 rounded-lg transition-colors whitespace-nowrap"
               >
                 Buy Now

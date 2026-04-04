@@ -42,9 +42,6 @@ export async function generateMetadata({ params }) {
 
 export default async function Index({ params }) {
   const search = await params;
-
-  console.log('Server - SearchParams:', search);
-  
   // Create a key from searchParams to retrigger Suspense
   const key = JSON.stringify(search);
   

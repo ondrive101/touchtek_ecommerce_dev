@@ -81,7 +81,7 @@ export const useSidebar = create(
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || '/api';
 const syncCartToServer = async (cartItems, userId) => {
   // TODO: Enable when backend ready
-  console.log('🚀 Cart sync to server:', { cartItems, userId });
+  // console.log('🚀 Cart sync to server:', { cartItems, userId });
   // await fetch(`${API_BASE}/cart`, {
   //   method: 'POST',
   //   headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
@@ -211,7 +211,7 @@ export const useCartStore = create(
       // Server sync (DISABLED - set enabled: true to activate)
       syncToServer: async (userId, enabled = false) => {
         if (!enabled) {
-          console.log('👻 Server sync disabled');
+          // console.log('👻 Server sync disabled');
           return;
         }
         const { items } = get();

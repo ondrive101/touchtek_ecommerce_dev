@@ -111,7 +111,6 @@ export default function CareersPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Application submitted:', applicationData);
     alert('Thank you for your application! We will review it and get back to you soon.');
     setApplicationData({
       name: '',

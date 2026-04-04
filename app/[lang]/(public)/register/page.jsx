@@ -152,7 +152,6 @@ export default function RegisterPage() {
   const triggerOtpSend = (target, nextMode) => {
     setIsLoading(true);
     setOtpTarget(target);
-    console.log(`[Auth] Sending OTP to: ${target}`);
     // 🔁 Replace with your API call: sendOtp(target)
     setTimeout(() => { setIsLoading(false); setMode(nextMode); startResendTimer(); }, 1200);
   };
@@ -189,7 +188,6 @@ const handleRegister = async (payload) => {
       triggerOtpSend(data.email, 'email-otp');
     } else {
       setIsLoading(true);
-      console.log('[Auth] Register:', data);
       const payload = {
         type:'email',
         data
@@ -210,14 +208,12 @@ const handleRegister = async (payload) => {
     if (!result.success) { setOtpError(result.error.errors[0].message); return; }
     setOtpError('');
     setIsLoading(true);
-    console.log(`[Auth] Verifying OTP: ${otpValue} for: ${otpTarget}`);
     // 🔁 Replace with your API call: verifyOtp(otpTarget, otpValue)
     setTimeout(() => { setIsLoading(false); setMode('success'); }, 1500);
   };
 
   const handleGoogleRegister = () => {
     setIsGoogleLoading(true);
-    console.log('[Auth] Google register initiated');
     // 🔁 Replace with: signIn('google') — next-auth / firebase
     setTimeout(() => { setIsGoogleLoading(false); setRegisteredName('User'); setMode('success'); }, 1500);
   };
@@ -226,7 +222,6 @@ const handleRegister = async (payload) => {
     if (resendTimer > 0) return;
     resetOtp();
     startResendTimer();
-    console.log(`[Auth] Resending OTP to: ${otpTarget}`);
     // 🔁 Replace with your API call: resendOtp(otpTarget)
   };
 

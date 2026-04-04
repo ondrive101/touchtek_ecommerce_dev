@@ -65,7 +65,6 @@ export default function WarrantyPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Warranty claim submitted:', formData);
     setCurrentStep(5);
   };
 

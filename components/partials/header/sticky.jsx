@@ -124,7 +124,6 @@ const StickyNotes = () => {
     enabled: !!session?.data,
   });
 
-  console.log("stickyData", stickyData);
 
   // Update notes when query data changes
   useEffect(() => {
@@ -213,7 +212,7 @@ const StickyNotes = () => {
       color: randomColor.value,
     };
 
-    console.log("noteData", noteData);
+ 
 
     startTransition(async () => {
       try {
@@ -222,7 +221,7 @@ const StickyNotes = () => {
         const response = await createStickyNote(noteData, session?.data);
 
         if (response.status === "success") {
-          console.log("response", response?.data);
+    
           
           // Show success message
           toast.success("Note created! Add your content...", {
@@ -251,7 +250,7 @@ const StickyNotes = () => {
           setLoading(false);
         }
       } catch (error) {
-        console.log(error);
+        
         toast.error(error.message || "Something went wrong", {
           duration: 3000,
         });
@@ -303,7 +302,7 @@ const StickyNotes = () => {
           setLoading(false);
         }
       } catch (error) {
-        console.log(error);
+      
         toast.error(error.message || "Something went wrong", {
           duration: 3000,
         });
@@ -347,7 +346,7 @@ const StickyNotes = () => {
         });
       }
     } catch (error) {
-      console.log(error);
+    
       toast.error(error.message || "Something went wrong", {
         duration: 3000,
       });
@@ -384,7 +383,7 @@ const StickyNotes = () => {
           setLoading(false);
         }
       } catch (error) {
-        console.log(error);
+     
         toast.error(error.message || "Something went wrong", {
           duration: 3000,
         });

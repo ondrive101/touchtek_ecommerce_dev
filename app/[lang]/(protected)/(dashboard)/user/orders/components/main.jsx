@@ -86,7 +86,6 @@ export default function OrdersPage() {
 
   useEffect(() => {
     if (salesOrders) {
-      console.log("salesOrders", salesOrders?.data);
       setOrders(salesOrders?.data?.orders)
     }
   }, [salesOrders]);

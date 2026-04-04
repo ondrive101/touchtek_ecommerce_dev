@@ -16,13 +16,9 @@ const SingleMenuItem = ({ item, collapsed,setCollapsed, trans }) => {
   const locationName = getDynamicPath(pathname);
 
   const handleMouseEnter = () => {
-    // if (collapsed) setCollapsed(false);
-    // console.log("handleMouseEnter");
   };
 
   const handleMouseLeave = () => {
-    // if (!collapsed) setCollapsed(true);
-    // console.log("handleMouseLeave");
   };
   return (
     <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>

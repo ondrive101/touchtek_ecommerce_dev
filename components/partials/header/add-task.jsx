@@ -119,7 +119,6 @@ const AddTask = () => {
     staleTime: Infinity, // prevent re-fetching
     cacheTime: Infinity,
   });
-  // console.log(employeeAndProjectsData);
 
   const {
     register,
@@ -218,7 +217,6 @@ const AddTask = () => {
           });
         }
       } catch (error) {
-        console.log(error);
         toast.error(error.message || "Something went wrong", {
           duration: 3000,
         });
@@ -300,7 +298,6 @@ const AddTask = () => {
             <DialogDescription className="py-0 px-1">
               <form
                 onSubmit={(e) => {
-                  // console.log("Form submitted event", e);
                   return handleSubmit(onSubmit)(e);
                 }}
                 className="space-y-8"

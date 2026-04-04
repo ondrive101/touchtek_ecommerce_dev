@@ -6,7 +6,7 @@ import Loader from "@/components/loading";
 import { useState } from "react";
 
 export default function ProfileForm({ profile = {}, handleSaveProfile }) {
-  console.log('profile', profile);
+
 
   if (!profile) {
     return <Loader />;

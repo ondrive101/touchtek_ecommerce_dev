@@ -10,10 +10,6 @@ import Image from 'next/image';
 import { Star, MapPin, Minus, Plus } from 'lucide-react';
 
 export default function ProductInfo({ product, variant,types }) {
-  const {addItem, updateQuantity, removeItem, getItem } = useCartStore();
-  // console.log('variant in product info', variant)
-  // console.log('product in product info', product)
-  // console.log('types in product info', types)
   const router = useRouter();
   const params = useParams();
   const { cat, subcat, slug, id } = params;
@@ -24,9 +20,10 @@ export default function ProductInfo({ product, variant,types }) {
   const [pincode, setPincode] = useState('');
   const [showDelivery, setShowDelivery] = useState(false);
 
-    const [localQuantity, setLocalQuantity] = useState(1);
   
-    // Get current cart item quantity or use local state
+  // Get current cart item quantity or use local state
+  const [localQuantity, setLocalQuantity] = useState(1);
+    const {addItem, updateQuantity, removeItem, getItem } = useCartStore();
     const cartItem = getItem(id);
     const currentQuantity = cartItem?.quantity || localQuantity;
     const isAddedToCart = !!cartItem;
@@ -35,9 +32,6 @@ export default function ProductInfo({ product, variant,types }) {
     setSelectedColor(colorOption);
     router.push(`/en/product/${cat}/${subcat}/${slug}/${colorOption?.skuId}`);
   };
-
-
-
 
   const handleAddToCart = () => {
       addItem({

@@ -39,15 +39,6 @@ export default function Home() {
     staleTime: 30 * 1000,
   });
 
-    useEffect(() => {
-    if (productsData) {
-      // console.log("productsData received", productsData?.data?.payload?.products);
-      // setProducts(productsData?.data?.payload?.products || []);
-      // setBanners(productsData?.data?.payload?.banners || []);
-    }
-
-  }, [productsData]);
-
 
    if (productsLoading) {
     return <LayoutLoader />;

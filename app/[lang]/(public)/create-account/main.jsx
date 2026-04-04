@@ -41,7 +41,6 @@ export default function SignupPage() {
 
   const onSubmit = async (data) => {
     setIsLoading(true);
-    console.log('Signup data:', data);
     setTimeout(() => {
       setIsLoading(false);
       setIsSent(true);

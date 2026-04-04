@@ -61,7 +61,6 @@ export default function ProfilePage() {
   };
 
   const handleDeleteAccount = () => {
-    console.log("called delete account");
     closeModal();
   };
 

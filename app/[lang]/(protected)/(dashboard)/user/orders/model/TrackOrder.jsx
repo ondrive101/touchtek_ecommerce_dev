@@ -9,8 +9,6 @@ import { getOrderStatusTimelineConfig } from "@/lib/utils/functions";
 
 
 export default function TrackOrderDialog({ order, onClose, timeline = [] }) {
-
-  console.log('order in track order', timeline)
   if (!order) return null;
   const steps = timeline.map((step)=>{
     const statusConfig = getOrderStatusTimelineConfig(step?.orderStatus)

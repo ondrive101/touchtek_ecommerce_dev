@@ -82,7 +82,6 @@ export default function CheckoutPage() {
 
   useEffect(() => {
     if (checkoutInfo) {
-      console.log("checkoutInfo", checkoutInfo?.data);
       setAddress(checkoutInfo?.data?.payload?.defaultAddress);
       setMaxRewardPoints(checkoutInfo?.data?.payload?.rewardPoints);
     }
@@ -166,7 +165,6 @@ export default function CheckoutPage() {
         return;
       }
 
-      console.log("req data received", response.data);
 
       // response.data.data because:
       // axios wraps body in .data → { message, data: { order_id, amount, currency } }
@@ -228,8 +226,6 @@ export default function CheckoutPage() {
               razorpay_signature: razorpayResponse.razorpay_signature,
             });
 
-
-            console.log("verifyResponse full", verifyResponse);
             if (verifyResponse.success) {
               // Signature matched — order confirmed
               toast.success("Payment successful! 🎉");
@@ -248,7 +244,6 @@ export default function CheckoutPage() {
               setShowFailed(true);
             }
           } catch (err) {
-            console.log('error', err)
             toast.error("Verification error. Please contact support.");
             // Network/server crash during verify — money may be deducted
             setFailureOrderId(response.data.data.order_id);
@@ -263,7 +258,6 @@ export default function CheckoutPage() {
           // Called when user closes the modal without completing payment
           // No money deducted at this point
           ondismiss: function () {
-            console.log("called when");
             toast.error("Payment cancelled.");
             setLoading(false);
           },

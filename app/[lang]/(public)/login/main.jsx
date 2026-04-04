@@ -108,7 +108,6 @@ export default function LoginPage() {
   const triggerOtpSend = (target, nextMode) => {
     setIsLoading(true);
     setOtpTarget(target);
-    console.log(`[Auth] Sending OTP to: ${target}`);
     // 🔁 Replace with your API call: sendOtp(target)
     setTimeout(() => {
       setIsLoading(false);
@@ -122,7 +121,6 @@ export default function LoginPage() {
     try {
       // toast.error('login disabled by admin');
       setIsLoading(true);
-      console.log("Payload:", payload);
 
       const response = await signIn("credentials", {
         type:payload.type,
@@ -138,8 +136,6 @@ export default function LoginPage() {
       toast.success("Login successful!");
       router.push("/en");
       router.refresh();
-      // const session = await getSession();
-      // console.log('session', session)
 
     } catch (error) {
       console.error("Error login account:", error);
@@ -174,7 +170,6 @@ export default function LoginPage() {
     }
     setOtpError("");
     setIsLoading(true);
-    console.log(`[Auth] Verifying OTP: ${otpValue} for: ${otpTarget}`);
     // 🔁 Replace with your API call: verifyOtp(otpTarget, otpValue)
     setTimeout(() => {
       setIsLoading(false);
@@ -184,7 +179,6 @@ export default function LoginPage() {
 
   const handleGoogleLogin = async () => {
     setIsGoogleLoading(true);
-    console.log("[Auth] Google login initiated");
     // 🔁 Replace with: signIn('google') — next-auth / firebase
     setTimeout(() => {
       setIsGoogleLoading(false);
@@ -194,7 +188,6 @@ export default function LoginPage() {
 
   const handleResendOtp = () => {
     if (resendTimer > 0) return;
-    console.log(`[Auth] Resending OTP to: ${otpTarget}`);
     resetOtp();
     startResendTimer();
     // 🔁 Replace with your API call: resendOtp(otpTarget)

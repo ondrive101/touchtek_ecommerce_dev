@@ -20,7 +20,6 @@ import Link from "next/link";
 
 const ProfileInfo = () => {
   const { data: session } = useSession();
-  console.log('session', session)
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild className=" cursor-pointer">

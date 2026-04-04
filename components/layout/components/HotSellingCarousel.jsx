@@ -14,7 +14,6 @@ import 'swiper/css/pagination';
 import 'swiper/css/autoplay';
 
 export default function HotSellingCarousel({ products}) {
-  // console.log('products', products)
   const prevRef = useRef(null);
   const nextRef = useRef(null);
 
