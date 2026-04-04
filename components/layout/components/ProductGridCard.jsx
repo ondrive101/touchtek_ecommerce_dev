@@ -7,7 +7,7 @@ import { ShoppingCart, Eye, Star, Minus, Plus } from 'lucide-react';
 import { useCartStore } from '@/store'; // Update path
 import { useState } from 'react';
 
-export default function ProductCard({ id, name, image, slug, category, productSlug, cat, subcat, price, originalPrice, discount, maxQuantity = 999 }) {
+export default function ProductCard({ id, name, image, category, productSlug, cat, subcat, price, originalPrice, discount, maxQuantity = 999 }) {
   const {addItem, updateQuantity, removeItem, getItem } = useCartStore();
   const [localQuantity, setLocalQuantity] = useState(1);
 
@@ -152,7 +152,7 @@ export default function ProductCard({ id, name, image, slug, category, productSl
           {/* Add to Cart / Quantity Controls */}
           {isAddedToCart ? (
             <motion.div 
-              className="w-full bg-blue-50 border-2 border-blue-200 rounded-xl p-3 flex items-center justify-center gap-3"
+              className="w-full bg-blue-50 border-2 border-blue-200 rounded-xl p-2 flex items-center justify-center gap-3"
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.2 }}

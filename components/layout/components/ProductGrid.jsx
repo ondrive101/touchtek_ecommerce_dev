@@ -69,7 +69,6 @@ export default function ProductGrid({
             id={product.id}
             name={product.name}
             image={product.image}
-            slug={product.slug}
             productSlug={product.productSlug}
             category={product.category}
             cat={product.categoryId}
@@ -77,7 +76,6 @@ export default function ProductGrid({
             price={product.price}
             originalPrice={product.originalPrice}
             discount={product.discount}
-            viewMode={viewMode}
           />
         </motion.div>
       ))}

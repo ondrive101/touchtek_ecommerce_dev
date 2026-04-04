@@ -91,35 +91,41 @@ export default function ProductPage() {
             </Link>
           </motion.div>
 
-          {/* Hero layout - Normal scroll, perfect alignment */}
-          <section className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 pb-20">
-            {/* Gallery - Scrolls normally */}
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="order-2 lg:order-1"
-            >
-              <Gallery images={variant.images || []} />
-            </motion.div>
+          {/* Product info and gallery layout - Normal scroll, perfect alignment */}
+        <section className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 pb-20">
 
-            {/* Product info - Scrolls normally */}
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="order-1 lg:order-2 space-y-6 lg:pr-8"
-            >
-              <ProductInfo product={product} variant={variant} types={variantTypes} />
-            </motion.div>
-          </section>
+  {/* Gallery - FIRST on mobile, LEFT on desktop */}
+  <motion.div
+    initial={{ opacity: 0, x: -30 }}
+    animate={{ opacity: 1, x: 0 }}
+    transition={{ duration: 0.6, delay: 0.1 }}
+    className="order-1 lg:order-1"
+  >
+    <Gallery images={variant.images || []} />
+  </motion.div>
 
+  {/* Product Info - SECOND on mobile, RIGHT on desktop */}
+  <motion.div
+    initial={{ opacity: 0, x: 30 }}
+    animate={{ opacity: 1, x: 0 }}
+    transition={{ duration: 0.6, delay: 0.2 }}
+    className="order-2 lg:order-2 space-y-6 lg:pr-8"
+  >
+    <ProductInfo product={product} variant={variant} types={variantTypes} />
+  </motion.div>
+
+</section>
           {/* Features */}
           <section className="space-y-8">
             <Features />
           </section>
 
-          {/* Content sections */}
+        
+        </div>
+        {/* Hero */}
+        <Hero banners={variant?.banners || []}  videos={variant?.videos || []}/>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 ">
+  {/* Content sections */}
           <section className="space-y-8">
             {variant.specifications?.length > 0 && (
               <Specifications specifications={variant.specifications} />
@@ -128,8 +134,6 @@ export default function ProductPage() {
             <Reviews />
           </section>
         </div>
-        {/* Hero */}
-        <Hero banners={variant?.banners || []}  videos={variant?.videos || []}/>
 
 
         {/* Related products */}
