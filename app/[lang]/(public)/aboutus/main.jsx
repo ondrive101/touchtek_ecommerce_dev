@@ -8,14 +8,23 @@ import {
 } from 'lucide-react';
 import Image from "next/image";
 import NeerajGoel from "@/public/images/touchtek/Neeraj.jpeg";
-import AanchalGoel from "@/public/images/touchtek/Aanchal.jpeg";
 import TouchtekBuilding from "@/public/images/touchtek/Building.jpeg";
-import RiteshGupta from "@/public/images/touchtek/Ritesh.jpeg";
+// import RiteshGupta from "@/public/images/touchtek/Ritesh.jpeg";
 import Harsh from "@/public/images/touchtek/team/team_harsh.jpeg";
-import Anas from "@/public/images/touchtek/team/team_anas.jpeg";
-import Karambir from "@/public/images/touchtek/team/team_karambir.jpeg";
-import Rohit from "@/public/images/touchtek/team/team_rohit_gupta.jpeg";
-import Shiv from "@/public/images/touchtek/team/team_shiv_ratan.jpeg";
+// import Karambir from "@/public/images/touchtek/team/team_karambir.jpeg";
+// import Rohit from "@/public/images/touchtek/team/team_rohit_gupta.jpeg";
+// import Shiv from "@/public/images/touchtek/team/team_shiv_ratan.jpeg";
+
+
+import Anas from "@/public/images/touchtek/team/new/team_new_anas.png";
+import AanchalGoel from "@/public/images/touchtek/team/new/team_new_anchal.png";
+import Harpreet from "@/public/images/touchtek/team/new/team_new_harpreet.png";
+import Karambir from "@/public/images/touchtek/team/new/team_new_karambir.png";
+import RiteshGupta from "@/public/images/touchtek/team/new/team_new_ritesh.png";
+import Rohit from "@/public/images/touchtek/team/new/team_new_rohit.png";
+import Shiv from "@/public/images/touchtek/team/new/team_new_shiv.png";
+import Sonali from "@/public/images/touchtek/team/new/team_new_sonali.png";
+import Deepak from "@/public/images/touchtek/team/new/team_new_deepak.png";
 
 import Header from "@/components/layout/components/Header";
 import Footer from "@/components/layout/components/Footer";
@@ -65,25 +74,25 @@ const owners = [
   {
     name: 'Neeraj Goel', title: 'Founder & CEO',
     image: NeerajGoel,
-    bio: 'Visionary entrepreneur with 15+ years in consumer electronics. Rajesh founded Touchtek with a singular mission — to make quality tech accessories accessible to every Indian household.',
+    bio: 'Neeraj Goel is a serial entrepreneur with over 15 years of experience in consumer electronics and supply-chain operations. He founded Touchtek to deliver reliable, affordable mobile accessories across India, and now drives the company’s strategic growth and product vision.',
     quote: '"Quality is not an act, it is a habit."',
-    linkedin: '#', email: 'rajesh@touchtek.in', badge: 'Founder',
+    linkedin: '#', email: '#', badge: 'Founder',
     accent: 'from-amber-400 to-orange-500', glow: 'rgba(251,146,60,0.35)'
   },
   {
     name: 'Anchal Goel', title: 'Director',
     image: AanchalGoel,
-    bio: "Operations expert who built Touchtek's 5-warehouse network from scratch. Priya oversees supply chain, logistics, and the 150+ member team with precision and passion.",
+    bio: "Aanchal Goel is the Director responsible for operations and logistics at Touchtek. She built and scaled the company’s warehousing network, oversees supply-chain strategy and vendor partnerships, and ensures timely delivery and consistent product quality.",
     quote: '"Excellence is in the details of every shipment."',
-    linkedin: '#', email: 'priya@touchtek.in', badge: 'Director',
+    linkedin: '#', email: '#', badge: 'Director',
     accent: 'from-violet-400 to-pink-500', glow: 'rgba(167,139,250,0.35)'
   },
   {
     name: 'Ritesh Gupta', title: 'Co-Founder & CTO',
     image: RiteshGupta,
-    bio: "Tech innovator leading Touchtek's R&D center. Amit drives product innovation across charging, audio, and battery solutions, holding multiple patents in mobile accessory design.",
+    bio: "Ritesh Gupta is the Account Head overseeing finance and client accounts, ensuring accurate reporting and strong customer relationships. He manages billing, reconciliations, and financial controls to support Touchtek’s commercial growth.",
     quote: '"The next big thing is always being built."',
-    linkedin: '#', email: 'amit@touchtek.in', badge: 'Co-Founder',
+    linkedin: '#', email: '#', badge: 'Co-Founder',
     accent: 'from-cyan-400 to-blue-500', glow: 'rgba(34,211,238,0.35)'
   }
 ];
@@ -123,10 +132,11 @@ const teamMembers = [
     accent: "from-green-400 to-emerald-500",
     glow: "rgba(74,222,128,0.3)",
   },
+  
   { name: 'Rohit Gupta',      role: 'Account Head',        dept: 'Accounts',         avatar: Rohit,  accent: 'from-blue-400 to-indigo-500',    glow: 'rgba(96,165,250,0.3)'  },
-  // { name: 'Kavya Reddy',      role: 'Marketing Lead',         dept: 'Marketing',     avatar: 'https://i.pravatar.cc/150?img=5',  accent: 'from-purple-400 to-violet-500',  glow: 'rgba(192,132,252,0.3)' },
-  // { name: 'Rohit Verma',      role: 'Warehouse Supervisor',   dept: 'Logistics',     avatar: 'https://i.pravatar.cc/150?img=6',  accent: 'from-teal-400 to-cyan-500',      glow: 'rgba(45,212,191,0.3)'  },
-  // { name: 'Pooja Nair',       role: 'Customer Support',       dept: 'Support',       avatar: 'https://i.pravatar.cc/150?img=7',  accent: 'from-yellow-400 to-orange-400',  glow: 'rgba(250,204,21,0.3)'  },
+  { name: 'Harpreet Kaur',      role: 'HR',         dept: 'HR',     avatar: Harpreet,  accent: 'from-purple-400 to-violet-500',  glow: 'rgba(192,132,252,0.3)' },
+  { name: 'Sonali',      role: 'Sales Manager',   dept: 'Sales',     avatar: Sonali,  accent: 'from-teal-400 to-cyan-500',      glow: 'rgba(45,212,191,0.3)'  },
+  { name: 'Deepak Aggarwal',       role: 'Plant Head',       dept: 'Plant Head',       avatar: Deepak,  accent: 'from-yellow-400 to-orange-400',  glow: 'rgba(250,204,21,0.3)'  },
   // { name: 'Sanjay Dubey',     role: 'R&D Engineer',           dept: 'Innovation',    avatar: 'https://i.pravatar.cc/150?img=8',  accent: 'from-cyan-400 to-blue-500',      glow: 'rgba(34,211,238,0.3)'  },
   // { name: 'Ananya Das',       role: 'Finance Analyst',        dept: 'Finance',       avatar: 'https://i.pravatar.cc/150?img=9',  accent: 'from-emerald-400 to-green-500',  glow: 'rgba(52,211,153,0.3)'  },
   // { name: 'Karan Malhotra',   role: 'IT Manager',             dept: 'Technology',    avatar: 'https://i.pravatar.cc/150?img=10', accent: 'from-indigo-400 to-purple-500',  glow: 'rgba(129,140,248,0.3)' },
@@ -209,7 +219,7 @@ function OwnerCard({ owner, index }) {
                 <a href={owner.linkedin} onClick={e => e.stopPropagation()} className="w-9 h-9 rounded-full bg-white/10 hover:bg-blue-600 border border-white/10 flex items-center justify-center transition-all backdrop-blur-sm">
                   <Linkedin className="w-4 h-4 text-white" />
                 </a>
-                <a href={`mailto:${owner.email}`} onClick={e => e.stopPropagation()} className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/25 border border-white/10 flex items-center justify-center transition-all backdrop-blur-sm">
+                <a href={owner.email} onClick={e => e.stopPropagation()} className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/25 border border-white/10 flex items-center justify-center transition-all backdrop-blur-sm">
                   <Mail className="w-4 h-4 text-white" />
                 </a>
               </div>
@@ -235,7 +245,7 @@ function OwnerCard({ owner, index }) {
               <a href={owner.linkedin} onClick={e => e.stopPropagation()} className="flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold px-5 py-2.5 rounded-xl transition-colors">
                 <Linkedin className="w-3.5 h-3.5" /> LinkedIn
               </a>
-              <a href={`mailto:${owner.email}`} onClick={e => e.stopPropagation()} className="flex items-center gap-2 border border-white/10 bg-white/5 hover:bg-white/10 text-white text-xs font-semibold px-5 py-2.5 rounded-xl transition-colors">
+              <a href={owner.email} onClick={e => e.stopPropagation()} className="flex items-center gap-2 border border-white/10 bg-white/5 hover:bg-white/10 text-white text-xs font-semibold px-5 py-2.5 rounded-xl transition-colors">
                 <Mail className="w-3.5 h-3.5" /> Email
               </a>
             </div>
@@ -293,8 +303,8 @@ function TeamCard({ member }) {
         {/* Accent line */}
         <div className={`h-0.5 w-8 bg-gradient-to-r ${member.accent} rounded-full mb-2.5`} />
 
-        <h3 className="text-white text-sm font-bold leading-tight tracking-tight">{member.name}</h3>
-        <p className="text-white/45 text-[11px] mt-0.5 leading-tight">{member.role}</p>
+        <h3 className="text-white text-[14px] font-bold leading-tight tracking-tight">{member.name}</h3>
+        <p className="text-white/90 text-[12px] mt-0.5 leading-tight">{member.role}</p>
 
         {/* Social row */}
         {/* <div className="flex gap-1.5 mt-3">
@@ -563,7 +573,7 @@ export default function AboutPage() {
 
           {/* Three marquee rows — tall cards, different speeds & directions */}
           <div className="space-y-5 relative z-10">
-            <MarqueeRow members={teamMembers} reverse={false} speed={120} />
+            <MarqueeRow members={teamMembers} reverse={false} speed={30} />
           </div>
 
         </section>
