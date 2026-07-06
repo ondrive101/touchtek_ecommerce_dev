@@ -126,73 +126,44 @@ export default function ProductsPage({searchParams}) {
             </motion.div>
 
             <div className="flex-1">
-              <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-4">
-                    <button
-                      onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                      className="lg:hidden flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
-                    >
-                      <Filter className="w-4 h-4" />
-                      Filters
-                    </button>
-                    <p className="text-gray-600">
-                      {isLoading ? (
-                        "Loading..."
-                      ) : (
-                        <>
-                          <span className="font-semibold">
-                            {products?.length || 0}
-                          </span>{" "}
-                          of {productsPagination?.totalProducts || 0} products
-                          {isFetching && (
-                            <span className="ml-2 text-sm text-gray-500">
-                              (Updating...)
-                            </span>
-                          )}
-                        </>
-                      )}
-                    </p>
-                  </div>
+       <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
+  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+    <div className="flex items-center gap-4 flex-wrap">
+      <button
+        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+        className="lg:hidden flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 shrink-0"
+      >
+        <Filter className="w-4 h-4" />
+        Filters
+      </button>
+      <p className="text-gray-600 text-sm sm:text-base">
+        {isLoading ? (
+          "Loading..."
+        ) : (
+          <>
+            <span className="font-semibold">{products?.length || 0}</span>{" "}
+            of {productsPagination?.totalProducts || 0} products
+            {isFetching && (
+              <span className="ml-2 text-sm text-gray-500">(Updating...)</span>
+            )}
+          </>
+        )}
+      </p>
+    </div>
 
-                  <div className="flex items-center gap-4">
-                    <select
-                      value={filters.sortBy}
-                      onChange={(e) =>
-                        handleFilterChange({ ...filters, sortBy: e.target.value })
-                      }
-                      className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-gray-500 focus:border-transparent"
-                    >
-                      <option value="discount">Sort by Discount</option>
-                      <option value="price-asc">Price: Low to High</option>
-                      <option value="price-desc">Price: High to Low</option>
-                    </select>
-
-                    {/* <div className="flex border border-gray-300 rounded-lg">
-                      <button
-                        onClick={() => setViewMode("grid")}
-                        className={`p-2 ${
-                          viewMode === "grid"
-                            ? "bg-gray-800 text-white"
-                            : "text-gray-600 hover:bg-gray-50"
-                        }`}
-                      >
-                        <Grid className="w-4 h-4" />
-                      </button>
-                      <button
-                        onClick={() => setViewMode("list")}
-                        className={`p-2 ${
-                          viewMode === "list"
-                            ? "bg-gray-800 text-white"
-                            : "text-gray-600 hover:bg-gray-50"
-                        }`}
-                      >
-                        <List className="w-4 h-4" />
-                      </button>
-                    </div> */}
-                  </div>
-                </div>
-              </div>
+    <div className="flex items-center gap-4 w-full sm:w-auto">
+      <select
+        value={filters.sortBy}
+        onChange={(e) => handleFilterChange({ ...filters, sortBy: e.target.value })}
+        className="w-full sm:w-auto border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-gray-500 focus:border-transparent"
+      >
+        <option value="discount">Sort by Discount</option>
+        <option value="price-asc">Price: Low to High</option>
+        <option value="price-desc">Price: High to Low</option>
+      </select>
+    </div>
+  </div>
+</div>
 
               <ProductGrid
                 products={products || []}
