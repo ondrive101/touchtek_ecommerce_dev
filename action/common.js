@@ -224,16 +224,14 @@ export const getProducts = async (filters) => {
    if (filters.search) queryParams.append('search', filters.search);
    if (filters.parentCategory) queryParams.append('category', filters.parentCategory);
    if (filters.category) queryParams.append('subcategory', filters.category);
-   if (filters.priceRange) {
-  queryParams.append('minPrice', filters.priceRange[0].toString());
-  queryParams.append('maxPrice', filters.priceRange[1].toString());
-}
+  if (filters.priceRange) {
+    queryParams.append('minPrice', filters.priceRange[0].toString());
+    queryParams.append('maxPrice', filters.priceRange[1].toString());
+  }
    if (filters.sortBy) queryParams.append('sortBy', filters.sortBy);
    if (filters.minRating) queryParams.append('minRating', filters.minRating.toString());
    const queryString = queryParams.toString();
-  const endpoint = queryString 
-    ? `/products/get-products?${queryString}` 
-    : `/products/get-products`;
+  const endpoint = queryString ? `/products/get-products?${queryString}` : `/products/get-products`;
   
   
   return apiCall("get", endpoint, null, [], false);
@@ -248,7 +246,6 @@ export const getProductById = async (id) => {
   console.log("👤 [INVENTORY ACTION] getProductById called");
   return apiCall("get", `/products/get-product/${id}`, null, [], false);
 };
-
 
 // ==================== User ACTIONS (protected) ====================
 

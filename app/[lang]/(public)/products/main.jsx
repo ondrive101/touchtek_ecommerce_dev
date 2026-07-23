@@ -1,6 +1,6 @@
 "use client";
 
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import Header from "@/components/layout/components/Header";
 import { toast } from "react-hot-toast";
@@ -13,20 +13,18 @@ import { motion } from "framer-motion";
 import { Filter, Grid, List } from "lucide-react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 
-export default function ProductsPage({searchParams}) {
+export default function ProductsPage({ searchParams }) {
   const router = useRouter();
   const pathname = usePathname();
   const [viewMode, setViewMode] = useState("grid");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [products, setProducts] = useState([]);
   const [productsPagination, setProductsPagination] = useState({});
-  
+
   const [filters, setFilters] = useState({
     page: 1,
     limit: 12,
     search: "",
-    // parentCategory: "",
-    // category: "",
     parentCategory: searchParams?.parentCategory || "",
     category: searchParams?.category || "",
     priceRange: [0, 10000],
@@ -39,17 +37,17 @@ export default function ProductsPage({searchParams}) {
     queryKey: ["products", filters],
     queryFn: () => getProducts(filters),
     placeholderData: keepPreviousData,
-    staleTime: 30 * 1000,
+    staleTime: 120 * 1000,
   });
 
 
-    useEffect(() => {
-      if (data) {
-        setProducts(data?.data?.payload?.products || []);
-        setProductsPagination(data?.data?.payload?.pagination || {});
-      }
-  
-    }, [data]);
+  useEffect(() => {
+    if (data) {
+      setProducts(data?.data?.payload?.products || []);
+      setProductsPagination(data?.data?.payload?.pagination || {});
+    }
+
+  }, [data]);
 
   const handleFilterChange = (newFilters) => {
     // Reset to page 1 if any filter other than page changed
@@ -67,7 +65,7 @@ export default function ProductsPage({searchParams}) {
     }
   };
 
-  
+
 
   const clearFilters = () => {
     setFilters({
@@ -126,44 +124,44 @@ export default function ProductsPage({searchParams}) {
             </motion.div>
 
             <div className="flex-1">
-       <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
-  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-    <div className="flex items-center gap-4 flex-wrap">
-      <button
-        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-        className="lg:hidden flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 shrink-0"
-      >
-        <Filter className="w-4 h-4" />
-        Filters
-      </button>
-      <p className="text-gray-600 text-sm sm:text-base">
-        {isLoading ? (
-          "Loading..."
-        ) : (
-          <>
-            <span className="font-semibold">{products?.length || 0}</span>{" "}
-            of {productsPagination?.totalProducts || 0} products
-            {isFetching && (
-              <span className="ml-2 text-sm text-gray-500">(Updating...)</span>
-            )}
-          </>
-        )}
-      </p>
-    </div>
+              <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                  <div className="flex items-center gap-4 flex-wrap">
+                    <button
+                      onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+                      className="lg:hidden flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 shrink-0"
+                    >
+                      <Filter className="w-4 h-4" />
+                      Filters
+                    </button>
+                    <p className="text-gray-600 text-sm sm:text-base">
+                      {isLoading ? (
+                        "Loading..."
+                      ) : (
+                        <>
+                          <span className="font-semibold">{products?.length || 0}</span>{" "}
+                          of {productsPagination?.totalProducts || 0} products
+                          {isFetching && (
+                            <span className="ml-2 text-sm text-gray-500">(Updating...)</span>
+                          )}
+                        </>
+                      )}
+                    </p>
+                  </div>
 
-    <div className="flex items-center gap-4 w-full sm:w-auto">
-      <select
-        value={filters.sortBy}
-        onChange={(e) => handleFilterChange({ ...filters, sortBy: e.target.value })}
-        className="w-full sm:w-auto border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-gray-500 focus:border-transparent"
-      >
-        <option value="discount">Sort by Discount</option>
-        <option value="price-asc">Price: Low to High</option>
-        <option value="price-desc">Price: High to Low</option>
-      </select>
-    </div>
-  </div>
-</div>
+                  <div className="flex items-center gap-4 w-full sm:w-auto">
+                    <select
+                      value={filters.sortBy}
+                      onChange={(e) => handleFilterChange({ ...filters, sortBy: e.target.value })}
+                      className="w-full sm:w-auto border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-gray-500 focus:border-transparent"
+                    >
+                      <option value="discount">Sort by Discount</option>
+                      <option value="price-asc">Price: Low to High</option>
+                      <option value="price-desc">Price: High to Low</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
 
               <ProductGrid
                 products={products || []}

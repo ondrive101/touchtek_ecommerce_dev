@@ -92,31 +92,14 @@ export default function ProductCard({ id, name, image, category, productSlug, ca
             <p className="text-sm text-gray-600 font-medium">{category}</p>
           </div>
         </div>
-        
-        {/* Hover Overlay - Quick View */}
-        {/* <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-          <Link href={`/en/product/${cat}/${subcat}/${productSlug}/${id}`}>
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg hover:bg-gray-100 transition-colors"
-            >
-              <Eye className="w-5 h-5 text-gray-900" />
-            </motion.button>
-          </Link>
-        </div> */}
+       
       </div>
       </Link>
       
       <div className="p-6 border-t border-gray-100">
         <Link href={`/en/product/${cat}/${subcat}/${productSlug}/${id}`}>
         <div className="mb-4">
-          {/* {category && (
-            <span className="inline-block bg-gray-100 text-gray-800 text-xs font-semibold px-2.5 py-0.5 rounded-full mb-2">
-              {category}
-            </span>
-          )} */}
-          <h3 className="font-bold text-gray-900 mb-2 line-clamp-2 text-lg group-hover:text-gray-700 transition-colors uppercase">
+          <h3 className="font-bold text-gray-900 mb-2 line-clamp-2 text-[16px] group-hover:text-gray-700 transition-colors uppercase">
             {name}
           </h3>
           

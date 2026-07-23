@@ -286,7 +286,7 @@ function ProductCard({ product }) {
         <span className="inline-block bg-gray-100 text-gray-800 text-xs font-semibold px-2.5 py-0.5 rounded-full mb-2">
           {product.category}
         </span>
-        <h3 className="font-bold text-gray-900 mb-2 line-clamp-2 text-base group-hover:text-gray-700 transition-colors">
+        <h3 className="font-bold text-gray-900 mb-2 line-clamp-2 text-base group-hover:text-gray-700 transition-colors uppercase">
           {product.name}
         </h3>
         <div className="flex items-center gap-1 mb-3">

@@ -1,7 +1,7 @@
 import { SiteLogo } from "@/components/svg";
 import Airpod from "@/public/images/touchtek/icon.png";
 export const siteConfig = {
-  favicon: Airpod,
+  // favicon: Airpod,
   name: "Touchtek | Smart Accessories & Audio Gear",
   description:
     "Discover Touchtek batteries, audio gear, chargers, power banks, and accessories with fast charging and premium design.",

@@ -37,6 +37,28 @@ export default function ProductPage() {
     );
   }
 
+   return (
+      <div className="min-h-screen bg-gray-50">
+        <Header />
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+            Product Not Found
+          </h1>
+          <p className="text-gray-600 mb-8">
+            The product you're looking for doesn't exist.
+          </p>
+          <Link
+            href="/products"
+            className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-8 py-4 rounded-xl hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200 inline-flex items-center gap-2 font-bold"
+          >
+            <ArrowLeft className="w-5 h-5" />
+            Back to Products
+          </Link>
+        </main>
+        <Footer />
+      </div>
+    );
+
   if (isError || !productData?.data?.product) {
     return (
       <div className="min-h-screen bg-gray-50">
@@ -62,15 +84,13 @@ export default function ProductPage() {
   }
 
   const product = productData.data.product;
-  const variant = productData.data.variant;
-  const variantTypes = productData.data.variantsTypes;
-  const relatedVariants = productData.data.relatedVariants || [];
+  const relatedProducts = productData.data.relatedProducts || [];
 
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
 
-      <StickyHeader product={product} variant={variant} />
+      <StickyHeader product={product}/>
 
       <main>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 ">
@@ -81,7 +101,7 @@ export default function ProductPage() {
             transition={{ duration: 0.6 }}
           >
             <Link
-              href="/products"
+              href="/en/products"
               className="inline-flex items-center gap-2 text-gray-800 hover:text-orange-600 mb-4 group font-semibold"
             >
               <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
@@ -99,7 +119,7 @@ export default function ProductPage() {
     transition={{ duration: 0.6, delay: 0.1 }}
     className="order-1 lg:order-1"
   >
-    <Gallery images={variant.images || []} />
+    <Gallery images={product.images || []} />
   </motion.div>
 
   {/* Product Info - SECOND on mobile, RIGHT on desktop */}
@@ -109,36 +129,36 @@ export default function ProductPage() {
     transition={{ duration: 0.6, delay: 0.2 }}
     className="order-2 lg:order-2 space-y-6 lg:pr-8"
   >
-    <ProductInfo product={product} variant={variant} types={variantTypes} />
+    <ProductInfo product={product}/>
   </motion.div>
 
 </section>
           {/* Features */}
-          <section className="space-y-8">
+          {/* <section className="space-y-8">
             <Features />
-          </section>
+          </section> */}
 
         
         </div>
         {/* Hero */}
-        <Hero banners={variant?.banners || []}  videos={variant?.videos || []}/>
+        {/* <Hero banners={variant?.banners || []}  videos={variant?.videos || []}/> */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 ">
   {/* Content sections */}
-          <section className="space-y-8">
+          {/* <section className="space-y-8">
             {variant.specifications?.length > 0 && (
               <Specifications specifications={variant.specifications} />
             )}
             {variant.about?.length > 0 && <About about={variant.about} />}
             <Reviews />
-          </section>
+          </section> */}
         </div>
 
 
         {/* Related products */}
-        <RelatedProducts
+        {/* <RelatedProducts
           products={relatedVariants}
           category={product?.subCategory?.name}
-        />
+        /> */}
       </main>
 
       <Footer />

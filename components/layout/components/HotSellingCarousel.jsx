@@ -199,7 +199,7 @@ export default function HotSellingCarousel({ products}) {
                         {product?.subCategory}
                       </span>
 
-                      <h3 className="font-bold text-gray-900 mb-2 line-clamp-2 text-base group-hover:text-gray-700 transition-colors">
+                      <h3 className="font-bold text-gray-900 mb-2 line-clamp-2 text-base group-hover:text-gray-700 transition-colors uppercase">
                         {product?.name}
                       </h3>
 
