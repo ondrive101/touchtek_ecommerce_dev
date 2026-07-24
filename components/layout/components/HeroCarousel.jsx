@@ -34,7 +34,7 @@ export default function HeroCarousel({banners}) {
         {banners.map((slide) => (
           <SwiperSlide key={slide.id}>
             <div className="relative w-full h-full">
-              <a href='#' className="block w-full h-full">
+              <a href={slide?.skuCode ? `/en/product/${slide.categorySlug}/${slide.subCategorySlug}/${slide.productSlug}/${slide.skuCode}` : `#`} className="block w-full h-full">
                 <Image
                   src={slide?.image}
                   alt={slide?.alt || 'Hero banner'}
