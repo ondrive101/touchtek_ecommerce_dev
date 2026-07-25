@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
@@ -7,17 +8,23 @@ import { ChevronLeft, ChevronRight, Maximize2, X } from 'lucide-react';
 
 export default function Gallery({ images = [] }) {
   const validImages = useMemo(
-    () => images.filter((item) => item?.fileUrl),
+    () =>
+      (images || [])
+        .filter((item) => item?.image || item?.fileUrl)
+        .map((item) => ({
+          id: item.id,
+          url: item.image || item.fileUrl,
+          alt: item.colorName || item.alt || 'Product image',
+          colorName: item.colorName || '',
+        })),
     [images]
   );
 
   const [activeIndex, setActiveIndex] = useState(0);
   const [isZoomOpen, setIsZoomOpen] = useState(false);
-  const [isMountedZoom, setIsMountedZoom] = useState(false);
 
-
-const openZoom = () => setIsZoomOpen(true);
-const closeZoom = () => setIsZoomOpen(false);
+  const openZoom = () => setIsZoomOpen(true);
+  const closeZoom = () => setIsZoomOpen(false);
 
   const activeImage = validImages[activeIndex];
 
@@ -33,20 +40,13 @@ const closeZoom = () => setIsZoomOpen(false);
     );
   };
 
-  // const openZoom = () => {
-  //   setIsZoomOpen(true);
-  //   requestAnimationFrame(() => setIsMountedZoom(true));
-  // };
-
-  // const closeZoom = () => {
-  //   setIsMountedZoom(false);
-  //   setTimeout(() => setIsZoomOpen(false), 260);
-  // };
+  useEffect(() => {
+    setActiveIndex(0);
+  }, [validImages]);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (!validImages.length) return;
-
       if (e.key === 'Escape' && isZoomOpen) closeZoom();
       if (e.key === 'ArrowLeft') prevImage();
       if (e.key === 'ArrowRight') nextImage();
@@ -58,7 +58,7 @@ const closeZoom = () => setIsZoomOpen(false);
 
   if (!validImages.length) {
     return (
-      <div className="flex h-[420px] w-full items-center justify-center bg-white">
+      <div className="flex h-[420px] w-full items-center justify-center bg-white rounded-xl">
         <span className="text-sm text-gray-400">No images available</span>
       </div>
     );
@@ -69,10 +69,10 @@ const closeZoom = () => setIsZoomOpen(false);
       <div className="w-full bg-white">
         <div className="relative">
           {/* Main image */}
-          <div className="relative flex h-[420px] items-center justify-center bg-white sm:h-[520px] lg:h-[600px]">
+          <div className="relative flex h-[420px] items-center justify-center bg-white sm:h-[520px] lg:h-[500px] rounded-xl overflow-hidden">
             <div className="relative h-full w-full">
               <Image
-                src={activeImage.fileUrl}
+                src={activeImage.url}
                 alt={activeImage.alt || `Product image ${activeIndex + 1}`}
                 fill
                 priority
@@ -113,12 +113,15 @@ const closeZoom = () => setIsZoomOpen(false);
             </button>
           </div>
 
-          {/* Footer / thumbnails */}
+          {/* Thumbnails */}
           <div className="bg-white px-0 pt-3">
             <div className="mb-3 flex items-center gap-3">
-              <p className="text-[15px] font-semibold text-black">Product Images</p>
+              <p className="text-[15px] font-semibold text-black">
+                Product Images
+              </p>
               <span className="text-sm font-medium text-gray-400">
-                {String(activeIndex + 1).padStart(2, '0')} / {String(validImages.length).padStart(2, '0')}
+                {String(activeIndex + 1).padStart(2, '0')} /{' '}
+                {String(validImages.length).padStart(2, '0')}
               </span>
             </div>
 
@@ -132,14 +135,15 @@ const closeZoom = () => setIsZoomOpen(false);
                     type="button"
                     onClick={() => setActiveIndex(idx)}
                     aria-label={`Show image ${idx + 1}`}
+                    title={item.colorName}
                     className={`group relative h-[78px] w-[78px] overflow-hidden rounded-xl bg-[#f6f6f6] transition-all duration-300 sm:h-[84px] sm:w-[84px] ${
                       isActive
-                        ? 'opacity-100'
+                        ? 'opacity-100 ring-2 ring-gray-800'
                         : 'opacity-75 hover:opacity-100'
                     }`}
                   >
                     <Image
-                      src={item.fileUrl}
+                      src={item.url}
                       alt={item.alt || `Thumbnail ${idx + 1}`}
                       fill
                       sizes="84px"
@@ -161,85 +165,85 @@ const closeZoom = () => setIsZoomOpen(false);
 
       {/* Fullscreen zoom */}
       <AnimatePresence mode="wait">
-  {isZoomOpen && (
-    <motion.div
-      key="gallery-zoom-backdrop"
-      initial={{ opacity: 0, backdropFilter: 'blur(0px)' }}
-      animate={{ opacity: 1, backdropFilter: 'blur(10px)' }}
-      exit={{ opacity: 0, backdropFilter: 'blur(0px)' }}
-      transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
-      className="fixed inset-0 z-[999] bg-black/60"
-      onClick={closeZoom}
-    >
-      <div className="relative flex h-full w-full items-center justify-center p-4 sm:p-8">
-        <motion.div
-          key={activeImage.fileUrl}
-          initial={{ opacity: 0, scale: 0.94, y: 18, filter: 'blur(8px)' }}
-          animate={{ opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' }}
-          exit={{ opacity: 0, scale: 0.96, y: 12, filter: 'blur(6px)' }}
-          transition={{
-            duration: 0.38,
-            ease: [0.16, 1, 0.3, 1],
-          }}
-          className="relative h-[78vh] w-full max-w-[1100px]"
-          onClick={(e) => e.stopPropagation()}
-        >
-          <Image
-            src={activeImage.fileUrl}
-            alt={activeImage.alt || `Zoomed image ${activeIndex + 1}`}
-            fill
-            priority
-            sizes="100vw"
-            className="object-contain drop-shadow-[0_18px_60px_rgba(0,0,0,0.28)]"
-          />
-
-          <motion.button
-            type="button"
+        {isZoomOpen && (
+          <motion.div
+            key="gallery-zoom-backdrop"
+            initial={{ opacity: 0, backdropFilter: 'blur(0px)' }}
+            animate={{ opacity: 1, backdropFilter: 'blur(10px)' }}
+            exit={{ opacity: 0, backdropFilter: 'blur(0px)' }}
+            transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed inset-0 z-[999] bg-black/60"
             onClick={closeZoom}
-            aria-label="Close zoom view"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9 }}
-            transition={{ duration: 0.22, delay: 0.08 }}
-            className="absolute right-0 top-0 flex h-11 w-11 items-center justify-center rounded-full bg-white/12 text-white backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-white/20"
           >
-            <X size={20} />
-          </motion.button>
-
-          {validImages.length > 1 && (
-            <>
-              <motion.button
-                type="button"
-                onClick={prevImage}
-                aria-label="Previous image"
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -10 }}
-                transition={{ duration: 0.22, delay: 0.1 }}
-                className="absolute left-0 top-1/2 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/12 text-white backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-white/20"
+            <div className="relative flex h-full w-full items-center justify-center p-4 sm:p-8">
+              <motion.div
+                key={activeImage.url}
+                initial={{ opacity: 0, scale: 0.94, y: 18, filter: 'blur(8px)' }}
+                animate={{ opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' }}
+                exit={{ opacity: 0, scale: 0.96, y: 12, filter: 'blur(6px)' }}
+                transition={{
+                  duration: 0.38,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
+                className="relative h-[78vh] w-full max-w-[1100px]"
+                onClick={(e) => e.stopPropagation()}
               >
-                <ChevronLeft size={22} />
-              </motion.button>
+                <Image
+                  src={activeImage.url}
+                  alt={activeImage.alt || `Zoomed image ${activeIndex + 1}`}
+                  fill
+                  priority
+                  sizes="100vw"
+                  className="object-contain drop-shadow-[0_18px_60px_rgba(0,0,0,0.28)]"
+                />
 
-              <motion.button
-                type="button"
-                onClick={nextImage}
-                aria-label="Next image"
-                initial={{ opacity: 0, x: 10 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 10 }}
-                transition={{ duration: 0.22, delay: 0.1 }}
-                className="absolute right-0 top-1/2 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/12 text-white backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-white/20"
-              >
-                <ChevronRight size={22} />
-              </motion.button>
-            </>
-          )}
-        </motion.div>
-      </div>
-    </motion.div>
-  )}
-</AnimatePresence>
+                <motion.button
+                  type="button"
+                  onClick={closeZoom}
+                  aria-label="Close zoom view"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ duration: 0.22, delay: 0.08 }}
+                  className="absolute right-0 top-0 flex h-11 w-11 items-center justify-center rounded-full bg-white/12 text-white backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-white/20"
+                >
+                  <X size={20} />
+                </motion.button>
+
+                {validImages.length > 1 && (
+                  <>
+                    <motion.button
+                      type="button"
+                      onClick={prevImage}
+                      aria-label="Previous image"
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -10 }}
+                      transition={{ duration: 0.22, delay: 0.1 }}
+                      className="absolute left-0 top-1/2 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/12 text-white backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-white/20"
+                    >
+                      <ChevronLeft size={22} />
+                    </motion.button>
+
+                    <motion.button
+                      type="button"
+                      onClick={nextImage}
+                      aria-label="Next image"
+                      initial={{ opacity: 0, x: 10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: 10 }}
+                      transition={{ duration: 0.22, delay: 0.1 }}
+                      className="absolute right-0 top-1/2 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/12 text-white backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-white/20"
+                    >
+                      <ChevronRight size={22} />
+                    </motion.button>
+                  </>
+                )}
+              </motion.div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

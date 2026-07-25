@@ -1,85 +1,138 @@
-// components/product/ProductInfo.jsx
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useParams } from 'next/navigation';
+import { useMemo, useState } from 'react';
+import { useRouter, useParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { useCartStore } from '@/store';
 import Image from 'next/image';
 import { Star, MapPin, Minus, Plus } from 'lucide-react';
 
-export default function ProductInfo({ product, variant,types }) {
+export default function ProductInfo({
+  product,
+  colorOptions = [],
+  selectedColor = '',
+  onColorChange,
+}) {
   const router = useRouter();
   const params = useParams();
   const { cat, subcat, slug, id } = params;
-  const [selectedColor, setSelectedColor] = useState({
-    value: variant?.attributes?.color,
-    skuId: variant?.skuCode
-  });
+
   const [pincode, setPincode] = useState('');
   const [showDelivery, setShowDelivery] = useState(false);
-
-  
-  // Get current cart item quantity or use local state
   const [localQuantity, setLocalQuantity] = useState(1);
-    const {addItem, updateQuantity, removeItem, getItem } = useCartStore();
-    const cartItem = getItem(id);
-    const currentQuantity = cartItem?.quantity || localQuantity;
-    const isAddedToCart = !!cartItem;
+
+  const { addItem, updateQuantity, removeItem, getItem } = useCartStore();
+
+  const cartItemId = product?.skuCode || id;
+  const cartItem = getItem(cartItemId);
+  const currentQuantity = cartItem?.quantity || localQuantity;
+  const isAddedToCart = !!cartItem;
+  const isOutOfStock = product?.stockLevel === 'out_of_stock';
+
+  const productName =
+    product?.name || product?.productName || product?.skuCode || 'Product';
+
+  const price = product?.price ?? 0;
+  const originalPrice = product?.originalPrice ?? price;
+  const discount = Math.round(product?.discount ?? 0);
+
+  const { reviewCount, averageRating } = useMemo(() => {
+    const validReviews = Array.isArray(product?.reviews)
+      ? product.reviews.filter((review) => {
+          const stars = Number(review?.stars);
+          return Number.isFinite(stars) && stars >= 1 && stars <= 5;
+        })
+      : [];
+
+    const count = validReviews.length;
+
+    const totalStars = validReviews.reduce(
+      (sum, review) => sum + Number(review.stars),
+      0
+    );
+
+    return {
+      reviewCount: count,
+      averageRating: count ? totalStars / count : 0,
+    };
+  }, [product?.reviews]);
+
+  const activeColorOption =
+    colorOptions.find((color) => color.value === selectedColor) ||
+    colorOptions[0];
+
+  const productImage = activeColorOption?.image || '';
 
   const handleColorSelect = (colorOption) => {
-    setSelectedColor(colorOption);
-    router.push(`/en/product/${cat}/${subcat}/${slug}/${colorOption?.skuId}`);
+    onColorChange?.(colorOption.value);
+
+    if (colorOption.skuId && colorOption.skuId !== product?.skuCode) {
+      const baseCat = cat || product?.category?.id;
+      const baseSub =
+        subcat || product?.subCatgory?.id || product?.subCategory?.id;
+      const baseSlug = slug || product?.slug;
+
+      if (baseCat && baseSub && baseSlug) {
+        router.push(
+          `/en/product/${baseCat}/${baseSub}/${baseSlug}/${colorOption.skuId}`
+        );
+      }
+    }
   };
 
   const handleAddToCart = () => {
-      addItem({
-      id,
-      name: product?.name,
-      image: variant?.image,
-      discount: variant.discount_percent,
-      price: parseFloat(variant.consumer_price),
-      originalPrice: parseFloat(variant.printed_price || variant.consumer_price),
-      category:product.category?.id,
-      subCategory:product.subCategory?.id,
-      slug: product.slug,
+    if (isOutOfStock) return;
+
+    addItem({
+      id: cartItemId,
+      name: productName,
+      image: productImage,
+      discount,
+      price: parseFloat(price),
+      originalPrice: parseFloat(originalPrice),
+      category: product?.category?.id,
+      subCategory: product?.subCatgory?.id || product?.subCategory?.id,
+      slug: product?.slug || slug,
       quantity: currentQuantity,
-      maxQuantity: 999
+      maxQuantity: 999,
+      color: selectedColor,
+      skuCode: product?.skuCode,
     });
-    setLocalQuantity(1); 
+
+    setLocalQuantity(1);
   };
 
-    const handleQuantityChange = (newQuantity) => {
+  const handleQuantityChange = (newQuantity) => {
     if (!isAddedToCart) {
       setLocalQuantity(newQuantity);
       return;
     }
-    
-    updateQuantity(id, newQuantity);
+
+    updateQuantity(cartItemId, newQuantity);
   };
-  
+
   const handleRemoveFromCart = () => {
-    removeItem(id);
+    removeItem(cartItemId);
     setLocalQuantity(1);
   };
 
-   const incrementQuantity = () => {
-    const newQty = currentQuantity + 1;
-    handleQuantityChange(newQty);
+  const incrementQuantity = () => {
+    handleQuantityChange(currentQuantity + 1);
   };
 
   const decrementQuantity = () => {
-    const newQty = currentQuantity - 1;
-    handleQuantityChange(newQty > 0 ? newQty : 1);
+    const newQuantity = currentQuantity - 1;
+    handleQuantityChange(newQuantity > 0 ? newQuantity : 1);
   };
 
-
   const handleBuyNow = () => {
+    if (isOutOfStock) return;
+
     if (!isAddedToCart) {
       handleAddToCart();
     }
-    router.push("/en/cart");
+
+    router.push('/en/cart');
   };
 
   const checkDelivery = () => {
@@ -91,219 +144,262 @@ export default function ProductInfo({ product, variant,types }) {
   return (
     <div className="space-y-6">
       <div id="product-info-sentinel" />
-      {/* Category badges */}
 
-      {variant?.is_hot_selling && (
-        <div className="flex items-center gap-3 flex-wrap">
-          <span className="bg-gradient-to-r from-orange-500 to-orange-600 text-white text-sm font-semibold px-3 py-1 rounded-full flex items-center gap-1">
-            <Star className="w-3 h-3 fill-current" />
+      {product?.is_hot_selling && (
+        <div className="flex flex-wrap items-center gap-3">
+          <span className="flex items-center gap-1 rounded-full bg-gradient-to-r from-orange-500 to-orange-600 px-3 py-1 text-sm font-semibold text-white">
+            <Star className="h-3 w-3 fill-current" />
             Hot Selling
           </span>
         </div>
       )}
 
-      {/* Product name and description */}
+      {/* Name */}
       <div>
-        <h1 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight uppercase">
-          {product?.name || "Desire Pods TWS Earbuds"}
+        <h1 className="text-3xl font-bold uppercase leading-tight text-gray-900 md:text-4xl">
+          {productName}
         </h1>
-        {/* Product description */}
-        <p className="text-sm font-light text-gray-400 mt-1 capitalize">
-          {variant?.description || "Your product description goes here"}
-        </p>
+
+        {product?.description && (
+          <p className="mt-1 text-sm font-light capitalize text-gray-400">
+            {product.description}
+          </p>
+        )}
       </div>
 
-      {/* Rating */}
+      {/* Real rating and review count from product.reviews */}
       <div className="flex items-center gap-2">
-        <div className="flex items-center gap-0.5">
-          {[...Array(5)].map((_, i) => (
-            <Star
-              key={i}
-              className={`w-5 h-5 ${
-                i < 4.5
-                  ? "fill-amber-400 text-amber-400"
-                  : "fill-gray-200 text-gray-200"
-              }`}
-            />
-          ))}
-        </div>
-        <span className="text-gray-600 font-medium">(127 reviews)</span>
+        {reviewCount > 0 ? (
+          <>
+            <div className="flex items-center gap-0.5">
+              {[...Array(5)].map((_, index) => {
+                const starNumber = index + 1;
+                const isFilled = starNumber <= Math.round(averageRating);
+
+                return (
+                  <Star
+                    key={starNumber}
+                    className={`h-5 w-5 ${
+                      isFilled
+                        ? 'fill-amber-400 text-amber-400'
+                        : 'fill-gray-200 text-gray-200'
+                    }`}
+                  />
+                );
+              })}
+            </div>
+
+            <span className="font-semibold text-gray-800">
+              {averageRating.toFixed(1)}
+            </span>
+
+            <span className="font-medium text-gray-600">
+              ({reviewCount} {reviewCount === 1 ? 'review' : 'reviews'})
+            </span>
+          </>
+        ) : (
+          <>
+            <div className="flex items-center gap-0.5">
+              {[...Array(5)].map((_, index) => (
+                <Star
+                  key={index}
+                  className="h-5 w-5 fill-gray-200 text-gray-200"
+                />
+              ))}
+            </div>
+
+            <span className="font-medium text-gray-500">No reviews yet</span>
+          </>
+        )}
       </div>
 
-      {/* Price Section */}
+      {/* Price */}
       <div className="space-y-2">
-        <div className="flex items-baseline gap-2 flex-wrap">
-          <span className="text-3xl md:text-4xl font-black text-gray-900">
-            ₹{variant?.consumer_price}
+        <div className="flex flex-wrap items-baseline gap-2">
+          <span className="text-3xl font-black text-gray-900 md:text-4xl">
+            ₹{price}
           </span>
-          <span className="text-xl md:text-2xl text-gray-400 line-through">
-            ₹{variant?.printed_price}
-          </span>
-          <span className="text-lg font-bold text-green-600 bg-green-100 px-3 py-1 rounded-full">
-            {Math.round(variant?.discount_percent)}% Off
-          </span>
+
+          {Number(originalPrice) > Number(price) && (
+            <span className="text-xl text-gray-400 line-through md:text-2xl">
+              ₹{originalPrice}
+            </span>
+          )}
+
+          {discount > 0 && (
+            <span className="rounded-full bg-green-100 px-3 py-1 text-lg font-bold text-green-600">
+              {discount}% Off
+            </span>
+          )}
         </div>
+
         <span className="text-sm text-gray-500">
           MRP (inclusive of all taxes)
         </span>
+
+        {isOutOfStock && (
+          <p className="text-sm font-semibold text-red-600">Out of stock</p>
+        )}
       </div>
 
-      {/* Color Selector */}
-{types?.colors && (
-  <div className="space-y-3">
-    <label className="text-sm font-semibold text-gray-700 block">
-      Choose your color : {selectedColor?.value}
-    </label>
-    <div className="flex gap-2 flex-wrap">
-      {types?.colors?.map((color, idx) => {
-        const isSelected = selectedColor?.skuId === color.skuId;
+      {/* Color selector */}
+      {colorOptions.length > 0 && (
+        <div className="space-y-3">
+          <label className="block text-sm font-semibold text-gray-700">
+            Choose your color: {selectedColor || activeColorOption?.value}
+          </label>
 
-        return (
+          <div className="flex flex-wrap gap-2">
+            {colorOptions.map((color, index) => {
+              const isSelected = selectedColor === color.value;
+
+              return (
+                <button
+                  key={color.id || color.value || index}
+                  type="button"
+                  onClick={() => handleColorSelect(color)}
+                  title={color.value}
+                  aria-label={`Select ${color.value} color`}
+                  className={`relative h-20 w-20 flex-shrink-0 overflow-hidden rounded-md border transition-all ${
+                    isSelected
+                      ? 'border-gray-700 ring-2 ring-gray-300'
+                      : 'border-gray-200 hover:border-gray-400'
+                  }`}
+                >
+                  <Image
+                    src={color.image}
+                    alt={color.value || 'Product color'}
+                    fill
+                    className="object-cover"
+                    sizes="80px"
+                  />
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* Delivery check */}
+      <div className="rounded-xl border border-blue-100 bg-gradient-to-r from-blue-50 to-indigo-50 p-4 sm:p-5">
+        <div className="space-y-3">
+          <div className="flex flex-col items-start gap-2 sm:flex-row sm:items-center sm:gap-3">
+            <div className="flex flex-shrink-0 items-center gap-2">
+              <MapPin className="h-4 w-4 text-blue-600 sm:h-5 sm:w-5" />
+              <span className="whitespace-nowrap text-sm font-semibold text-gray-900">
+                Check delivery
+              </span>
+            </div>
+
+            <div className="flex w-full gap-2">
+              <input
+                type="text"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                placeholder="Enter pincode"
+                value={pincode}
+                onChange={(event) =>
+                  setPincode(event.target.value.replace(/[^0-9]/g, ''))
+                }
+                maxLength={6}
+                className="min-w-0 flex-1 rounded-lg border border-gray-300 px-3 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 sm:px-4"
+              />
+
+              <button
+                type="button"
+                onClick={checkDelivery}
+                disabled={pincode.length !== 6}
+                className="flex-shrink-0 whitespace-nowrap rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-medium text-white transition-all hover:bg-blue-700 active:scale-95 disabled:cursor-not-allowed disabled:bg-gray-400 sm:px-6"
+              >
+                Check
+              </button>
+            </div>
+          </div>
+
+          {showDelivery && (
+            <div className="flex flex-col items-stretch gap-2 pt-1 sm:flex-row sm:items-center">
+              <span className="flex-1 rounded-lg border border-green-200 bg-green-50 px-3 py-2 text-sm font-medium text-green-700 sm:px-4">
+                🚚 Free delivery available for this pincode
+              </span>
+
+              <button
+                type="button"
+                onClick={() => setShowDelivery(false)}
+                className="whitespace-nowrap rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-500 transition-colors hover:text-gray-700 active:scale-95 sm:flex-shrink-0"
+              >
+                Change
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Purchase controls */}
+      <div className="space-y-3">
+        <div className="grid grid-cols-2 items-center gap-3">
+          {isAddedToCart ? (
+            <motion.div
+              className="flex w-full items-center justify-center gap-2 rounded-xl border-2 border-blue-200 bg-blue-50 p-2 sm:gap-3"
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.2 }}
+            >
+              <motion.button
+                type="button"
+                onClick={decrementQuantity}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                disabled={currentQuantity <= 1}
+                className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg border border-blue-200 bg-white shadow-md transition-all hover:bg-blue-50 disabled:cursor-not-allowed disabled:opacity-50 sm:h-10 sm:w-10"
+              >
+                <Minus className="h-3 w-3 text-blue-700 sm:h-4 sm:w-4" />
+              </motion.button>
+
+              <span className="min-w-[1.5rem] text-center text-base font-bold text-gray-900 sm:text-lg">
+                {currentQuantity}
+              </span>
+
+              <motion.button
+                type="button"
+                onClick={incrementQuantity}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg border border-blue-200 bg-white shadow-md transition-all hover:bg-blue-50 sm:h-10 sm:w-10"
+              >
+                <Plus className="h-3 w-3 text-blue-700 sm:h-4 sm:w-4" />
+              </motion.button>
+
+              <motion.button
+                type="button"
+                onClick={handleRemoveFromCart}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="ml-1 flex-shrink-0 text-xs font-semibold text-red-600 transition-colors hover:text-red-700 sm:text-sm"
+              >
+                Remove
+              </motion.button>
+            </motion.div>
+          ) : (
+            <button
+              type="button"
+              onClick={handleAddToCart}
+              disabled={isOutOfStock}
+              className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-gray-900 px-4 py-3 text-sm font-bold text-white shadow-lg transition-all duration-200 hover:-translate-y-1 hover:shadow-xl disabled:cursor-not-allowed disabled:transform-none disabled:bg-gray-400 disabled:shadow-none sm:h-14 sm:px-8 sm:py-4 sm:text-lg"
+            >
+              {isOutOfStock ? 'Out of Stock' : 'Add to Cart'}
+            </button>
+          )}
+
           <button
-            key={idx}
-            onClick={() => handleColorSelect(color)}
-            title={color.value}
-            className={`relative w-20 h-20 flex-shrink-0 rounded-md overflow-hidden transition-all ${
-              isSelected
-                ? " border-1 border-gray-700 ring-2 ring-gray-300"
-                : "border-gray-200 hover:border-gray-400"
-            }`}
+            type="button"
+            onClick={handleBuyNow}
+            disabled={isOutOfStock}
+            className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-green-500 px-4 py-3 text-sm font-bold text-white shadow-lg transition-all duration-200 hover:-translate-y-1 hover:shadow-xl disabled:cursor-not-allowed disabled:transform-none disabled:bg-gray-400 disabled:shadow-none sm:h-14 sm:px-8 sm:py-4 sm:text-lg"
           >
-            <Image
-              src={color.image}
-              alt={color.value}
-              fill
-              className="object-cover"
-              
-            />
-            {/* {isSelected && (
-              <div className="absolute inset-0 flex items-center justify-center">
-              </div>
-            )} */}
+            Buy Now
           </button>
-        );
-      })}
-    </div>
-  </div>
-)}
-  
-
-      {/* Delivery Check - Delivery message BELOW input */}
-<div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-4 sm:p-5 rounded-xl border border-blue-100">
-  <div className="space-y-3">
-
-    {/* Top row: Icon + Label + Input + Button */}
-    <div className="flex flex-col xs:flex-row sm:flex-row items-start sm:items-center gap-2 sm:gap-3">
-
-      {/* Icon + Label */}
-      <div className="flex items-center gap-2 flex-shrink-0">
-        <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" />
-        <span className="font-semibold text-gray-900 text-sm whitespace-nowrap">
-          Check delivery
-        </span>
+        </div>
       </div>
-
-      {/* Input + Button */}
-      <div className="flex w-full gap-2">
-        <input
-          type="text"
-          inputMode="numeric"
-          pattern="[0-9]*"
-          placeholder="Enter pincode"
-          value={pincode}
-          onChange={(e) => setPincode(e.target.value.replace(/[^0-9]/g, ""))}
-          maxLength={6}
-          className="flex-1 min-w-0 px-3 sm:px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
-        />
-        <button
-          onClick={checkDelivery}
-          disabled={pincode.length !== 6}
-          className="px-4 sm:px-6 py-2.5 bg-blue-600 text-white text-sm rounded-lg font-medium hover:bg-blue-700 active:scale-95 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all whitespace-nowrap flex-shrink-0"
-        >
-          Check
-        </button>
-      </div>
-    </div>
-
-    {/* Delivery Result Row */}
-    {showDelivery && (
-      <div className="flex flex-col xs:flex-row sm:flex-row items-stretch sm:items-center gap-2 pt-1">
-        <span className="flex-1 text-sm text-green-700 font-medium bg-green-50 border border-green-200 px-3 sm:px-4 py-2 rounded-lg">
-          🚚 Free delivery by Saturday, 21 Mar
-        </span>
-        <button
-          onClick={() => setShowDelivery(false)}
-          className="text-gray-500 hover:text-gray-700 text-sm font-medium px-4 py-2 border border-gray-300 rounded-lg transition-colors whitespace-nowrap active:scale-95 sm:flex-shrink-0"
-        >
-          Change
-        </button>
-      </div>
-    )}
-
-  </div>
-</div>
-
-      {/* Buy Buttons */}
-    <div className="space-y-3">
-  <div className="grid grid-cols-2 gap-3 items-center">
-
-    {isAddedToCart ? (
-      <motion.div
-        className="w-full bg-blue-50 border-2 border-blue-200 rounded-xl p-2 flex items-center justify-center gap-2 sm:gap-3"
-        initial={{ scale: 0.95, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.2 }}
-      >
-        <motion.button
-          onClick={decrementQuantity}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.95 }}
-          disabled={currentQuantity <= 1}
-          className="w-8 h-8 sm:w-10 sm:h-10 bg-white rounded-lg flex items-center justify-center shadow-md hover:bg-blue-50 transition-all duration-200 border border-blue-200 disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
-        >
-          <Minus className="w-3 h-3 sm:w-4 sm:h-4 text-blue-700" />
-        </motion.button>
-
-        <span className="text-base sm:text-lg font-bold text-gray-900 min-w-[1.5rem] text-center">
-          {currentQuantity}
-        </span>
-
-        <motion.button
-          onClick={incrementQuantity}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.95 }}
-          className="w-8 h-8 sm:w-10 sm:h-10 bg-white rounded-lg flex items-center justify-center shadow-md hover:bg-blue-50 transition-all duration-200 border border-blue-200 flex-shrink-0"
-        >
-          <Plus className="w-3 h-3 sm:w-4 sm:h-4 text-blue-700" />
-        </motion.button>
-
-        <motion.button
-          onClick={handleRemoveFromCart}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          className="text-xs sm:text-sm text-red-600 font-semibold hover:text-red-700 transition-colors ml-1 flex-shrink-0"
-        >
-          Remove
-        </motion.button>
-      </motion.div>
-    ) : (
-      <button
-        onClick={handleAddToCart}
-        className="bg-gray-900 text-white py-3 sm:py-4 px-4 sm:px-8 rounded-xl font-bold text-sm sm:text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200 flex items-center justify-center gap-2 h-12 sm:h-14 w-full"
-      >
-        Add to Cart
-      </button>
-    )}
-
-    <button
-      onClick={handleBuyNow}
-      className="bg-green-500 text-white py-3 sm:py-4 px-4 sm:px-8 rounded-xl font-bold text-sm sm:text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200 flex items-center justify-center gap-2 h-12 sm:h-14 w-full"
-    >
-      Buy Now
-    </button>
-
-  </div>
-</div>
     </div>
   );
 }

@@ -228,7 +228,15 @@ export default function LoginPage() {
               transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
               className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-black to-gray-800 rounded-2xl mb-4 shadow-lg"
             >
-              <span className="text-3xl font-bold text-white">T</span>
+              {/* <span className="text-3xl font-bold text-white">T</span> */}
+              <Image
+  src="/images/touchtek/logo/icon.png"
+  alt="Touchtek logo"
+  width={80}
+  height={80}
+  priority
+  className="h-full w-full object-cover"
+/>
             </motion.div>
 
             <motion.div

@@ -24,6 +24,8 @@ const DUMMY_RELATED = [
 ];
 
 export default function RelatedProducts({ products = [], category }) {
+
+  console.log('related products', products)
   const params = useParams();
   const { cat, subcat, slug, id } = params;
   

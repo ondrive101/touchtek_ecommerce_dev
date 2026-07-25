@@ -159,14 +159,14 @@ export default function RegisterPage() {
   // ─── Handlers ─────────────────────────────────────────────────────────────
 const handleRegister = async (payload) => {
     try {
-      toast.error('registration disabled by admin');
+      // toast.error('registration disabled by admin');
 
-      // const response = await addUser(payload);
-      //    if (!response.success) {
-      //      toast.error(response.message);
-      //    } else {
-      //      setMode("success");
-      //    }
+      const response = await addUser(payload);
+         if (!response.success) {
+           toast.error(response.message);
+         } else {
+           setMode("success");
+         }
     } catch (error) {
       console.error("Error creating account:", error);
       toast.error(error.message || "Error creating account");
@@ -260,7 +260,14 @@ const handleRegister = async (payload) => {
                 transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
                 className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-black to-gray-800 rounded-2xl mb-4 shadow-lg"
               >
-                <span className="text-3xl font-bold text-white">T</span>
+                             <Image
+                  src="/images/touchtek/logo/icon.png"
+                  alt="Touchtek logo"
+                  width={80}
+                  height={80}
+                  priority
+                  className="h-full w-full object-cover"
+                />
               </motion.div>
 
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
