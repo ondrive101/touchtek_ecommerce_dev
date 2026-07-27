@@ -82,7 +82,7 @@ export default function Header() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
-              <div className="absolute left-1/2 transform -translate-x-1/2 mt-2 w-[760px] bg-white shadow-2xl rounded-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 border border-gray-100 backdrop-blur-sm">
+              <div className="absolute left-1/2 transform -translate-x-1/2 mt-2 w-[850px] bg-white shadow-2xl rounded-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 border border-gray-100 backdrop-blur-sm">
                 <div className="p-8">
                   <div className="text-center mb-6">
                     <h3 className="text-lg font-bold text-gray-900 mb-2">Shop by Category</h3>
@@ -223,33 +223,39 @@ export default function Header() {
                       </div>
                     </div>
 
-                    {/* Protection Category */}
+                    {/* Computer Utils Category */}
                     <div className="group/item bg-gradient-to-br from-gray-50 to-white rounded-xl p-4 hover:shadow-lg transition-all duration-300 border border-gray-100">
                       <div className="flex items-center gap-4 mb-3">
-                        <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-gradient-to-br from-orange-50 to-orange-100">
+                        <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-gradient-to-br from-indigo-50 to-indigo-100">
                           <img
-                            src="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=100&h=100&fit=crop&brightness=120"
-                            alt="Protection"
+                            src="https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=100&h=100&fit=crop&crop=center"
+                            alt="Computer Utils"
                             className="w-full h-full object-cover group-hover/item:scale-110 transition-transform duration-300"
                           />
                         </div>
                         <div>
-                          <h4 className="font-semibold text-gray-900 text-sm">Protection</h4>
-                          <p className="text-xs text-gray-500">Cases & Screen</p>
+                          <h4 className="font-semibold text-gray-900 text-sm">Computer Gadgets</h4>
+                          <p className="text-xs text-gray-500">Peripherals & Audio</p>
                         </div>
                       </div>
-                      <div className="grid grid-cols-2 gap-2">
-                        <Link href="/en/products" className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-100 transition-colors group/link">
-                          <div className="w-8 h-8 rounded-lg bg-gray-200 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?w=50&h=50&fit=crop&brightness=120" alt="Cover" className="w-full h-full object-cover" />
+                      <div className="grid grid-cols-3 gap-1.5">
+                        <Link href="/en/products?category=mouse&parentCategory=computer-utils" className="flex items-center gap-1.5 p-1.5 rounded-lg hover:bg-gray-100 transition-colors group/link">
+                          <div className="w-7 h-7 rounded-lg bg-gray-200 overflow-hidden flex-shrink-0">
+                            <img src="https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=50&h=50&fit=crop" alt="Mouse" className="w-full h-full object-cover" />
                           </div>
-                          <span className="text-xs text-gray-700 group-hover/link:text-black">Cover</span>
+                          <span className="text-xs text-gray-700 group-hover/link:text-black font-medium truncate">Mouse</span>
                         </Link>
-                        <Link href="/en/products" className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-100 transition-colors group/link">
-                          <div className="w-8 h-8 rounded-lg bg-gray-200 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=50&h=50&fit=crop&brightness=130" alt="Tempered Glass" className="w-full h-full object-cover" />
+                        <Link href="/en/products?category=keyboard&parentCategory=computer-utils" className="flex items-center gap-1.5 p-1.5 rounded-lg hover:bg-gray-100 transition-colors group/link">
+                          <div className="w-7 h-7 rounded-lg bg-gray-200 overflow-hidden flex-shrink-0">
+                            <img src="https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=50&h=50&fit=crop" alt="Keyboard" className="w-full h-full object-cover" />
                           </div>
-                          <span className="text-xs text-gray-700 group-hover/link:text-black">Tempered Glass</span>
+                          <span className="text-xs text-gray-700 group-hover/link:text-black font-medium truncate">Keyboard</span>
+                        </Link>
+                        <Link href="/en/products?category=collarmic&parentCategory=computer-utils" className="flex items-center gap-1.5 p-1.5 rounded-lg hover:bg-gray-100 transition-colors group/link">
+                          <div className="w-7 h-7 rounded-lg bg-gray-200 overflow-hidden flex-shrink-0">
+                            <img src="https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=50&h=50&fit=crop" alt="Collar Mic" className="w-full h-full object-cover" />
+                          </div>
+                          <span className="text-xs text-gray-700 group-hover/link:text-black font-medium truncate">Collar Mic</span>
                         </Link>
                       </div>
                     </div>
@@ -269,9 +275,9 @@ export default function Header() {
             </div>
 
             <Link href="/en/contact" className="text-gray-700 hover:text-black px-3 py-2 text-sm font-medium">Contact</Link>
-            <Link href="/en/warranty" className="text-gray-700 hover:text-black px-3 py-2 text-sm font-medium">Warranty</Link>
-            <Link href="/en/careers" className="text-gray-700 hover:text-black px-3 py-2 text-sm font-medium">Careers</Link>
-            <Link href="/en/faq" className="text-gray-700 hover:text-black px-3 py-2 text-sm font-medium">FAQ</Link>
+            {/* <Link href="/en/warranty" className="text-gray-700 hover:text-black px-3 py-2 text-sm font-medium">Warranty</Link> */}
+            {/* <Link href="/en/careers" className="text-gray-700 hover:text-black px-3 py-2 text-sm font-medium">Careers</Link>
+            <Link href="/en/faq" className="text-gray-700 hover:text-black px-3 py-2 text-sm font-medium">FAQ</Link> */}
 
             {/* Desktop Auth & User Actions */}
             {isLoading ? (
@@ -314,7 +320,7 @@ export default function Header() {
                   <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </Link>
 
-             
+
                 {/* Cart Icon */}
                 <Link
                   href="/en/cart"
@@ -348,9 +354,9 @@ export default function Header() {
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-gray-50 border-t border-gray-100">
               <Link href="/en/products" className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-black rounded-lg hover:bg-white transition-all" onClick={() => setIsMenuOpen(false)}>All Products</Link>
               <Link href="/en/contact" className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-black rounded-lg hover:bg-white transition-all" onClick={() => setIsMenuOpen(false)}>Contact</Link>
-              <Link href="/en/warranty" className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-black rounded-lg hover:bg-white transition-all" onClick={() => setIsMenuOpen(false)}>Warranty</Link>
-              <Link href="/en/careers" className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-black rounded-lg hover:bg-white transition-all" onClick={() => setIsMenuOpen(false)}>Careers</Link>
-              <Link href="/en/faq" className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-black rounded-lg hover:bg-white transition-all" onClick={() => setIsMenuOpen(false)}>FAQ</Link>
+              {/* <Link href="/en/warranty" className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-black rounded-lg hover:bg-white transition-all" onClick={() => setIsMenuOpen(false)}>Warranty</Link> */}
+              {/* <Link href="/en/careers" className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-black rounded-lg hover:bg-white transition-all" onClick={() => setIsMenuOpen(false)}>Careers</Link>
+              <Link href="/en/faq" className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-black rounded-lg hover:bg-white transition-all" onClick={() => setIsMenuOpen(false)}>FAQ</Link> */}
 
               {/* Mobile Auth & User Actions */}
               {isLoading ? (

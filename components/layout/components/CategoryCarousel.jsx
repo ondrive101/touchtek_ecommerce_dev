@@ -131,6 +131,15 @@ const categories = [
     image: Cable,
     href: '/en/products?category=cables&parentCategory=accessories'
   },
+  {
+    id: 'computer-gadgets',
+    name: 'Computer Gadgets',
+    description: 'High-speed data cables',
+    icon: Zap,
+    productCount: 20,
+    image: Cable,
+    href: '/en/products?category=cables&parentCategory=accessories'
+  },
   // {
   //   id: 'connector',
   //   name: 'Connector',
@@ -197,8 +206,8 @@ export default function CategoryCarousel() {
             Explore Our Catalogue
           </h2>
           <p className="text-base md:text-lg text-gray-600">
-              Check out our latest products with cutting-edge technology and fresh designs
-            </p>
+            Check out our latest products with cutting-edge technology and fresh designs
+          </p>
         </motion.div>
 
         {/* Category Carousel */}
