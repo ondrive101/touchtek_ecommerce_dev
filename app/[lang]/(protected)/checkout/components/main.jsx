@@ -34,7 +34,7 @@ import Header from "@/components/layout/components/Header";
 let baseDiscount = 0;
 
 export default function CheckoutPage() {
-  const { items,clearCart, getSubtotal } =
+  const { items, clearCart, getSubtotal } =
     useCartStore();
   const [couponCode, setCouponCode] = useState("");
   const [showFailed, setShowFailed] = useState(false);
@@ -153,7 +153,7 @@ export default function CheckoutPage() {
         shippingAddressId: address.id,
         items: items.map(item => ({
           skuCode: item.id.toUpperCase(),
-          name:item.name.toLowerCase(),
+          name: item.name.toLowerCase(),
           quantity: item.quantity
         }))
       }
@@ -214,7 +214,7 @@ export default function CheckoutPage() {
         },
 
         // ── Step 4: Handle successful payment ─────────────────────────────
-      
+
 
         handler: async function (razorpayResponse) {
           try {
@@ -320,14 +320,14 @@ export default function CheckoutPage() {
               <h1 className="text-3xl font-bold text-slate-900 mb-3">
                 Order Placed!
               </h1>
-              <p className="text-lg text-slate-600 mb-6">
+              {/* <p className="text-lg text-slate-600 mb-6">
                 Order #TT-ORD-789456
-              </p>
+              </p> */}
               <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-6 mb-8">
                 <p className="text-sm font-semibold text-emerald-800 flex items-center justify-center gap-2 mb-1">
                   <Truck className="w-5 h-5" />
                   <Calendar className="w-5 h-5" />
-                  Tomorrow 10 AM - 1 PM
+                  Within 2 - 7 days
                 </p>
                 <p className="text-xs text-emerald-700">
                   Free delivery • Track anytime
@@ -507,11 +507,10 @@ export default function CheckoutPage() {
                             {address?.name}
                           </span>
                           <span
-                            className={`px-2 py-px text-xs font-medium rounded-full ${
-                              (address?.tag || "default") === "home"
-                                ? "bg-blue-100 text-blue-800"
-                                : "bg-green-100 text-green-800"
-                            }`}
+                            className={`px-2 py-px text-xs font-medium rounded-full ${(address?.tag || "default") === "home"
+                              ? "bg-blue-100 text-blue-800"
+                              : "bg-green-100 text-green-800"
+                              }`}
                           >
                             {address?.tag || "default"}
                           </span>
