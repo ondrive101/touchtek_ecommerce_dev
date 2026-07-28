@@ -3,7 +3,7 @@ import { revalidatePath } from "next/cache";
 import { headers as nextHeaders, cookies as nextCookies } from "next/headers";
 import { getServerSession } from "next-auth";
 import { getToken } from "next-auth/jwt";
-import {signOut } from "next-auth/react";
+import { signOut } from "next-auth/react";
 import { authOptions } from "@/lib/auth";
 import axios from "axios";
 
@@ -25,14 +25,14 @@ const ROLES = {
 const getSessionWithRole = async (allowedRoles = []) => {
   console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
   console.log("🔍 [SESSION CHECK] Attempting to get session...");
-  
+
   const session = await getServerSession(authOptions);
-  
+
   if (!session || !session.user) {
     console.log("❌ [SESSION CHECK] No session found");
     throw new Error("Unauthorized: No session found");
   }
-  
+
   console.log("✅ [SESSION CHECK] Session found", session);
   console.log("👤 [USER INFO]", {
     id: session.user.id,
@@ -41,7 +41,7 @@ const getSessionWithRole = async (allowedRoles = []) => {
     role: session.user.role,
   });
 
-  if(!session.user.role){
+  if (!session.user.role) {
     console.log("❌ [SESSION CHECK] No role found");
     throw new Error("Unauthorized: No role found");
   }
@@ -52,7 +52,7 @@ const getSessionWithRole = async (allowedRoles = []) => {
     console.log("🔒 [AUTHORIZATION] Required roles:", allowedRoles);
     console.log("🔒 [AUTHORIZATION] User role:", session.user.role);
     console.log(isAllowed ? "✅ [AUTHORIZATION] Access granted" : "❌ [AUTHORIZATION] Access denied");
-    
+
     if (!isAllowed) {
       throw new Error(
         `Forbidden: Requires one of these roles: ${allowedRoles.join(", ")}`
@@ -68,7 +68,7 @@ const getSessionWithRole = async (allowedRoles = []) => {
 const handleApiError = (error) => {
   console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
   console.log("❌ [ERROR HANDLER] Processing error...");
-  
+
   if (error.response) {
     console.log("📛 [ERROR TYPE] Backend response error");
     console.log("📛 [STATUS CODE]", error.response.status);
@@ -76,14 +76,14 @@ const handleApiError = (error) => {
     console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
     return error.response.data.message || error.response.data.msg || "Something went wrong";
   }
-  
+
   if (error.request) {
     console.log("📛 [ERROR TYPE] No response from server");
     console.log("📛 [REQUEST]", error.request);
     console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
     return "No response from server";
   }
-  
+
   console.log("📛 [ERROR TYPE] Request setup error");
   console.log("📛 [MESSAGE]", error.message);
   console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
@@ -91,7 +91,7 @@ const handleApiError = (error) => {
 };
 
 // Generic API call with role-based auth
-const apiCall = async (method, endpoint, data = null, allowedRoles = [],log=true) => {
+const apiCall = async (method, endpoint, data = null, allowedRoles = [], log = true) => {
   console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
   console.log("📡 [API CALL START]");
   console.log("📡 [METHOD]", method.toUpperCase());
@@ -99,7 +99,7 @@ const apiCall = async (method, endpoint, data = null, allowedRoles = [],log=true
   console.log("📡 [FULL URL]", `${BACKEND_URL}${endpoint}`);
   console.log("📡 [DATA]", data || "No data");
   console.log("📡 [REQUIRES AUTH]", allowedRoles.length > 0 ? "Yes" : "No");
-  
+
   try {
     let headers = {};
 
@@ -196,18 +196,18 @@ const apiCall = async (method, endpoint, data = null, allowedRoles = [],log=true
   }
 };
 
+
+
+// ==================== Auth Page ACTIONS (unprotected) ====================
 export const addUser = async (data) => {
-  console.log("🆕 [PUBLIC ACTION] addUser called");
   return apiCall("post", "/auth/register", data);
 };
 
 export const loginUser = async (data) => {
-  console.log("🔐 [PUBLIC ACTION] loginUser called");
   return apiCall("post", "/auth/login", data);
 };
 
 export const refreshAccessToken = async (data) => {
-  console.log("🆕 [PUBLIC ACTION] refresh token called");
   return apiCall("post", "/auth/refresh-access-token", data);
 };
 
@@ -217,23 +217,23 @@ export const refreshAccessToken = async (data) => {
 
 export const getProducts = async (filters) => {
   console.log("👤 [INVENTORY ACTION] getProducts called");
-   const queryParams = new URLSearchParams();
-   if (filters.source) queryParams.append('source', filters.source);
-   if (filters.page) queryParams.append('page', filters.page);
-   if (filters.limit) queryParams.append('limit', filters.limit);
-   if (filters.search) queryParams.append('search', filters.search);
-   if (filters.parentCategory) queryParams.append('category', filters.parentCategory);
-   if (filters.category) queryParams.append('subcategory', filters.category);
+  const queryParams = new URLSearchParams();
+  if (filters.source) queryParams.append('source', filters.source);
+  if (filters.page) queryParams.append('page', filters.page);
+  if (filters.limit) queryParams.append('limit', filters.limit);
+  if (filters.search) queryParams.append('search', filters.search);
+  if (filters.parentCategory) queryParams.append('category', filters.parentCategory);
+  if (filters.category) queryParams.append('subcategory', filters.category);
   if (filters.priceRange) {
     queryParams.append('minPrice', filters.priceRange[0].toString());
     queryParams.append('maxPrice', filters.priceRange[1].toString());
   }
-   if (filters.sortBy) queryParams.append('sortBy', filters.sortBy);
-   if (filters.minRating) queryParams.append('minRating', filters.minRating.toString());
-   const queryString = queryParams.toString();
+  if (filters.sortBy) queryParams.append('sortBy', filters.sortBy);
+  if (filters.minRating) queryParams.append('minRating', filters.minRating.toString());
+  const queryString = queryParams.toString();
   const endpoint = queryString ? `/products/get-products?${queryString}` : `/products/get-products`;
-  
-  
+
+
   return apiCall("get", endpoint, null, [], false);
 };
 

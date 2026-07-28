@@ -19,7 +19,7 @@ import { Settings } from "@/components/svg";
 import { User } from "@/components/svg";
 
 const PopoverSidebar = ({ trans }) => {
-  const { collapsed, sidebarBg,setCollapsed } = useSidebar();
+  const { collapsed, sidebarBg, setCollapsed } = useSidebar();
   const { layout, isRtl } = useThemeStore();
   const { data: session } = useSession();
   const menus = getMenu(session);
@@ -150,7 +150,7 @@ const PopoverSidebar = ({ trans }) => {
           ))}
         </ul>
         {!collapsed && (
-          <div className="-mx-2 ">
+          <div className="-mx-2 mt-10">
             <AddBlock />
           </div>
         )}

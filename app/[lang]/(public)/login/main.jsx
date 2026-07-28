@@ -13,13 +13,13 @@ import {
   Shield,
   Phone,
   ArrowLeft,
-  KeyRound,Loader2
+  KeyRound, Loader2
 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { getSession, signIn} from "next-auth/react";
+import { getSession, signIn } from "next-auth/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {maskOtpTarget } from '@/lib/utils/functions';
+import { maskOtpTarget } from '@/lib/utils/functions';
 import Link from "next/link";
 import Image from "next/image";
 import OtpInput from "@/components/layout/components/OTP";
@@ -115,7 +115,7 @@ export default function LoginPage() {
       startResendTimer();
     }, 1200);
   };
-  
+
   // ─── Handlers ─────────────────────────────────────────────────────────────
   const handleLogin = async (payload) => {
     try {
@@ -123,7 +123,7 @@ export default function LoginPage() {
       setIsLoading(true);
 
       const response = await signIn("credentials", {
-        type:payload.type,
+        type: payload.type,
         email: payload.data.email,
         password: payload.data.password,
         redirect: false,
@@ -148,7 +148,7 @@ export default function LoginPage() {
     if (useEmailOtp) {
       triggerOtpSend(data.email, "email-otp");
     } else {
-      
+
       const payload = {
         type: "email",
         data,
@@ -230,13 +230,13 @@ export default function LoginPage() {
             >
               {/* <span className="text-3xl font-bold text-white">T</span> */}
               <Image
-  src="/images/touchtek/logo/icon.png"
-  alt="Touchtek logo"
-  width={80}
-  height={80}
-  priority
-  className="h-full w-full object-cover"
-/>
+                src="/images/touchtek/logo/icon.png"
+                alt="Touchtek logo"
+                width={80}
+                height={80}
+                priority
+                className="h-full w-full object-cover"
+              />
             </motion.div>
 
             <motion.div
@@ -287,11 +287,10 @@ export default function LoginPage() {
                     setLoginMode("email");
                     resetOtp();
                   }}
-                  className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-sm font-semibold transition-all ${
-                    loginMode === "email"
+                  className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-sm font-semibold transition-all ${loginMode === "email"
                       ? "bg-white text-gray-900 shadow-sm"
                       : "text-gray-500 hover:text-gray-700"
-                  }`}
+                    }`}
                 >
                   <Mail className="w-4 h-4" />
                   Email
@@ -302,11 +301,10 @@ export default function LoginPage() {
                     setLoginMode("phone");
                     resetOtp();
                   }}
-                  className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-sm font-semibold transition-all ${
-                    loginMode === "phone"
+                  className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-sm font-semibold transition-all ${loginMode === "phone"
                       ? "bg-white text-gray-900 shadow-sm"
                       : "text-gray-500 hover:text-gray-700"
-                  }`}
+                    }`}
                 >
                   <Phone className="w-4 h-4" />
                   Phone
@@ -345,11 +343,10 @@ export default function LoginPage() {
                       type="email"
                       id="email"
                       placeholder="you@example.com"
-                      className={`w-full pl-11 pr-4 py-3 border-2 rounded-lg transition-all text-gray-900 placeholder:text-gray-400 outline-none ${
-                        errors.email
+                      className={`w-full pl-11 pr-4 py-3 border-2 rounded-lg transition-all text-gray-900 placeholder:text-gray-400 outline-none ${errors.email
                           ? "border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20"
                           : "border-gray-200 focus:border-black focus:ring-2 focus:ring-black/10"
-                      }`}
+                        }`}
                     />
                   </div>
                   <FieldError message={errors.email?.message} />
@@ -370,11 +367,10 @@ export default function LoginPage() {
                       type={showPassword ? "text" : "password"}
                       id="password"
                       placeholder="••••••••"
-                      className={`w-full pl-11 pr-12 py-3 border-2 rounded-lg transition-all text-gray-900 placeholder:text-gray-400 outline-none ${
-                        errors.password
+                      className={`w-full pl-11 pr-12 py-3 border-2 rounded-lg transition-all text-gray-900 placeholder:text-gray-400 outline-none ${errors.password
                           ? "border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20"
                           : "border-gray-200 focus:border-black focus:ring-2 focus:ring-black/10"
-                      }`}
+                        }`}
                     />
                     <button
                       type="button"
@@ -404,7 +400,7 @@ export default function LoginPage() {
                     </span>
                   </label>
                   <Link
-                    href="#"
+                    href="/forgot-password"
                     className="text-black font-semibold hover:underline transition-all"
                   >
                     Forgot password?
@@ -506,11 +502,10 @@ export default function LoginPage() {
                           return;
                         if (!/^\d$/.test(e.key)) e.preventDefault();
                       }}
-                      className={`w-full pl-24 pr-4 py-3 border-2 rounded-lg transition-all text-gray-900 placeholder:text-gray-400 outline-none ${
-                        phoneErrors.phone
+                      className={`w-full pl-24 pr-4 py-3 border-2 rounded-lg transition-all text-gray-900 placeholder:text-gray-400 outline-none ${phoneErrors.phone
                           ? "border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20"
                           : "border-gray-200 focus:border-black focus:ring-2 focus:ring-black/10"
-                      }`}
+                        }`}
                     />
                   </div>
                   <FieldError message={phoneErrors.phone?.message} />
