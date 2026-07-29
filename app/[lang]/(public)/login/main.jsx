@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   Eye,
   EyeOff,
@@ -43,8 +43,20 @@ const FieldError = ({ message }) =>
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+
+  useEffect(() => {
+    const errorParam = searchParams?.get("error");
+    if (errorParam) {
+      if (errorParam === "AccessDenied" || errorParam === "Callback") {
+        toast.error("Google authentication failed. Server rejected or could not sync account.");
+      } else {
+        toast.error(`Authentication error: ${errorParam}`);
+      }
+    }
+  }, [searchParams]);
 
   const initialMode = authConfig.isEnabled("login", "emailPassword")
     ? "email"
@@ -178,12 +190,14 @@ export default function LoginPage() {
   };
 
   const handleGoogleLogin = async () => {
-    setIsGoogleLoading(true);
-    // 🔁 Replace with: signIn('google') — next-auth / firebase
-    setTimeout(() => {
+    try {
+      setIsGoogleLoading(true);
+      await signIn("google", { callbackUrl: "/user/dashboard" });
+    } catch (error) {
+      console.error("Google login error:", error);
+      toast.error(error.message || "Something went wrong with Google Login");
       setIsGoogleLoading(false);
-      alert("Google login successful!");
-    }, 1500);
+    }
   };
 
   const handleResendOtp = () => {
@@ -288,8 +302,8 @@ export default function LoginPage() {
                     resetOtp();
                   }}
                   className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-sm font-semibold transition-all ${loginMode === "email"
-                      ? "bg-white text-gray-900 shadow-sm"
-                      : "text-gray-500 hover:text-gray-700"
+                    ? "bg-white text-gray-900 shadow-sm"
+                    : "text-gray-500 hover:text-gray-700"
                     }`}
                 >
                   <Mail className="w-4 h-4" />
@@ -302,8 +316,8 @@ export default function LoginPage() {
                     resetOtp();
                   }}
                   className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-sm font-semibold transition-all ${loginMode === "phone"
-                      ? "bg-white text-gray-900 shadow-sm"
-                      : "text-gray-500 hover:text-gray-700"
+                    ? "bg-white text-gray-900 shadow-sm"
+                    : "text-gray-500 hover:text-gray-700"
                     }`}
                 >
                   <Phone className="w-4 h-4" />
@@ -344,8 +358,8 @@ export default function LoginPage() {
                       id="email"
                       placeholder="you@example.com"
                       className={`w-full pl-11 pr-4 py-3 border-2 rounded-lg transition-all text-gray-900 placeholder:text-gray-400 outline-none ${errors.email
-                          ? "border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20"
-                          : "border-gray-200 focus:border-black focus:ring-2 focus:ring-black/10"
+                        ? "border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20"
+                        : "border-gray-200 focus:border-black focus:ring-2 focus:ring-black/10"
                         }`}
                     />
                   </div>
@@ -368,8 +382,8 @@ export default function LoginPage() {
                       id="password"
                       placeholder="••••••••"
                       className={`w-full pl-11 pr-12 py-3 border-2 rounded-lg transition-all text-gray-900 placeholder:text-gray-400 outline-none ${errors.password
-                          ? "border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20"
-                          : "border-gray-200 focus:border-black focus:ring-2 focus:ring-black/10"
+                        ? "border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20"
+                        : "border-gray-200 focus:border-black focus:ring-2 focus:ring-black/10"
                         }`}
                     />
                     <button
@@ -503,8 +517,8 @@ export default function LoginPage() {
                         if (!/^\d$/.test(e.key)) e.preventDefault();
                       }}
                       className={`w-full pl-24 pr-4 py-3 border-2 rounded-lg transition-all text-gray-900 placeholder:text-gray-400 outline-none ${phoneErrors.phone
-                          ? "border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20"
-                          : "border-gray-200 focus:border-black focus:ring-2 focus:ring-black/10"
+                        ? "border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20"
+                        : "border-gray-200 focus:border-black focus:ring-2 focus:ring-black/10"
                         }`}
                     />
                   </div>
@@ -622,19 +636,19 @@ export default function LoginPage() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.9 }}
             >
-              <div className="flex items-center gap-3 my-6">
+              {/* <div className="flex items-center gap-3 my-6">
                 <div className="flex-1 h-px bg-gray-200" />
                 <span className="text-xs text-gray-400 font-medium">
                   or continue with
                 </span>
                 <div className="flex-1 h-px bg-gray-200" />
-              </div>
+              </div> */}
 
               <button
                 type="button"
                 onClick={handleGoogleLogin}
                 disabled={isGoogleLoading}
-                className="w-full flex items-center justify-center gap-3 py-3 px-6 border-2 border-gray-200 rounded-lg hover:border-gray-400 hover:bg-gray-50 transition-all font-semibold text-gray-700 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full mt-2 flex items-center justify-center gap-3 py-3 px-6 border-2 border-gray-200 rounded-lg hover:border-gray-400 hover:bg-gray-50 transition-all font-semibold text-gray-700 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isGoogleLoading ? (
                   <>

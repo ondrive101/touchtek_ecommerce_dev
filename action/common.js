@@ -207,6 +207,23 @@ export const loginUser = async (data) => {
   return apiCall("post", "/auth/login", data);
 };
 
+export const googleLoginUser = async (data) => {
+  return apiCall("post", "/auth/google", data);
+};
+
+export const forgotPasswordUser = async (data) => {
+  return apiCall("post", "/auth/forgot-password", data);
+};
+
+export const validateResetTokenApi = async (token, email) => {
+  const path = `/auth/validate-reset-token?token=${encodeURIComponent(token)}&email=${encodeURIComponent(email)}`;
+  return apiCall("get", path, null, [], false);
+};
+
+export const resetPasswordUser = async (data) => {
+  return apiCall("post", "/auth/reset-password", data);
+};
+
 export const refreshAccessToken = async (data) => {
   return apiCall("post", "/auth/refresh-access-token", data);
 };

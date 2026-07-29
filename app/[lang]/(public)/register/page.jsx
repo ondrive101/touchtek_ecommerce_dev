@@ -1,20 +1,22 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from "react-hot-toast";
-import { getPasswordStrength,maskOtpTarget } from '@/lib/utils/functions';
+import { getPasswordStrength, maskOtpTarget } from '@/lib/utils/functions';
 import { addUser } from "@/action/common";
 import { register_registerSchema, register_phoneSchema, register_otpSchema } from '@/lib/utils/validator';
 import {
   Eye, EyeOff, Lock, Mail, Sparkles, Shield,
-  Phone, ArrowLeft, KeyRound, User, UserPlus, CheckCircle2,Loader2
+  Phone, ArrowLeft, KeyRound, User, UserPlus, CheckCircle2, Loader2
 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useSearchParams } from 'next/navigation';
 import OtpInput from '@/components/layout/components/OTP';
 import authConfig from '@/components/layout/config/authConfig';
+import { signIn } from 'next-auth/react';
 
 // ─── Field Error ──────────────────────────────────────────────────────────────
 const FieldError = ({ message }) =>
@@ -35,11 +37,10 @@ const InputField = ({ icon: Icon, error, rightEl, ...props }) => (
     <Icon className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
     <input
       {...props}
-      className={`w-full pl-11 ${rightEl ? 'pr-12' : 'pr-4'} py-3 border-2 rounded-lg transition-all text-sm text-gray-900 placeholder:text-gray-400 outline-none ${
-        error
+      className={`w-full pl-11 ${rightEl ? 'pr-12' : 'pr-4'} py-3 border-2 rounded-lg transition-all text-sm text-gray-900 placeholder:text-gray-400 outline-none ${error
           ? 'border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20'
           : 'border-gray-200 focus:border-black focus:ring-2 focus:ring-black/10'
-      }`}
+        }`}
     />
     {rightEl && <div className="absolute right-3 top-1/2 -translate-y-1/2">{rightEl}</div>}
   </div>
@@ -103,27 +104,39 @@ const SuccessScreen = ({ name }) => (
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 export default function RegisterPage() {
-  const [showPassword, setShowPassword]               = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [isLoading, setIsLoading]                     = useState(false);
-  const [isGoogleLoading, setIsGoogleLoading]         = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const errorParam = searchParams?.get("error");
+    if (errorParam) {
+      if (errorParam === "AccessDenied" || errorParam === "Callback") {
+        toast.error("Google registration failed. Server rejected or could not sync account.");
+      } else {
+        toast.error(`Registration error: ${errorParam}`);
+      }
+    }
+  }, [searchParams]);
 
   const initialMode = authConfig.isEnabled('register', 'emailPassword') ? 'email' : 'phone';
   const [mode, setMode] = useState(initialMode);
 
-  const [otpTarget, setOtpTarget]           = useState('');
+  const [otpTarget, setOtpTarget] = useState('');
   const [registeredName, setRegisteredName] = useState('');
-  const [otpValue, setOtpValue]             = useState('');
-  const [otpError, setOtpError]             = useState('');
-  const [resendTimer, setResendTimer]       = useState(0);
+  const [otpValue, setOtpValue] = useState('');
+  const [otpError, setOtpError] = useState('');
+  const [resendTimer, setResendTimer] = useState(0);
 
   // ─── Config flags ──────────────────────────────────────────────────────────
   const showEmailTab = authConfig.isEnabled('register', 'emailPassword');
   const showPhoneTab = authConfig.isEnabled('register', 'phoneOtp');
-  const showGoogle   = authConfig.isEnabled('register', 'google');
-  const useEmailOtp  = authConfig.isEnabled('register', 'emailOtp');
-  const isOtpScreen  = mode === 'email-otp' || mode === 'phone-otp';
-  const showTabs     = showEmailTab && showPhoneTab && (mode === 'email' || mode === 'phone');
+  const showGoogle = authConfig.isEnabled('register', 'google');
+  const useEmailOtp = authConfig.isEnabled('register', 'emailOtp');
+  const isOtpScreen = mode === 'email-otp' || mode === 'phone-otp';
+  const showTabs = showEmailTab && showPhoneTab && (mode === 'email' || mode === 'phone');
 
   // ─── Forms ────────────────────────────────────────────────────────────────
   const { register, handleSubmit, watch, formState: { errors } } = useForm({
@@ -157,21 +170,21 @@ export default function RegisterPage() {
   };
 
   // ─── Handlers ─────────────────────────────────────────────────────────────
-const handleRegister = async (payload) => {
+  const handleRegister = async (payload) => {
     try {
       // toast.error('registration disabled by admin');
 
       const response = await addUser(payload);
-         if (!response.success) {
-           toast.error(response.message);
-         } else {
-           setMode("success");
-         }
+      if (!response.success) {
+        toast.error(response.message);
+      } else {
+        setMode("success");
+      }
     } catch (error) {
       console.error("Error creating account:", error);
       toast.error(error.message || "Error creating account");
     } finally {
-     setIsLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -189,7 +202,7 @@ const handleRegister = async (payload) => {
     } else {
       setIsLoading(true);
       const payload = {
-        type:'email',
+        type: 'email',
         data
       }
       const response = await handleRegister(payload);
@@ -212,10 +225,15 @@ const handleRegister = async (payload) => {
     setTimeout(() => { setIsLoading(false); setMode('success'); }, 1500);
   };
 
-  const handleGoogleRegister = () => {
-    setIsGoogleLoading(true);
-    // 🔁 Replace with: signIn('google') — next-auth / firebase
-    setTimeout(() => { setIsGoogleLoading(false); setRegisteredName('User'); setMode('success'); }, 1500);
+  const handleGoogleRegister = async () => {
+    try {
+      setIsGoogleLoading(true);
+      await signIn('google', { callbackUrl: '/user/dashboard' });
+    } catch (error) {
+      console.error('Google register error:', error);
+      toast.error(error.message || 'Something went wrong with Google registration');
+      setIsGoogleLoading(false);
+    }
   };
 
   const handleResendOtp = () => {
@@ -260,7 +278,7 @@ const handleRegister = async (payload) => {
                 transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
                 className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-black to-gray-800 rounded-2xl mb-4 shadow-lg"
               >
-                             <Image
+                <Image
                   src="/images/touchtek/logo/icon.png"
                   alt="Touchtek logo"
                   width={80}
@@ -308,9 +326,8 @@ const handleRegister = async (payload) => {
                 <button
                   type="button"
                   onClick={() => { setMode('email'); resetOtp(); }}
-                  className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-sm font-semibold transition-all ${
-                    mode === 'email' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'
-                  }`}
+                  className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-sm font-semibold transition-all ${mode === 'email' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'
+                    }`}
                 >
                   <Mail className="w-4 h-4" />
                   Email
@@ -318,9 +335,8 @@ const handleRegister = async (payload) => {
                 <button
                   type="button"
                   onClick={() => { setMode('phone'); resetOtp(); }}
-                  className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-sm font-semibold transition-all ${
-                    mode === 'phone' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'
-                  }`}
+                  className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-sm font-semibold transition-all ${mode === 'phone' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'
+                    }`}
                 >
                   <Phone className="w-4 h-4" />
                   Phone
@@ -383,12 +399,11 @@ const handleRegister = async (payload) => {
                           <div key={i} className={`h-1 flex-1 rounded-full transition-all duration-300 ${i <= strength.score ? strength.color : 'bg-gray-200'}`} />
                         ))}
                       </div>
-                      <p className={`text-xs font-medium ${
-                        strength.score <= 1 ? 'text-red-500'
-                        : strength.score <= 2 ? 'text-orange-400'
-                        : strength.score <= 3 ? 'text-yellow-500'
-                        : 'text-green-600'
-                      }`}>{strength.label}</p>
+                      <p className={`text-xs font-medium ${strength.score <= 1 ? 'text-red-500'
+                          : strength.score <= 2 ? 'text-orange-400'
+                            : strength.score <= 3 ? 'text-yellow-500'
+                              : 'text-green-600'
+                        }`}>{strength.label}</p>
                     </motion.div>
                   )}
                   <FieldError message={errors.password?.message} />
@@ -492,11 +507,10 @@ const handleRegister = async (payload) => {
                         if (e.ctrlKey && ['a', 'c', 'v', 'x'].includes(e.key.toLowerCase())) return;
                         if (!/^\d$/.test(e.key)) e.preventDefault();
                       }}
-                      className={`w-full pl-24 pr-4 py-3 border-2 rounded-lg transition-all text-sm text-gray-900 placeholder:text-gray-400 outline-none ${
-                        phoneErrors.phone
+                      className={`w-full pl-24 pr-4 py-3 border-2 rounded-lg transition-all text-sm text-gray-900 placeholder:text-gray-400 outline-none ${phoneErrors.phone
                           ? 'border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20'
                           : 'border-gray-200 focus:border-black focus:ring-2 focus:ring-black/10'
-                      }`}
+                        }`}
                     />
                   </div>
                   <FieldError message={phoneErrors.phone?.message} />
@@ -574,17 +588,17 @@ const handleRegister = async (payload) => {
           {/* ── Divider + Google ────────────────────────────────────────────── */}
           {!isOtpScreen && mode !== 'success' && showGoogle && (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}>
-              <div className="flex items-center gap-3 my-6">
+              {/* <div className="flex items-center gap-3 my-6">
                 <div className="flex-1 h-px bg-gray-200" />
                 <span className="text-xs text-gray-400 font-medium">or sign up with</span>
                 <div className="flex-1 h-px bg-gray-200" />
-              </div>
+              </div> */}
 
               <button
                 type="button"
                 onClick={handleGoogleRegister}
                 disabled={isGoogleLoading}
-                className="w-full flex items-center justify-center gap-3 py-3 px-6 border-2 border-gray-200 rounded-lg hover:border-gray-400 hover:bg-gray-50 transition-all font-semibold text-gray-700 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full mt-2 flex items-center justify-center gap-3 py-3 px-6 border-2 border-gray-200 rounded-lg hover:border-gray-400 hover:bg-gray-50 transition-all font-semibold text-gray-700 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isGoogleLoading ? (
                   <><Loader2 className="h-5 w-5 text-gray-500" /><span>Connecting...</span></>

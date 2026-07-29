@@ -39,7 +39,7 @@ const authConfig = {
      * - true  → shows "Continue with Google" button
      * - false → hides Google button entirely
      */
-    google: false,
+    google: true,
   },
 
   // ─────────────────────────────────────────────────────────
@@ -72,7 +72,7 @@ const authConfig = {
      * - true  → shows "Continue with Google" button
      * - false → hides Google button entirely
      */
-    google: false,
+    google: true,
   },
 
   // ─────────────────────────────────────────────────────────

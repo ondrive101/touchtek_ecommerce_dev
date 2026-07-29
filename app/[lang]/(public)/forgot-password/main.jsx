@@ -5,8 +5,10 @@ import { motion } from 'framer-motion';
 import { Eye, EyeOff, Lock, Mail, Send, Sparkles, Shield, ArrowLeft } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import Link from "next/link";
 import * as z from 'zod';
-import Link from 'next/link';
+import toast from 'react-hot-toast';
+import { forgotPasswordUser } from '@/action/common';
 
 const forgotPasswordSchema = z.object({
   email: z.string().min(1, 'Email is required').email('Please enter a valid email address'),
@@ -28,11 +30,21 @@ export default function ForgotPasswordPage() {
   });
 
   const onSubmit = async (data) => {
-    setIsLoading(true);
-    setTimeout(() => {
+    try {
+      setIsLoading(true);
+      const res = await forgotPasswordUser({ email: data.email });
+      if (res?.success) {
+        setIsSent(true);
+        toast.success(res.message || "Password reset link sent to your email!");
+      } else {
+        toast.error(res?.message || "Failed to send reset link");
+      }
+    } catch (error) {
+      console.error("Error sending reset link:", error);
+      toast.error(error.message || "Something went wrong");
+    } finally {
       setIsLoading(false);
-      setIsSent(true);
-    }, 1500);
+    }
   };
 
   return (
@@ -106,13 +118,13 @@ export default function ForgotPasswordPage() {
               <div className="w-20 h-20 bg-gradient-to-br from-green-400 to-green-600 rounded-2xl flex items-center justify-center mx-auto shadow-xl">
                 <Send className="w-10 h-10 text-white" />
               </div>
-              
+
               <div className="space-y-3">
                 <p className="text-lg font-semibold text-gray-900">
                   Password reset link sent!
                 </p>
                 <p className="text-sm text-gray-600">
-                  Check your email for the reset link. 
+                  Check your email for the reset link.
                   It expires in 1 hour.
                 </p>
               </div>
@@ -149,11 +161,10 @@ export default function ForgotPasswordPage() {
                       type="email"
                       id="email"
                       placeholder="you@example.com"
-                      className={`w-full pl-11 pr-4 py-3 border-2 rounded-lg transition-all text-gray-900 placeholder:text-gray-400 ${
-                        errors.email
+                      className={`w-full pl-11 pr-4 py-3 border-2 rounded-lg transition-all text-gray-900 placeholder:text-gray-400 ${errors.email
                           ? 'border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20'
                           : 'border-gray-200 focus:border-black focus:ring-2 focus:ring-black/10'
-                      }`}
+                        }`}
                     />
                   </div>
                   {errors.email && (
