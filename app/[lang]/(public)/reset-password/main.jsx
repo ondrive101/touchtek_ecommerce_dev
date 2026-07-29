@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import Image from 'next/image';
 import {
   Lock,
   Eye,
@@ -190,7 +191,14 @@ export default function ResetPasswordPage() {
               {/* Header */}
               <div className="text-center mb-8">
                 <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-black to-gray-800 rounded-2xl mb-4 shadow-lg">
-                  <KeyRound className="w-10 h-10 text-white" />
+                  <Image
+                    src="/images/touchtek/logo/icon.png"
+                    alt="Touchtek logo"
+                    width={80}
+                    height={80}
+                    priority
+                    className="h-full w-full object-cover"
+                  />
                 </div>
                 <h1 className="text-2xl font-bold text-gray-900 mb-2">Set New Password</h1>
                 <p className="text-sm text-gray-600">Please enter a new secure password for {email}</p>
@@ -216,11 +224,10 @@ export default function ResetPasswordPage() {
                       type={showPassword ? "text" : "password"}
                       id="newPassword"
                       placeholder="••••••••"
-                      className={`w-full pl-11 pr-12 py-3 border-2 rounded-lg transition-all text-gray-900 placeholder:text-gray-400 outline-none ${
-                        errors.newPassword
-                          ? "border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20"
-                          : "border-gray-200 focus:border-black focus:ring-2 focus:ring-black/10"
-                      }`}
+                      className={`w-full pl-11 pr-12 py-3 border-2 rounded-lg transition-all text-gray-900 placeholder:text-gray-400 outline-none ${errors.newPassword
+                        ? "border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20"
+                        : "border-gray-200 focus:border-black focus:ring-2 focus:ring-black/10"
+                        }`}
                     />
                     <button
                       type="button"
@@ -250,11 +257,10 @@ export default function ResetPasswordPage() {
                       type={showConfirmPassword ? "text" : "password"}
                       id="confirmPassword"
                       placeholder="••••••••"
-                      className={`w-full pl-11 pr-12 py-3 border-2 rounded-lg transition-all text-gray-900 placeholder:text-gray-400 outline-none ${
-                        errors.confirmPassword
-                          ? "border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20"
-                          : "border-gray-200 focus:border-black focus:ring-2 focus:ring-black/10"
-                      }`}
+                      className={`w-full pl-11 pr-12 py-3 border-2 rounded-lg transition-all text-gray-900 placeholder:text-gray-400 outline-none ${errors.confirmPassword
+                        ? "border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20"
+                        : "border-gray-200 focus:border-black focus:ring-2 focus:ring-black/10"
+                        }`}
                     />
                     <button
                       type="button"

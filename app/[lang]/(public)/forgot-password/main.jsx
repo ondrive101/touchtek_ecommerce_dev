@@ -6,6 +6,7 @@ import { Eye, EyeOff, Lock, Mail, Send, Sparkles, Shield, ArrowLeft } from 'luci
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from "next/link";
+import Image from 'next/image';
 import * as z from 'zod';
 import toast from 'react-hot-toast';
 import { forgotPasswordUser } from '@/action/common';
@@ -73,7 +74,14 @@ export default function ForgotPasswordPage() {
               transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
               className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-black to-gray-800 rounded-2xl mb-4 shadow-lg"
             >
-              <span className="text-3xl font-bold text-white">T</span>
+              <Image
+                src="/images/touchtek/logo/icon.png"
+                alt="Touchtek logo"
+                width={80}
+                height={80}
+                priority
+                className="h-full w-full object-cover"
+              />
             </motion.div>
 
             {isSent ? (
@@ -162,8 +170,8 @@ export default function ForgotPasswordPage() {
                       id="email"
                       placeholder="you@example.com"
                       className={`w-full pl-11 pr-4 py-3 border-2 rounded-lg transition-all text-gray-900 placeholder:text-gray-400 ${errors.email
-                          ? 'border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20'
-                          : 'border-gray-200 focus:border-black focus:ring-2 focus:ring-black/10'
+                        ? 'border-red-300 focus:border-red-500 focus:ring-2 focus:ring-red-500/20'
+                        : 'border-gray-200 focus:border-black focus:ring-2 focus:ring-black/10'
                         }`}
                     />
                   </div>
