@@ -7,28 +7,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import StarRating from './star-rating';
 
-// Dummy related products - replace with real data
-const DUMMY_RELATED = [
-  {
-    skuCode: 'RP001', image: 'https://picsum.photos/300/300?random=1', productName: 'Pulse Pro Watch', description: 'Advanced fitness tracking', price: 8999, originalPrice: 11999,
-  },
-  {
-    skuCode: 'RP002', image: 'https://picsum.photos/300/300?random=2', productName: 'Elite Metal Band', description: 'Premium titanium strap', price: 2999, originalPrice: 3999,
-  },
-  {
-    skuCode: 'RP003', image: 'https://picsum.photos/300/300?random=3', productName: 'Sport Ultra', description: 'Waterproof sports watch', price: 7499,
-  },
-  {
-    skuCode: 'RP004', image: 'https://picsum.photos/300/300?random=4', productName: 'Classic Leather', description: 'Timeless leather strap', price: 1999,
-  },
-];
 
 export default function RelatedProducts({ products = [], category }) {
 
-  console.log('related products', products)
+  // console.log('related products', products)
   const params = useParams();
   const { cat, subcat, slug, id } = params;
-  
+
   const displayProducts = products.length > 0 ? products.slice(0, 4) : [];
 
   return (
