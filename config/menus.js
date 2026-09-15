@@ -45,7 +45,7 @@ import {
   Mail,
   SiteLogo,
 } from "@/components/svg";
-import { FileCheck } from "lucide-react";
+import { FileCheck, MapPin } from "lucide-react";
 
 export const menusConfig = {
   mainNav: [
@@ -1044,7 +1044,12 @@ export const menusConfig = {
         icon: Cart,
         href: "/user/orders",
       },
-        {
+      {
+        title: "Delivery Address",
+        icon: MapPin,
+        href: "/user/address",
+      },
+      {
         title: "Support",
         icon: Messages,
         href: "/user/support",

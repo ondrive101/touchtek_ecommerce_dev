@@ -191,5 +191,6 @@
   "application": "application",
   "components": "components",
   "forms": "forms",
-  "menu": "menu"
+  "menu": "menu",
+  "delivery address": "Delivery Address"
 }

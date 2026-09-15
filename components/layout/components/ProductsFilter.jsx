@@ -9,7 +9,9 @@ import { PARENT_CATEGORIES, CATEGORIES } from "@/lib/utils/constants";
 export default function ProductFilters({ 
   filters, 
   onFilterChange, 
-  onClearFilters
+  onClearFilters,
+  isMobile = false,
+  onClose
 }) {
   const [expandedSections, setExpandedSections] = useState({
     category: true,
@@ -97,30 +99,55 @@ export default function ProductFilters({
     cat => cat._id === filters.category
   )?.name;
 
+  const isCustomPrice = filters.priceRange && (filters.priceRange[0] !== 0 || filters.priceRange[1] !== 10000);
+  const activeFiltersCount = (filters.parentCategory ? 1 : 0) + 
+    (filters.category ? 1 : 0) + 
+    (filters.search ? 1 : 0) + 
+    (filters.minRating !== null ? 1 : 0) + 
+    (isCustomPrice ? 1 : 0);
+
   return (
-    <div className="bg-white rounded-lg shadow-lg p-6 sticky top-8">
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-          <SlidersHorizontal className="w-5 h-5" />
-          Filters
+    <div className={isMobile ? "p-4 space-y-6" : "bg-white rounded-xl shadow-sm border border-gray-100 p-6 sticky top-8"}>
+      <div className="flex items-center justify-between pb-3 border-b border-gray-100">
+        <h2 className="text-lg font-bold text-gray-900 flex items-center gap-2">
+          <SlidersHorizontal className="w-4 h-4 text-gray-700" />
+          <span>Filters</span>
+          {activeFiltersCount > 0 && (
+            <span className="bg-gray-900 text-white text-[11px] font-bold px-2 py-0.5 rounded-full">
+              {activeFiltersCount}
+            </span>
+          )}
         </h2>
-        <button
-          onClick={() => {
-            debouncedSearchRef.cancel(); // Cancel pending search
-            setSearchInput(''); // Clear search input
-            onClearFilters();
-          }}
-          className="text-gray-800 hover:text-black text-sm font-medium"
-        >
-          Clear All
-        </button>
+        <div className="flex items-center gap-3">
+          {activeFiltersCount > 0 && (
+            <button
+              onClick={() => {
+                debouncedSearchRef.cancel();
+                setSearchInput('');
+                onClearFilters();
+              }}
+              className="text-red-600 hover:text-red-700 text-xs sm:text-sm font-semibold transition-colors"
+            >
+              Clear All
+            </button>
+          )}
+          {isMobile && onClose && (
+            <button
+              onClick={onClose}
+              className="p-1 text-gray-400 hover:text-gray-700 rounded-lg hover:bg-gray-100"
+              aria-label="Close filters"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Active Filters Display */}
-      {(filters.parentCategory || filters.category || searchInput) && (
-        <div className="mb-4 flex flex-wrap gap-2">
+      {activeFiltersCount > 0 && (
+        <div className="flex flex-wrap gap-1.5 pb-2">
           {searchInput && (
-            <span className="inline-flex items-center gap-1 px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full">
+            <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-gray-100 text-gray-700 text-xs rounded-full">
               Search: "{searchInput}"
               <button
                 onClick={() => {
@@ -129,28 +156,55 @@ export default function ProductFilters({
                   handleFilterChange('search', '');
                 }}
                 className="hover:text-gray-900"
+                aria-label="Clear search filter"
               >
                 <X className="w-3 h-3" />
               </button>
             </span>
           )}
           {filters.parentCategory && (
-            <span className="inline-flex items-center gap-1 px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full">
+            <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-gray-900 text-white text-xs rounded-full">
               {selectedParentCategoryName}
               <button
                 onClick={() => handleParentCategoryChange('')}
-                className="hover:text-gray-900"
+                className="hover:text-gray-300 ml-0.5"
+                aria-label="Clear category filter"
               >
                 <X className="w-3 h-3" />
               </button>
             </span>
           )}
           {filters.category && (
-            <span className="inline-flex items-center gap-1 px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full">
+            <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-gray-700 text-white text-xs rounded-full">
               {selectedSubcategoryName}
               <button
                 onClick={() => handleCategoryChange('')}
+                className="hover:text-gray-300 ml-0.5"
+                aria-label="Clear subcategory filter"
+              >
+                <X className="w-3 h-3" />
+              </button>
+            </span>
+          )}
+          {isCustomPrice && (
+            <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-gray-100 text-gray-700 text-xs rounded-full">
+              ₹{filters.priceRange[0]} - ₹{filters.priceRange[1]}
+              <button
+                onClick={() => handlePriceRangeChange(0, 10000)}
                 className="hover:text-gray-900"
+                aria-label="Clear price filter"
+              >
+                <X className="w-3 h-3" />
+              </button>
+            </span>
+          )}
+          {filters.minRating !== null && (
+            <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-amber-50 text-amber-800 border border-amber-200 text-xs rounded-full">
+              ★ {filters.minRating}+ Rating
+              <button
+                onClick={() => handleFilterChange('minRating', null)}
+                className="hover:text-amber-950 ml-0.5"
+                aria-label="Clear rating filter"
               >
                 <X className="w-3 h-3" />
               </button>

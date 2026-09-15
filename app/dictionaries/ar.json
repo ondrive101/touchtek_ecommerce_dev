@@ -191,5 +191,6 @@
   "application": "التطبيق",
   "components": "العناصر",
   "forms": "النماذج",
-  "menu": "قائمة طعام"
+  "menu": "قائمة طعام",
+  "delivery address": "عنوان التسليم"
 }

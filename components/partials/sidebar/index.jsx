@@ -17,7 +17,7 @@ const Sidebar = ({ trans }) => {
   let selectedSidebar = null;
 
   if (!isDesktop && (sidebarType === "popover" || sidebarType === "classic")) {
-    selectedSidebar = <MobileSidebar />;
+    selectedSidebar = <MobileSidebar trans={trans} />;
   } else {
     const sidebarComponents = {
       module: <ModuleSidebar collapsed={collapsed} trans={trans} />,
@@ -25,7 +25,7 @@ const Sidebar = ({ trans }) => {
       classic: <ClassicSidebar trans={trans} />,
     };
 
-    selectedSidebar = sidebarComponents[sidebarType] || <ModuleSidebar />;
+    selectedSidebar = sidebarComponents[sidebarType] || <ModuleSidebar trans={trans} />;
   }
 
   return <div>{selectedSidebar}</div>;

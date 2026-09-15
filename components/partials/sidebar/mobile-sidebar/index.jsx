@@ -12,7 +12,7 @@ import SingleMenuItem from "./single-menu-item";
 import SubMenuHandler from "./sub-menu-handler";
 import NestedSubMenu from "../common/nested-menus";
 import { useSession } from "next-auth/react";
-const MobileSidebar = ({ collapsed, className }) => {
+const MobileSidebar = ({ collapsed, className, trans }) => {
   const { sidebarBg, mobileMenu, setMobileMenu } = useSidebar();
   const [activeSubmenu, setActiveSubmenu] = useState(null);
   const [activeMultiMenu, setMultiMenu] = useState(null);
@@ -96,12 +96,12 @@ const MobileSidebar = ({ collapsed, className }) => {
                 {/* single menu  */}
 
                 {!item.child && !item.isHeader && (
-                  <SingleMenuItem item={item} collapsed={collapsed} />
+                  <SingleMenuItem item={item} collapsed={collapsed} trans={trans} />
                 )}
 
                 {/* menu label */}
                 {item.isHeader && !item.child && !collapsed && (
-                  <MenuLabel item={item} />
+                  <MenuLabel item={item} trans={trans} />
                 )}
 
                 {/* sub menu */}

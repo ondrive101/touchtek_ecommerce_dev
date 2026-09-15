@@ -11,8 +11,6 @@ import {
   Minus,
   Plus,
   CreditCard,
-  Package,
-  Truck,
   Shield,
   ArrowLeft,
   CheckCircle,
@@ -227,29 +225,6 @@ export default function CartPage() {
                   );
                 })}
               </AnimatePresence>
-
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8 pt-6 border-t border-slate-200">
-                <div className="flex flex-col items-center p-3 text-center text-xs">
-                  <Truck className="w-6 h-6 text-blue-600 mb-1" />
-                  <p className="font-medium text-slate-900">Free Shipping</p>
-                  <p className="text-slate-500">Over ₹5,000</p>
-                </div>
-                <div className="flex flex-col items-center p-3 text-center text-xs">
-                  <Shield className="w-6 h-6 text-green-600 mb-1" />
-                  <p className="font-medium text-slate-900">2 Year Warranty</p>
-                  <p className="text-slate-500">All Products</p>
-                </div>
-                <div className="flex flex-col items-center p-3 text-center text-xs">
-                  <Package className="w-6 h-6 text-purple-600 mb-1" />
-                  <p className="font-medium text-slate-900">Easy Returns</p>
-                  <p className="text-slate-500">30 Days</p>
-                </div>
-                <div className="flex flex-col items-center p-3 text-center text-xs">
-                  <CreditCard className="w-6 h-6 text-indigo-600 mb-1" />
-                  <p className="font-medium text-slate-900">Secure Payment</p>
-                  <p className="text-slate-500">SSL Encrypted</p>
-                </div>
-              </div>
             </section>
 
             <aside className="xl:col-span-1">

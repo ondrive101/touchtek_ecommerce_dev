@@ -1,12 +1,13 @@
 import React from "react";
 
 import { Badge } from "@/components/ui/badge";
-import { cn, isLocationMatch } from "@/lib/utils";
+import { cn, isLocationMatch, getDynamicPath, translate } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-const SingleMenuItem = ({ item, collapsed }) => {
+const SingleMenuItem = ({ item, collapsed, trans }) => {
   const { badge, href, title } = item;
-  const locationName = usePathname();
+  const pathname = usePathname();
+  const locationName = getDynamicPath(pathname);
   return (
     <Link href={href}>
       <>
@@ -42,7 +43,7 @@ const SingleMenuItem = ({ item, collapsed }) => {
             <span className="flex-grow-0">
               <item.icon className="w-5 h-5" />
             </span>
-            <div className="text-box flex-grow">{title}</div>
+            <div className="text-box flex-grow">{translate(title, trans)}</div>
             {badge && <Badge className=" rounded">{item.badge}</Badge>}
           </div>
         )}
