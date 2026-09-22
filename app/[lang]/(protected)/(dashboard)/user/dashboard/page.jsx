@@ -1,17 +1,9 @@
-"use server";
-import BreadCrumbs from "@/components/bread-crumbs";
-import Main from "./components/main";
-import { authOptions } from "@/lib/auth";
-import { getServerSession } from "next-auth";
-import { HomeIcon } from "lucide-react";
+import { redirect } from "next/navigation";
 
-const Page = async () => {
-
-  return (
-    <>
-      <Main />
-    </>
-  );
+const Page = async ({ params }) => {
+  const resolvedParams = await params;
+  const lang = resolvedParams?.lang || "en";
+  redirect(`/${lang}/user/orders`);
 };
 
 export default Page;

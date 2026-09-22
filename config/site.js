@@ -1,4 +1,3 @@
-import { SiteLogo } from "@/components/svg";
 import Airpod from "@/public/images/touchtek/icon.png";
 export const siteConfig = {
   // favicon: Airpod,

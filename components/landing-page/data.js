@@ -449,8 +449,8 @@ export const menus = [
     href: "#elements",
   },
   {
-    title: "Why Dash Tail",
-    href: "#whyDashTail",
+    title: "Why Touchtek",
+    href: "#whyTouchtek",
   },
   {
     title: "Pricing",
@@ -468,20 +468,12 @@ export const menus = [
         href: "/docs/update-log",
       },
       {
-        title: "Github Access",
-        href: "https://codeshaperbd.freshdesk.com/support/login",
-      },
-      {
-        title: "Report a bug",
-        href: "https://codeshaperbd.freshdesk.com/support/login",
-      },
-      {
         title: "Support",
-        href: "https://codeshaperbd.freshdesk.com/support/login",
+        href: "/contact-us",
       },
       {
-        title: "Hire Us",
-        href: "https://codeshaper.net/",
+        title: "About Us",
+        href: "/about-us",
       },
     ],
   },

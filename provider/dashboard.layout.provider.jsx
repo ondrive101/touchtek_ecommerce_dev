@@ -110,7 +110,7 @@ const DashBoardLayoutProvider = ({ children, trans}) => {
         >
           <div
             className={cn(
-              "md:pt-4 mb-2 pt-[10px] md:px-2 px-3  page-min-height ",     
+              "p-3 md:p-4 page-min-height",     
               {}
             )}
           >
@@ -198,7 +198,7 @@ const LayoutWrapper = ({ children, isMobile, setOpen, open, location }) => {
         <main>{children}</main>
       </motion.div>
 
-      <MobileSidebar className="left-[300px]" />
+      <MobileSidebar collapsed={false} className="left-[300px]" />
       <HeaderSearch open={open} setOpen={setOpen} />
     </>
   );

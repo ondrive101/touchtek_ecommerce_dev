@@ -12,8 +12,7 @@ import toast from "react-hot-toast";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { Icon } from "@iconify/react";
-import { Checkbox } from "@/components/ui/checkbox";
-import { SiteLogo,TouchtekLogo } from "@/components/svg";
+import Image from "next/image";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { useRouter } from "next/navigation";
 import { getSession, signIn} from "next-auth/react";
@@ -120,8 +119,15 @@ const LogInForm = () => {
   };
   return (
     <div className="w-full ">
-      <Link href="/dashboard" className="inline-block">
-        {/* <TouchtekLogo className="h-20 w-40 2xl:w-40 2xl:h-16 text-primary" /> */}
+      <Link href="/" className="inline-block">
+        <Image
+          src="/images/touchtek/logo/touchtek.png"
+          alt="Touchtek"
+          width={180}
+          height={45}
+          className="h-11 w-auto object-contain"
+          priority
+        />
       </Link>
       <div className="2xl:mt-1 mt-6 2xl:text-3xl text-2xl font-bold text-default-900">
         {/* Hello Touchtek */}

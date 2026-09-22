@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Eye, EyeOff, Lock, Mail, User, CheckCircle, Send, Sparkles, Shield } from 'lucide-react';
-import {TouchtekLogo } from "@/components/svg";
+import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -68,16 +68,22 @@ export default function SignupPage() {
           className="bg-white rounded-2xl shadow-2xl p-8 border border-gray-100"
         >
           <div className="text-center mb-8">
-            {/* Clickable Touchtek Logo - Goes to Home */}
-            <Link href="/">
+            <Link href="/" className="inline-block">
               <motion.div
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
-                whileHover={{ scale: 1.05, rotate: 5 }}
+                whileHover={{ scale: 1.05 }}
                 transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
-                className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-black to-gray-800 rounded-2xl mb-4 shadow-lg cursor-pointer mx-auto hover:shadow-2xl transition-all duration-200"
+                className="inline-flex items-center justify-center mb-4 cursor-pointer mx-auto"
               >
-                <span className="text-3xl font-bold text-white">T</span>
+                <Image
+                  src="/images/touchtek/logo/logo-icon-black.png"
+                  alt="Touchtek logo"
+                  width={72}
+                  height={72}
+                  priority
+                  className="h-16 w-16 object-contain"
+                />
               </motion.div>
             </Link>
 

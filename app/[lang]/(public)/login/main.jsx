@@ -146,7 +146,9 @@ export default function LoginPage() {
         return;
       }
       toast.success("Login successful!");
-      router.push("/en");
+      const callbackUrl = searchParams?.get("callbackUrl");
+      const target = callbackUrl && !callbackUrl.includes("dashboard") ? callbackUrl : "/en/user/orders";
+      router.push(target);
       router.refresh();
 
     } catch (error) {
@@ -185,14 +187,20 @@ export default function LoginPage() {
     // 🔁 Replace with your API call: verifyOtp(otpTarget, otpValue)
     setTimeout(() => {
       setIsLoading(false);
-      alert("Login successful!");
+      toast.success("Login successful!");
+      const callbackUrl = searchParams?.get("callbackUrl");
+      const target = callbackUrl && !callbackUrl.includes("dashboard") ? callbackUrl : "/en/user/orders";
+      router.push(target);
+      router.refresh();
     }, 1500);
   };
 
   const handleGoogleLogin = async () => {
     try {
       setIsGoogleLoading(true);
-      await signIn("google", { callbackUrl: "/user/dashboard" });
+      const callbackUrl = searchParams?.get("callbackUrl");
+      const target = callbackUrl && !callbackUrl.includes("dashboard") ? callbackUrl : "/en/user/orders";
+      await signIn("google", { callbackUrl: target });
     } catch (error) {
       console.error("Google login error:", error);
       toast.error(error.message || "Something went wrong with Google Login");
@@ -236,22 +244,24 @@ export default function LoginPage() {
         >
           {/* ── Header ─────────────────────────────────────────────────────── */}
           <div className="text-center mb-8">
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-              className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-black to-gray-800 rounded-2xl mb-4 shadow-lg"
-            >
-              {/* <span className="text-3xl font-bold text-white">T</span> */}
-              <Image
-                src="/images/touchtek/logo/icon.png"
-                alt="Touchtek logo"
-                width={80}
-                height={80}
-                priority
-                className="h-full w-full object-cover"
-              />
-            </motion.div>
+            <Link href="/" className="inline-block">
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                whileHover={{ scale: 1.05 }}
+                transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+                className="inline-flex items-center justify-center mb-4"
+              >
+                <Image
+                  src="/images/touchtek/logo/logo-icon-black.png"
+                  alt="Touchtek logo"
+                  width={72}
+                  height={72}
+                  priority
+                  className="h-16 w-16 object-contain"
+                />
+              </motion.div>
+            </Link>
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}

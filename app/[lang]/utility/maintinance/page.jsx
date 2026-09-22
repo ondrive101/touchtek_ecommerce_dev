@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import logo from "@/public/images/logo/logo-2.png";
+import logo from "@/public/images/touchtek/logo/touchtek.png";
 import { Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -47,7 +47,7 @@ const CommingSoonPage = () => {
       {/* header */}
       <div className="flex-none p-10 flex flex-wrap justify-between gap-4">
         <div className="w-[170px] h-[38px]">
-          <Image src={logo} alt="logo" className="w-full h-full object-cover" />
+          <Image src={logo} alt="Touchtek" className="w-full h-full object-contain" priority />
         </div>
         <Button asChild variant="outline" size="lg">
           <Link href="/dashboard">Contact Us</Link>

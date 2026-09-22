@@ -1,4 +1,5 @@
 "use client";
+import React from "react";
 import { useSession, signOut } from "next-auth/react";
 import {
   DropdownMenu,
@@ -6,110 +7,119 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuPortal,
   DropdownMenuSeparator,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Icon } from "@iconify/react";
-import avatar1 from "@/public/images/avatar/man.png";
-import Image from "next/image";
+import {
+  User,
+  ChevronDown,
+  ShoppingBag,
+  MapPin,
+  Lock,
+  Store,
+  LogOut,
+} from "lucide-react";
 import Link from "next/link";
+
+const menuItems = [
+  {
+    name: "My Profile",
+    icon: User,
+    href: "/en/user/profile",
+  },
+  {
+    name: "My Orders",
+    icon: ShoppingBag,
+    href: "/en/user/orders",
+  },
+  {
+    name: "Delivery Address",
+    icon: MapPin,
+    href: "/en/user/address",
+  },
+  {
+    name: "Change Password",
+    icon: Lock,
+    href: "/en/user/password",
+  },
+  {
+    name: "Visit Store",
+    icon: Store,
+    href: "/en/products",
+  },
+];
 
 const ProfileInfo = () => {
   const { data: session } = useSession();
+  const userName = session?.user?.name || "Account";
+  const userSubtitle = session?.user?.department || session?.user?.role || "Customer";
+
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild className=" cursor-pointer">
-        <div className=" flex items-center gap-x-3 ">
-      
-            <Image
-              src={session?.user?.image || avatar1}
-              alt={session?.user?.name ?? ""}
-              width={27}
-              height={27}
-              className="rounded-full"
-            />
-            <div className="hidden sm:flex flex-col">
-  <span className="text-sm font-semibold text-foreground capitalize">
-    {session?.user?.name}
-  </span>
-  <span className="text-xs text-muted-foreground">
-    {session?.user?.department}
-  </span>
-</div>
-        </div>
+      <DropdownMenuTrigger asChild>
+        <button
+          type="button"
+          className="flex items-center gap-2 p-1 sm:px-2.5 sm:py-1 rounded-full hover:bg-default-100 dark:hover:bg-default-800 transition-all border border-border/60 hover:border-border cursor-pointer select-none group outline-none"
+        >
+          <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center flex-shrink-0 shadow-sm">
+            <User className="w-4 h-4" />
+          </div>
+          <div className="hidden sm:flex flex-col text-left leading-none">
+            <span className="text-xs font-semibold text-foreground capitalize max-w-[110px] truncate">
+              {userName}
+            </span>
+            <span className="text-[10px] text-muted-foreground capitalize mt-0.5">
+              {userSubtitle}
+            </span>
+          </div>
+          <ChevronDown className="w-3.5 h-3.5 text-muted-foreground group-hover:text-foreground transition-transform duration-200 group-data-[state=open]:rotate-180 hidden sm:block" />
+        </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56 p-0" align="end">
-        <DropdownMenuLabel className="flex gap-2 items-center mb-1 p-3">
-     
-            <Image
-              src={session?.user?.image || avatar1}
-              alt={session?.user?.name ?? ""}
-              width={36}
-              height={36}
-              className="rounded-full"
-            />
-    
-          <div>
-            <div className="text-sm font-medium text-default-800 capitalize ">
-              {session?.user?.name ?? "Mcc Callem"}
+
+      <DropdownMenuContent className="w-60 p-1.5 shadow-xl border border-border rounded-xl" align="end">
+        {/* User Card Header */}
+        <DropdownMenuLabel className="flex items-center gap-3 p-2.5 bg-default-50 dark:bg-default-900/50 rounded-lg mb-1">
+          <div className="w-9 h-9 rounded-full bg-primary/10 text-primary flex items-center justify-center flex-shrink-0">
+            <User className="w-5 h-5" />
+          </div>
+          <div className="min-w-0 flex-1">
+            <div className="text-sm font-semibold text-foreground truncate capitalize">
+              {userName}
             </div>
-            <Link
-              href="#"
-              className="text-xs text-default-600 hover:text-primary"
-            >
-             @{session?.user?.role}
-            </Link>
+            <div className="text-xs text-muted-foreground truncate">
+              {session?.user?.email || `@${session?.user?.role || "customer"}`}
+            </div>
           </div>
         </DropdownMenuLabel>
-         <DropdownMenuSeparator className="mb-0 dark:bg-background" />
+
+        <DropdownMenuSeparator className="my-1" />
+
         <DropdownMenuGroup>
-          {[
-            {
-              name: "profile",
-              icon: "heroicons:user",
-              href:"/en/user/profile"
-            },
-             {
-              name: "change password",
-              icon: "heroicons:user",
-              href:"/en/user/password"
-            },
-            {
-              name: "delivery address",
-              icon: "heroicons:user",
-              href:"/en/user/address"
-            },
-      
-      
-        
-          ].map((item, index) => (
-            <Link
-              href={item.href}
-              key={`info-menu-${index}`}
-              className="cursor-pointer"
-            >
-              <DropdownMenuItem className="flex items-center gap-2 text-sm font-medium text-default-600 capitalize px-3 py-1.5 dark:hover:bg-background cursor-pointer">
-                <Icon icon={item.icon} className="w-4 h-4" />
-                {item.name}
-              </DropdownMenuItem>
-            </Link>
-          ))}
+          {menuItems.map((item, index) => {
+            const ItemIcon = item.icon;
+            return (
+              <Link href={item.href} key={`profile-menu-${index}`} className="block">
+                <DropdownMenuItem className="flex items-center gap-2.5 text-xs font-medium text-default-700 dark:text-default-300 hover:text-foreground hover:bg-default-100 dark:hover:bg-default-800 px-2.5 py-2 rounded-lg cursor-pointer transition-colors">
+                  <ItemIcon className="w-4 h-4 text-muted-foreground" />
+                  <span>{item.name}</span>
+                </DropdownMenuItem>
+              </Link>
+            );
+          })}
         </DropdownMenuGroup>
-     
-        <DropdownMenuSeparator className="mb-0 dark:bg-background" />
+
+        <DropdownMenuSeparator className="my-1" />
+
         <DropdownMenuItem
           onSelect={() => signOut()}
-          className="flex items-center gap-2 text-sm font-medium text-default-600 capitalize my-1 px-3 dark:hover:bg-background cursor-pointer"
+          className="flex items-center gap-2.5 text-xs font-medium text-destructive hover:bg-destructive/10 dark:hover:bg-destructive/20 px-2.5 py-2 rounded-lg cursor-pointer transition-colors"
         >
-          <Icon icon="heroicons:power" className="w-4 h-4" />
-          Log out
+          <LogOut className="w-4 h-4" />
+          <span>Log out</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
 };
+
 export default ProfileInfo;

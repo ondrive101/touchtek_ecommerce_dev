@@ -23,6 +23,7 @@ const GONE_PREFIXES = [
 // Routes that require login (any role)
 const PROTECTED_ROUTES = [
   "/en/dashboard",
+  "/en/user/dashboard",
   "/en/cart",
   "/en/checkout",
   "/en/user/orders",
@@ -126,7 +127,7 @@ export async function proxy(request) {
   // ── STEP 5: Redirect logged-in users away from auth pages ─────────────────
   const isAuthPage = AUTH_ONLY_ROUTES.some((r) => pathname.startsWith(r));
   if (isLoggedIn && isAuthPage) {
-    return NextResponse.redirect(new URL("/en", request.url));
+    return NextResponse.redirect(new URL("/en/user/orders", request.url));
   }
 
   // ── STEP 6: Protect login-required routes ─────────────────────────────────

@@ -87,11 +87,9 @@ const PopoverSidebar = ({ trans }) => {
         ></div>
       )}
       <SidebarLogo collapsed={collapsed} />
-      <Separator />
-
 
       <ScrollArea
-        className={cn("sidebar-menu  h-[calc(100%-80px)] ", {
+        className={cn("sidebar-menu  h-[calc(100%-56px)] ", {
           "px-4": !collapsed,
         })}
       >
@@ -150,7 +148,7 @@ const PopoverSidebar = ({ trans }) => {
           ))}
         </ul>
         {!collapsed && (
-          <div className="-mx-2 mt-10">
+          <div className="-mx-2 mt-6">
             <AddBlock />
           </div>
         )}

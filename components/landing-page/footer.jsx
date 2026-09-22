@@ -1,7 +1,6 @@
 "use client"
 import Image from "next/image";
 import Link from "next/link";
-import { SiteLogo } from "@/components/svg";
 import { Button } from "@/components/ui/button";
 import footerImage from "@/public/images/landing-page/footer.png"
 import facebook from "@/public/images/social/facebook-1.png"
@@ -16,31 +15,19 @@ const Footer = () => {
   const socials = [
     {
       icon: facebook,
-      href: "https://www.facebook.com/Codeshaperbd/"
-    },
-    {
-      icon: github,
-      href: "https://github.com/Codeshaper-bd"
+      href: "https://www.facebook.com/people/Touchtek-India/61573722944708/"
     },
     {
       icon: linkedin,
-      href: "https://www.linkedin.com/company/codeshaper/"
+      href: "https://www.linkedin.com/in/touchtek-india-499a08383/"
     },
     {
       icon: youtube,
-      href: "https://www.youtube.com/@codeshaper4181"
+      href: "https://youtube.com/@touchtekindia?si=I1wDSVpTaW0CPaEx"
     },
     {
       icon: twitter,
-      href: "https://twitter.com/codeshaperbd"
-    },
-    {
-      icon: dribble,
-      href: "https://dribbble.com/codeshaperbd"
-    },
-    {
-      icon: behance,
-      href: "https://www.behance.net/codeshaper"
+      href: "https://twitter.com/TouchtekIndia"
     }
   ]
   return (
@@ -56,20 +43,23 @@ const Footer = () => {
             href="/"
             className="inline-flex items-center gap-4 text-primary-foreground"
           >
-            <SiteLogo className="w-[50px] h-[52px]" />
-            <span className="text-3xl font-semibold">DashTail</span>
+            <Image
+              src="/images/touchtek/logo/touchtek.png"
+              alt="Touchtek"
+              width={180}
+              height={45}
+              className="h-12 w-auto object-contain brightness-0 invert"
+            />
           </Link>
           <p className="text-base leading-7 text-default-200 dark:text-default-600 text-center mt-3">
-            DashTail is a developer-friendly, ready-to-use admin template designed for building attractive, scalable, and high-performing web applications, powered by the cutting-edge technologies of Next.js and Tailwind CSS.</p>
+            Touchtek delivers premium smart accessories, power banks, chargers, and audio gear built with cutting-edge technology.
+          </p>
           <div className="mt-9 flex justify-center flex-wrap gap-4">
             <Button asChild variant="outline" className="rounded text-primary-foreground border-primary">
-              <Link href="/dashboard" target="__blank">View Demo</Link>
+              <Link href="/en/products">Explore Products</Link>
             </Button>
             <Button asChild variant="outline" className="rounded text-primary-foreground border-primary">
-              <Link href="/docs/introduction">View Documentation</Link>
-            </Button>
-            <Button asChild variant="outline" className="rounded text-primary-foreground border-primary">
-              <Link href="https://1.envato.market/dashtail-regular" target="__blank">Buy Now</Link>
+              <Link href="/en/user/orders">My Orders</Link>
             </Button>
           </div>
           <div className="mt-8 flex items-center justify-center flex-wrap gap-5">
@@ -89,10 +79,10 @@ const Footer = () => {
       </div>
       <div className="relative bg-default-900 dark:bg-default-50 py-6">
         <div className="container flex flex-col text-center md:text-start md:flex-row gap-2">
-          <p className="text-primary-foreground flex-1 text-base xl:text-lg font-medium">COPYRIGHT &copy; 2024 DashTail All rights Reserved</p>
+          <p className="text-primary-foreground flex-1 text-base xl:text-lg font-medium">COPYRIGHT &copy;&nbsp;{new Date().getFullYear()}&nbsp;Touchtek All rights Reserved</p>
           <p className="text-primary-foreground flex-none text-base font-medium">
-            Hand-crafted & Made by {" "}
-            <Link href="https://codeshaper.net" target="__blank" className="text-primary hover:underline">Codeshaper</Link></p>
+            Crafted with care by Touchtek
+          </p>
         </div>
       </div>
     </footer>

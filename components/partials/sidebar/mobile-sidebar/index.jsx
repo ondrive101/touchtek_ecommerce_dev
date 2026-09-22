@@ -11,6 +11,7 @@ import { usePathname } from "next/navigation";
 import SingleMenuItem from "./single-menu-item";
 import SubMenuHandler from "./sub-menu-handler";
 import NestedSubMenu from "../common/nested-menus";
+import AddBlock from "../common/custom-add-block";
 import { useSession } from "next-auth/react";
 const MobileSidebar = ({ collapsed, className, trans }) => {
   const { sidebarBg, mobileMenu, setMobileMenu } = useSidebar();
@@ -80,9 +81,9 @@ const MobileSidebar = ({ collapsed, className, trans }) => {
             style={{ backgroundImage: `url(${sidebarBg})` }}
           ></div>
         )}
-        <SidebarLogo collapsed={collapsed} />
+        <SidebarLogo collapsed={collapsed ?? false} />
         <ScrollArea
-          className={cn("sidebar-menu  h-[calc(100%-80px)] ", {
+          className={cn("sidebar-menu  h-[calc(100%-56px)] ", {
             "px-4": !collapsed,
           })}
         >
@@ -130,6 +131,9 @@ const MobileSidebar = ({ collapsed, className, trans }) => {
               </li>
             ))}
           </ul>
+          <div className="mt-6 mb-8">
+            <AddBlock />
+          </div>
         </ScrollArea>
       </div>
       {mobileMenu && (

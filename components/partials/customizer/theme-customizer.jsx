@@ -63,16 +63,13 @@ const ThemeCustomize = ({
             <FooterStyle />
           </div>
         </ScrollArea>
-        <SheetFooter className="py-4 gap-3 lg:flex justify-between hidden  ">
+        <SheetFooter className="py-4 gap-3 lg:flex justify-between hidden">
           <Button asChild className="w-full">
-            <Link href="https://1.envato.market/vNaJR3">Buy Now</Link>
+            <Link href="/en/products">Products</Link>
           </Button>
-          <Button asChild className="w-full">
-            <Link
-              href="https://themeforest.net/user/codeshaperbd/portfolio"
-              target="__blank"
-            >
-              Our Portfolio
+          <Button asChild variant="outline" className="w-full">
+            <Link href="https://touchtek.in" target="__blank">
+              Website
             </Link>
           </Button>
         </SheetFooter>

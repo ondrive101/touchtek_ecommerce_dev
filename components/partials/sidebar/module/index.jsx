@@ -9,7 +9,6 @@ import NestedMenus from "./nested-menus";
 import Image from "next/image";
 import Link from "next/link";
 import FooterMenu from "./footer-menu";
-import { SiteLogo } from "@/components/svg";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import LogoutFooter from "./logout-footer";
 import { useMediaQuery } from "@/hooks/use-media-query";
@@ -155,8 +154,15 @@ const ModuleSidebar = ({ trans }) => {
           )}
         >
           <div className=" pt-4 ">
-            <Link href="/dashboard">
-              <SiteLogo className=" mx-auto text-primary h-8 w-8" />
+            <Link href="/en/user/orders">
+              <Image
+                src="/images/touchtek/logo/logo-icon-black.png"
+                alt="Touchtek"
+                width={36}
+                height={36}
+                className="mx-auto h-9 w-9 object-contain"
+                priority
+              />
             </Link>
           </div>
           {/* end logo */}

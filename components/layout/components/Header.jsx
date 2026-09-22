@@ -22,7 +22,7 @@ import {
   LayoutDashboard,
   LogOut
 } from 'lucide-react';
-import logo from '@/public/images/logo/touchtek.png';
+import logo from '@/public/images/touchtek/logo/touchtek.png';
 
 
 export default function Header() {
@@ -239,19 +239,19 @@ export default function Header() {
                         </div>
                       </div>
                       <div className="grid grid-cols-3 gap-1.5">
-                        <Link href="/en/products?category=mouse&parentCategory=computer-utils" className="flex items-center gap-1.5 p-1.5 rounded-lg hover:bg-gray-100 transition-colors group/link">
+                        <Link href="/en/products?category=keyboard-mouse&parentCategory=accessories" className="flex items-center gap-1.5 p-1.5 rounded-lg hover:bg-gray-100 transition-colors group/link">
                           <div className="w-7 h-7 rounded-lg bg-gray-200 overflow-hidden flex-shrink-0">
                             <img src="https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=50&h=50&fit=crop" alt="Mouse" className="w-full h-full object-cover" />
                           </div>
                           <span className="text-xs text-gray-700 group-hover/link:text-black font-medium truncate">Mouse</span>
                         </Link>
-                        <Link href="/en/products?category=keyboard&parentCategory=computer-utils" className="flex items-center gap-1.5 p-1.5 rounded-lg hover:bg-gray-100 transition-colors group/link">
+                        <Link href="/en/products?category=keyboard-mouse&parentCategory=accessories" className="flex items-center gap-1.5 p-1.5 rounded-lg hover:bg-gray-100 transition-colors group/link">
                           <div className="w-7 h-7 rounded-lg bg-gray-200 overflow-hidden flex-shrink-0">
                             <img src="https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=50&h=50&fit=crop" alt="Keyboard" className="w-full h-full object-cover" />
                           </div>
                           <span className="text-xs text-gray-700 group-hover/link:text-black font-medium truncate">Keyboard</span>
                         </Link>
-                        <Link href="/en/products?category=collarmic&parentCategory=computer-utils" className="flex items-center gap-1.5 p-1.5 rounded-lg hover:bg-gray-100 transition-colors group/link">
+                        <Link href="/en/products?category=microphone&parentCategory=accessories" className="flex items-center gap-1.5 p-1.5 rounded-lg hover:bg-gray-100 transition-colors group/link">
                           <div className="w-7 h-7 rounded-lg bg-gray-200 overflow-hidden flex-shrink-0">
                             <img src="https://images.unsplash.com/photo-1590602847861-f357a9332bbc?w=50&h=50&fit=crop" alt="Collar Mic" className="w-full h-full object-cover" />
                           </div>

@@ -16,7 +16,7 @@ const Contact = () => {
                   They'll respond to inquiries and provide limited support through our dedicated support system.
                 </p>
                 <Button asChild className="mt-5">
-                  <Link href="https://codeshaperbd.freshdesk.com/support/login" target="_blank">Get Support </Link>
+                  <Link href="/contact-us">Get Support</Link>
                 </Button>
               </CardContent>
             </Card>

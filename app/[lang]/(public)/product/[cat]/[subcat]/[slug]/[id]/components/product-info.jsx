@@ -266,13 +266,19 @@ export default function ProductInfo({
                       : 'border-gray-200 hover:border-gray-400'
                   }`}
                 >
-                  <Image
-                    src={color.image}
-                    alt={color.value || 'Product color'}
-                    fill
-                    className="object-cover"
-                    sizes="80px"
-                  />
+                  {color?.image && typeof color.image === 'string' && color.image.trim() ? (
+                    <Image
+                      src={color.image}
+                      alt={color.value || 'Product color'}
+                      fill
+                      className="object-cover"
+                      sizes="80px"
+                    />
+                  ) : (
+                    <div className="flex h-full w-full items-center justify-center bg-gray-100 text-xs text-gray-500 font-medium">
+                      {color.value || 'Color'}
+                    </div>
+                  )}
                 </button>
               );
             })}

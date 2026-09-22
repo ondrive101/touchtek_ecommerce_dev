@@ -8,7 +8,6 @@ import { getProducts } from "@/action/common";
 // import Unauthorized from "@/components/unauthorised";
 import LayoutLoader from "@/components/layout-loader";
 import ProductCarousel from "@/components/layout/components/ProductCarousel";
-import ProductVideoSection from "@/components/layout/components/VideoCarousel";
 import CategoryCarousel from "@/components/layout/components/CategoryCarousel";
 import HotSellingCarousel from "@/components/layout/components/HotSellingCarousel";
 import FeaturedCarousel from "@/components/layout/components/FeaturedCarousel";
@@ -76,8 +75,6 @@ const banners = productsData?.data?.payload?.banners || [];
 
         {/* Explore Our Catalog Section */}
         <CategoryCarousel />
-
-        <ProductVideoSection />
 
         {/* Hot Selling Products Section */}
 

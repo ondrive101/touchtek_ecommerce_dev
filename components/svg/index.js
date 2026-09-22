@@ -55,10 +55,33 @@ export { default as Stacks2 } from "./duel-tone/stacks.svg";
 export { default as Pages } from "./duel-tone/pages.svg";
 export { default as Chart } from "./duel-tone/chart.svg";
 export { default as Map } from "./duel-tone/map.svg";
-// export { default as SiteLogo } from "./duel-tone/logo.svg";
-export { default as SiteLogo } from "./duel-tone/touchtek.svg";
-export { default as TouchtekLogo } from "./duel-tone/touchtek-logo.svg";
-// export { default as TouchtekLogo } from "./duel-tone/touchtek-icon.png";
+import React from "react";
+import Image from "next/image";
+import logoIcon from "@/public/images/touchtek/logo/logo-icon-black.png";
+import touchtekLogo from "@/public/images/touchtek/logo/touchtek.png";
+
+export const SiteLogo = ({ className = "h-7 w-7", ...props }) => (
+  <Image
+    src={logoIcon}
+    alt="Touchtek Logo"
+    width={32}
+    height={32}
+    className={`object-contain ${className || ""}`}
+    {...props}
+  />
+);
+
+export const TouchtekLogo = ({ className = "h-11 w-auto", ...props }) => (
+  <Image
+    src={touchtekLogo}
+    alt="Touchtek"
+    width={220}
+    height={48}
+    className={`object-contain ${className || ""}`}
+    priority
+    {...props}
+  />
+);
 export { default as Settings } from "./duel-tone/settings.svg";
 export { default as Files } from "./duel-tone/files.svg";
 export { default as Graph } from "./duel-tone/graph.svg";

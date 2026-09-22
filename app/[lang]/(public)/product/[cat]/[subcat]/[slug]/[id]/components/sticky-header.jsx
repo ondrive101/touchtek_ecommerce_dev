@@ -72,11 +72,16 @@ export default function StickyHeader({
     colorOptions.find((color) => color.value === selectedColor) ||
     colorOptions[0];
 
-  const thumbnail =
+  const rawThumbnail =
     activeColorOption?.image ||
     product?.images?.[0]?.image ||
     product?.images?.[0]?.fileUrl ||
     null;
+
+  const thumbnail =
+    typeof rawThumbnail === 'string' && rawThumbnail.trim()
+      ? rawThumbnail.trim()
+      : null;
 
   const displayColor = selectedColor || activeColorOption?.value || '';
 
@@ -205,13 +210,17 @@ export default function StickyHeader({
                             : 'border-gray-200 hover:border-gray-400'
                         }`}
                       >
-                        <Image
-                          src={color.image}
-                          alt={color.value}
-                          fill
-                          sizes="28px"
-                          className="object-cover"
-                        />
+                        {color?.image && typeof color.image === 'string' && color.image.trim() ? (
+                          <Image
+                            src={color.image}
+                            alt={color.value}
+                            fill
+                            sizes="28px"
+                            className="object-cover"
+                          />
+                        ) : (
+                          <div className="h-full w-full bg-gray-200" />
+                        )}
                       </button>
                     );
                   })}

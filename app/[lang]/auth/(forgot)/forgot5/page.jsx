@@ -74,8 +74,8 @@ const LoginPage = () => {
                       className="text-primary-foreground text-2xl"
                     />
                   </span>
-                  DashTail is awesome friendly Admin Dashboard Template. If you
-                  manage your business in online then “DashTail” is for you. Buy
+                  Touchtek is awesome friendly Admin Dashboard Template. If you
+                  manage your business in online then “Touchtek” is for you. Buy
                   Now & make user friendly your business today...
                 </div>
 
@@ -122,7 +122,7 @@ const LoginPage = () => {
                             Prantik Chakraborty <br />
                             <span className="text-base font-medium text-default-700">
                               {" "}
-                              UI/UX Designer at Codeshaper
+                              UI/UX Designer at Touchtek
                             </span>
                           </div>
                           <div className="text-lg  text-default-800 mt-4">
@@ -138,7 +138,7 @@ const LoginPage = () => {
                             Prantik Chakraborty <br />
                             <span className="text-base font-medium text-default-700">
                               {" "}
-                              UI/UX Designer at Codeshaper
+                              UI/UX Designer at Touchtek
                             </span>
                           </div>
                           <div className="text-lg  text-default-800 mt-4">
@@ -154,7 +154,7 @@ const LoginPage = () => {
                             Prantik Chakraborty <br />
                             <span className="text-base font-medium text-default-700">
                               {" "}
-                              UI/UX Designer at Codeshaper
+                              UI/UX Designer at Touchtek
                             </span>
                           </div>
                           <div className="text-lg  text-default-800 mt-4">
@@ -256,8 +256,8 @@ export default LoginPage;
 //                       className="text-primary-foreground text-2xl"
 //                     />
 //                   </span>
-//                   DashTail is awesome friendly Admin Dashboard Template. If you
-//                   manage your business in online then “DashTail” is for you. Buy
+//                   Touchtek is awesome friendly Admin Dashboard Template. If you
+//                   manage your business in online then “Touchtek” is for you. Buy
 //                   Now & make user friendly your business today...
 //                 </div>
 
@@ -302,7 +302,7 @@ export default LoginPage;
 //                             Prantik Chakraborty <br />
 //                             <span className="text-base font-medium text-default-700">
 //                               {" "}
-//                               UI/UX Designer at Codeshaper
+//                               UI/UX Designer at Touchtek
 //                             </span>
 //                           </div>
 //                           <div className="text-lg  text-default-800 mt-4">
@@ -318,7 +318,7 @@ export default LoginPage;
 //                             Prantik Chakraborty <br />
 //                             <span className="text-base font-medium text-default-700">
 //                               {" "}
-//                               UI/UX Designer at Codeshaper
+//                               UI/UX Designer at Touchtek
 //                             </span>
 //                           </div>
 //                           <div className="text-lg  text-default-800 mt-4">
@@ -334,7 +334,7 @@ export default LoginPage;
 //                             Prantik Chakraborty <br />
 //                             <span className="text-base font-medium text-default-700">
 //                               {" "}
-//                               UI/UX Designer at Codeshaper
+//                               UI/UX Designer at Touchtek
 //                             </span>
 //                           </div>
 //                           <div className="text-lg  text-default-800 mt-4">

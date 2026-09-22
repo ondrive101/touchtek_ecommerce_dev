@@ -43,7 +43,6 @@ import {
   LucideIcon,
   CustomIcon,
   Mail,
-  SiteLogo,
 } from "@/components/svg";
 import { FileCheck, MapPin } from "lucide-react";
 

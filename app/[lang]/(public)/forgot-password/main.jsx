@@ -68,21 +68,24 @@ export default function ForgotPasswordPage() {
           className="bg-white rounded-2xl shadow-2xl p-8 border border-gray-100"
         >
           <div className="text-center mb-8">
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
-              className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-black to-gray-800 rounded-2xl mb-4 shadow-lg"
-            >
-              <Image
-                src="/images/touchtek/logo/icon.png"
-                alt="Touchtek logo"
-                width={80}
-                height={80}
-                priority
-                className="h-full w-full object-cover"
-              />
-            </motion.div>
+            <Link href="/" className="inline-block">
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                whileHover={{ scale: 1.05 }}
+                transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
+                className="inline-flex items-center justify-center mb-4"
+              >
+                <Image
+                  src="/images/touchtek/logo/logo-icon-black.png"
+                  alt="Touchtek logo"
+                  width={72}
+                  height={72}
+                  priority
+                  className="h-16 w-16 object-contain"
+                />
+              </motion.div>
+            </Link>
 
             {isSent ? (
               <motion.div

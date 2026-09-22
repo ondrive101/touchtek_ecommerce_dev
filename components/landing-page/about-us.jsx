@@ -71,7 +71,7 @@ const AboutUs = () => {
         </div>
         <div className="bg-background border border-primary py-5 px-6 rounded">
           <span className="block text-lg xl:text-2xl font-semibold text-default-900">5k+</span>
-          <span className="block mt-1 text-sm font-medium text-default-800 whitespace-nowrap">Love Codeshaper</span>
+          <span className="block mt-1 text-sm font-medium text-default-800 whitespace-nowrap">Love Touchtek</span>
         </div>
         <div className="bg-background border border-primary py-5 px-6 rounded">
           <span className="block text-lg xl:text-2xl font-semibold text-default-900">200+</span>

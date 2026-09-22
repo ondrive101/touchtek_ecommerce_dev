@@ -190,16 +190,18 @@ export default function ResetPasswordPage() {
             <>
               {/* Header */}
               <div className="text-center mb-8">
-                <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-black to-gray-800 rounded-2xl mb-4 shadow-lg">
-                  <Image
-                    src="/images/touchtek/logo/icon.png"
-                    alt="Touchtek logo"
-                    width={80}
-                    height={80}
-                    priority
-                    className="h-full w-full object-cover"
-                  />
-                </div>
+                <Link href="/" className="inline-block">
+                  <div className="inline-flex items-center justify-center mb-4">
+                    <Image
+                      src="/images/touchtek/logo/logo-icon-black.png"
+                      alt="Touchtek logo"
+                      width={72}
+                      height={72}
+                      priority
+                      className="h-16 w-16 object-contain"
+                    />
+                  </div>
+                </Link>
                 <h1 className="text-2xl font-bold text-gray-900 mb-2">Set New Password</h1>
                 <p className="text-sm text-gray-600">Please enter a new secure password for {email}</p>
 

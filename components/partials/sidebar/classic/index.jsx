@@ -11,7 +11,7 @@ import { usePathname } from "next/navigation";
 import SingleMenuItem from "./single-menu-item";
 import SubMenuHandler from "./sub-menu-handler";
 import NestedSubMenu from "../common/nested-menus";
-import AddBlock from "../common/add-block";
+import AddBlock from "../common/custom-add-block";
 import { Settings } from "@/components/svg";
 import { useSession } from "next-auth/react";
 
