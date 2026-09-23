@@ -317,5 +317,24 @@ export const getHotSellingProducts = async () => {
   return apiCall("get", `/products/get-hot-selling-products`, null, [], false);
 };
 
+// ==================== Support Tickets ACTIONS ====================
+export const createTicket = async (payload) => {
+  console.log("👤 [User ACTION] createTicket called");
+  return apiCall("post", `/support/create-ticket`, payload, [ROLES.CUSTOMER], false);
+};
+
+export const getTickets = async (filters = {}) => {
+  const queryParams = new URLSearchParams();
+  if (filters?.page) queryParams.append("page", filters.page);
+  if (filters?.limit) queryParams.append("limit", filters.limit);
+  if (filters?.status && filters.status !== "all") queryParams.append("status", filters.status);
+  if (filters?.category && filters.category !== "all") queryParams.append("category", filters.category);
+  if (filters?.search) queryParams.append("search", filters.search);
+  const queryString = queryParams.toString();
+  const endpoint = queryString ? `/support/get-tickets?${queryString}` : `/support/get-tickets`;
+  return apiCall("get", endpoint, null, [ROLES.CUSTOMER], false);
+};
+
+
 
 

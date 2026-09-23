@@ -6,13 +6,16 @@ export default function Pagination({
   currentPage, 
   totalPages, 
   onPageChange,
-  isLoading = false 
+  isLoading = false,
+  showAlways = false,
+  className = "w-full overflow-x-auto mt-8"
 }) {
   const getPageNumbers = () => {
     const pages = [];
     const showPages = 5;
+    const safeTotal = Math.max(totalPages || 1, 1);
     let startPage = Math.max(1, currentPage - Math.floor(showPages / 2));
-    let endPage = Math.min(totalPages, startPage + showPages - 1);
+    let endPage = Math.min(safeTotal, startPage + showPages - 1);
     if (endPage - startPage < showPages - 1) {
       startPage = Math.max(1, endPage - showPages + 1);
     }
@@ -20,14 +23,14 @@ export default function Pagination({
     return pages;
   };
 
-  if (totalPages <= 1) return null;
+  if (!showAlways && totalPages <= 1) return null;
 
   return (
-    <div className="w-full overflow-x-auto mt-8">
+    <div className={className}>
       <div className="flex items-center justify-center gap-1 sm:gap-2 min-w-max px-2 mx-auto w-fit">
         <button
           onClick={() => onPageChange(currentPage - 1)}
-          disabled={currentPage === 1 || isLoading}
+          disabled={currentPage <= 1 || isLoading}
           className="px-2 sm:px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1 sm:gap-2 shrink-0"
         >
           <ChevronLeft className="w-4 h-4" />
@@ -81,7 +84,7 @@ export default function Pagination({
 
         <button
           onClick={() => onPageChange(currentPage + 1)}
-          disabled={currentPage === totalPages || isLoading}
+          disabled={currentPage >= (totalPages || 1) || isLoading}
           className="px-2 sm:px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1 sm:gap-2 shrink-0"
         >
           <span className="hidden sm:inline">Next</span>
