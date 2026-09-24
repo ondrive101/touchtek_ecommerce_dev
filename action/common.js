@@ -335,6 +335,10 @@ export const getTickets = async (filters = {}) => {
   return apiCall("get", endpoint, null, [ROLES.CUSTOMER], false);
 };
 
+export const sendMessage = async (payload) => {
+  return apiCall("post", `/support/send-message`, payload, [ROLES.CUSTOMER], false);
+};
+
 
 
 

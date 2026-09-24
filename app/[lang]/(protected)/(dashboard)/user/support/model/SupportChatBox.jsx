@@ -1,11 +1,13 @@
 'use client';
 
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  X, Send, User, Smile, CheckCheck, Clock, Ticket,
+  X, Send, User, Smile, CheckCheck,
   HeadphonesIcon, MessageCircle
 } from 'lucide-react';
+import { toast } from 'react-hot-toast';
+import { sendMessage } from '@/action/common';
 import { ticketStatus } from '../components/data';
 
 const emojis = [
@@ -21,7 +23,7 @@ const mapConversationToMessage = (conv, index) => {
   return {
     id: conv?.messageId || conv?._id || `msg-${index}-${Date.now()}`,
     from: isUser ? 'user' : 'support',
-    senderName: conv?.senderName || (isUser ? 'You' : 'Support Team'),
+    senderName: isUser ? (conv?.senderName || 'You') : 'Support',
     text: conv?.message || '',
     attachments: conv?.attachments || [],
     createdAt: dateObj,
@@ -76,6 +78,7 @@ export default function SupportChatBox({ ticket, onClose }) {
       : [];
   });
   const [input, setInput] = useState('');
+  const [loading, setLoading] = useState(false);
   const [showEmoji, setShowEmoji] = useState(false);
   const bottomRef = useRef(null);
   const inputRef = useRef(null);
@@ -92,36 +95,56 @@ export default function SupportChatBox({ ticket, onClose }) {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  const sendMessage = useCallback((text) => {
-    const msg = text || '';
-    if (!msg.trim()) return;
+  const handleSubmit = async () => {
+    const text = input.trim();
+    if (!text) {
+      toast.error("Please enter a message");
+      return;
+    }
 
-    const now = new Date();
-    const userMsg = {
-      id: `msg-${Date.now()}`,
-      from: 'user',
-      senderName: 'You',
-      createdAt: now,
-      time: now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }),
-      date: now.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }),
-      read: true,
-      text: msg.trim(),
-    };
+    try {
+      setLoading(true);
 
-    setInput('');
-    setMessages((prev) => [...prev, userMsg]);
-  }, []);
+      const ticketIdentifier = ticket?.ticketId || ticket?._id;
+      const payload = {
+        ticketId: ticketIdentifier,
+        message: text,
+      };
+
+      const response = await sendMessage(payload);
+
+      const resData = response?.data;
+      if (response?.success && resData?.success !== false) {
+        // toast.success(resData?.message || response?.message || "Message sent successfully");
+        const rawConv = resData?.conversation || response?.conversation;
+        if (rawConv) {
+          const newMsg = mapConversationToMessage(rawConv, messages.length);
+          setMessages((prev) => [...prev, newMsg]);
+        }
+        setInput('');
+      } else {
+        toast.error(resData?.message || response?.message || "Failed to send message");
+      }
+    } catch (error) {
+      console.error("Error sending message:", error);
+      toast.error(error.message || "Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      sendMessage(input);
+      if (!loading && input.trim()) {
+        handleSubmit();
+      }
     }
   };
 
   const ticketIdentifier = ticket?.ticketId || ticket?._id || 'Ticket';
   const st = ticketStatus[ticket?.status] || ticketStatus.created;
-  const canSend = Boolean(input.trim());
+  const canSend = Boolean(input.trim()) && !loading;
 
   return (
     <motion.div
@@ -212,11 +235,10 @@ export default function SupportChatBox({ ticket, onClose }) {
                         className={`flex items-end gap-2 ${isUser ? 'flex-row-reverse' : 'flex-row'}`}
                       >
                         <div
-                          className={`w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 shadow-sm ${
-                            isUser
-                              ? 'bg-gradient-to-br from-indigo-600 to-indigo-800'
-                              : 'bg-gradient-to-br from-gray-700 to-gray-900'
-                          }`}
+                          className={`w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 shadow-sm ${isUser
+                            ? 'bg-gradient-to-br from-indigo-600 to-indigo-800'
+                            : 'bg-gradient-to-br from-gray-700 to-gray-900'
+                            }`}
                         >
                           {isUser ? (
                             <User className="w-3.5 h-3.5 text-white" />
@@ -228,15 +250,14 @@ export default function SupportChatBox({ ticket, onClose }) {
                         <div className={`max-w-[78%] flex flex-col gap-1 ${isUser ? 'items-end' : 'items-start'}`}>
                           {!isUser && (
                             <span className="text-[10px] text-gray-500 font-semibold px-1">
-                              {msg.senderName}
+                              Support
                             </span>
                           )}
                           <div
-                            className={`px-4 py-2.5 rounded-2xl text-sm leading-relaxed shadow-sm whitespace-pre-wrap ${
-                              isUser
-                                ? 'bg-gradient-to-br from-indigo-600 to-indigo-700 text-white rounded-br-none'
-                                : 'bg-white border border-gray-200 text-gray-800 rounded-bl-none'
-                            }`}
+                            className={`px-4 py-2.5 rounded-2xl text-sm leading-relaxed shadow-sm whitespace-pre-wrap ${isUser
+                              ? 'bg-gradient-to-br from-indigo-600 to-indigo-700 text-white rounded-br-none'
+                              : 'bg-white border border-gray-200 text-gray-800 rounded-bl-none'
+                              }`}
                           >
                             {msg.text}
                           </div>
@@ -287,8 +308,9 @@ export default function SupportChatBox({ ticket, onClose }) {
         <div className="px-4 py-3 border-t border-gray-100 flex items-center gap-2 flex-shrink-0 bg-white rounded-b-3xl sm:rounded-b-2xl">
           <button
             type="button"
+            disabled={loading}
             onClick={() => setShowEmoji((p) => !p)}
-            className="w-9 h-9 bg-gray-100 hover:bg-gray-200 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors"
+            className="w-9 h-9 bg-gray-100 hover:bg-gray-200 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors disabled:opacity-50"
           >
             <Smile className="w-4 h-4 text-gray-500" />
           </button>
@@ -298,22 +320,26 @@ export default function SupportChatBox({ ticket, onClose }) {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Type your message..."
-            className="flex-1 px-4 py-2.5 bg-gray-100 rounded-xl text-sm outline-none text-gray-900 placeholder:text-gray-400 focus:ring-2 focus:ring-indigo-500/20 transition-all shadow-sm"
+            disabled={loading}
+            placeholder={loading ? "Sending..." : "Type your message..."}
+            className="flex-1 px-4 py-2.5 bg-gray-100 rounded-xl text-sm outline-none text-gray-900 placeholder:text-gray-400 focus:ring-2 focus:ring-indigo-500/20 transition-all shadow-sm disabled:opacity-60"
           />
 
           <motion.button
             whileHover={canSend ? { scale: 1.05 } : {}}
             whileTap={canSend ? { scale: 0.95 } : {}}
-            onClick={() => sendMessage(input)}
+            onClick={handleSubmit}
             disabled={!canSend}
-            className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 shadow-md transition-all ${
-              canSend
-                ? 'bg-gradient-to-r from-indigo-500 to-indigo-700 text-white shadow-indigo-200'
-                : 'bg-gray-200 text-gray-400 cursor-not-allowed'
-            }`}
+            className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 shadow-md transition-all ${canSend
+              ? 'bg-gradient-to-r from-indigo-500 to-indigo-700 text-white shadow-indigo-200'
+              : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+              }`}
           >
-            <Send className="w-4 h-4" />
+            {loading ? (
+              <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+            ) : (
+              <Send className="w-4 h-4" />
+            )}
           </motion.button>
         </div>
       </motion.div>

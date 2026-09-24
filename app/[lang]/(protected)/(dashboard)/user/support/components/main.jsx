@@ -76,8 +76,10 @@ export default function SupportPage() {
       ticketsResponse?.data?.tickets !== undefined
         ? ticketsResponse.data
         : ticketsResponse?.tickets !== undefined
-        ? ticketsResponse
-        : null;
+          ? ticketsResponse
+          : null;
+
+
 
     if (resData?.tickets) {
       setTickets(resData.tickets || []);
@@ -493,7 +495,10 @@ export default function SupportPage() {
         {chatTicket && (
           <SupportChatBox
             ticket={chatTicket}
-            onClose={() => setChatTicket(null)}
+            onClose={() => {
+              refetch();
+              setChatTicket(null)
+            }}
           />
         )}
       </AnimatePresence>
