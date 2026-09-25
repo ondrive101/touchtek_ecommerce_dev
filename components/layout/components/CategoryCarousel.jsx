@@ -192,7 +192,7 @@ export default function CategoryCarousel() {
   const nextRef = useRef(null);
 
   return (
-    <section className="py-8 bg-gray-50">
+    <section className="py-8 bg-gray-50 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <motion.div
@@ -220,7 +220,7 @@ export default function CategoryCarousel() {
         >
           <Swiper
             modules={[Navigation, Pagination, Autoplay]}
-            spaceBetween={30}
+            spaceBetween={16}
             slidesPerView={1}
             navigation={{
               prevEl: prevRef.current,
@@ -243,7 +243,7 @@ export default function CategoryCarousel() {
               },
               1024: {
                 slidesPerView: 4,
-                spaceBetween: 30,
+                spaceBetween: 24,
               },
               1280: {
                 slidesPerView: 5,
@@ -292,7 +292,7 @@ export default function CategoryCarousel() {
           {/* Navigation Buttons */}
           <button
             ref={prevRef}
-            className="absolute -left-10 top-1/3 -translate-y-1/2 -translate-x-4 z-10 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50 transition-colors group"
+            className="hidden md:flex absolute -left-3 lg:-left-5 top-1/3 -translate-y-1/2 z-10 w-10 h-10 lg:w-12 lg:h-12 bg-white rounded-full shadow-lg items-center justify-center hover:bg-gray-50 transition-colors group"
             aria-label="Previous category"
           >
             <ChevronLeft className="w-5 h-5 text-gray-600 group-hover:text-gray-800" />
@@ -300,7 +300,7 @@ export default function CategoryCarousel() {
 
           <button
             ref={nextRef}
-            className="absolute -right-10 top-1/3 -translate-y-1/2 translate-x-4 z-10 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50 transition-colors group"
+            className="hidden md:flex absolute -right-3 lg:-right-5 top-1/3 -translate-y-1/2 z-10 w-10 h-10 lg:w-12 lg:h-12 bg-white rounded-full shadow-lg items-center justify-center hover:bg-gray-50 transition-colors group"
             aria-label="Next category"
           >
             <ChevronRight className="w-5 h-5 text-gray-600 group-hover:text-gray-800" />

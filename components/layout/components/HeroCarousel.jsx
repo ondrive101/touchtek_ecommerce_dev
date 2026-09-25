@@ -32,7 +32,7 @@ export default function HeroCarousel({ banners = [] }) {
   const hasMultiple = allBanners.length > 1;
 
   return (
-    <section className="relative w-full h-[50vh] sm:h-[60vh] md:h-[70vh] lg:h-screen overflow-hidden bg-black">
+    <section className="relative w-full aspect-[16/9] sm:aspect-auto sm:h-[55vh] md:h-[65vh] lg:h-[75vh] xl:h-[85vh] overflow-hidden bg-black">
       <Swiper
         modules={[Navigation, Pagination, Autoplay, EffectFade]}
         spaceBetween={0}
@@ -58,7 +58,7 @@ export default function HeroCarousel({ banners = [] }) {
         effect="fade"
         fadeEffect={{ crossFade: true }}
         loop={hasMultiple}
-        className="h-full w-full"
+        className="h-full w-full hero-carousel"
       >
         {allBanners.map((slide, index) => {
           const isVideo = Boolean(slide.isVideo || slide.video || slide.video_url);
@@ -92,14 +92,14 @@ export default function HeroCarousel({ banners = [] }) {
                         e.stopPropagation();
                         setIsMuted((prev) => !prev);
                       }}
-                      className="absolute bottom-6 right-6 z-30 w-10 h-10 rounded-full bg-black/60 hover:bg-black/80 text-white backdrop-blur-md border border-white/20 flex items-center justify-center transition-all cursor-pointer shadow-lg active:scale-95"
+                      className="absolute bottom-3 right-3 sm:bottom-6 sm:right-6 z-30 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-black/60 hover:bg-black/80 text-white backdrop-blur-md border border-white/20 flex items-center justify-center transition-all cursor-pointer shadow-lg active:scale-95"
                       title={isMuted ? 'Unmute video' : 'Mute video'}
                       aria-label={isMuted ? 'Unmute video' : 'Mute video'}
                     >
                       {isMuted ? (
-                        <VolumeX className="w-4 h-4 text-gray-300" />
+                        <VolumeX className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-300" />
                       ) : (
-                        <Volume2 className="w-4 h-4 text-emerald-400" />
+                        <Volume2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-400" />
                       )}
                     </button>
                   </div>
@@ -125,18 +125,53 @@ export default function HeroCarousel({ banners = [] }) {
         <>
           <button
             aria-label="Previous slide"
-            className="hero-button-prev absolute left-4 md:left-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-14 md:h-14 bg-black/40 hover:bg-black/60 text-white rounded-full flex items-center justify-center transition-all duration-300 shadow-md cursor-pointer"
+            className="hero-button-prev hidden sm:flex absolute left-3 md:left-6 top-1/2 -translate-y-1/2 z-20 w-9 h-9 sm:w-11 sm:h-11 md:w-14 md:h-14 bg-black/40 hover:bg-black/60 text-white rounded-full items-center justify-center transition-all duration-300 shadow-md cursor-pointer"
           >
             <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
           </button>
           <button
             aria-label="Next slide"
-            className="hero-button-next absolute right-4 md:right-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-14 md:h-14 bg-black/40 hover:bg-black/60 text-white rounded-full flex items-center justify-center transition-all duration-300 shadow-md cursor-pointer"
+            className="hero-button-next hidden sm:flex absolute right-3 md:right-6 top-1/2 -translate-y-1/2 z-20 w-9 h-9 sm:w-11 sm:h-11 md:w-14 md:h-14 bg-black/40 hover:bg-black/60 text-white rounded-full items-center justify-center transition-all duration-300 shadow-md cursor-pointer"
           >
             <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
           </button>
         </>
       )}
+
+      <style jsx global>{`
+        .hero-carousel .swiper-pagination {
+          bottom: 8px !important;
+        }
+        @media (min-width: 640px) {
+          .hero-carousel .swiper-pagination {
+            bottom: 16px !important;
+          }
+        }
+        .hero-carousel .swiper-pagination-bullet {
+          background: rgba(255, 255, 255, 0.7);
+          opacity: 0.6;
+          width: 6px;
+          height: 6px;
+          margin: 0 3px !important;
+          transition: all 0.3s ease;
+        }
+        .hero-carousel .swiper-pagination-bullet-active {
+          opacity: 1;
+          width: 18px;
+          border-radius: 9999px;
+          background: #ffffff;
+        }
+        @media (min-width: 640px) {
+          .hero-carousel .swiper-pagination-bullet {
+            width: 8px;
+            height: 8px;
+            margin: 0 4px !important;
+          }
+          .hero-carousel .swiper-pagination-bullet-active {
+            width: 24px;
+          }
+        }
+      `}</style>
     </section>
   );
 }

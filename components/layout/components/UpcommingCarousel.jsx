@@ -39,7 +39,7 @@ export default function UpcomingProductsCarousel({ products }) {
     .slice(0, 8);
 
   return (
-    <section className="py-16 bg-white">
+    <section className="py-16 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         {/* <motion.div
@@ -197,7 +197,7 @@ export default function UpcomingProductsCarousel({ products }) {
           {/* Navigation Buttons */}
           <button
             ref={prevRef}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50 transition-colors group"
+            className="hidden md:flex absolute -left-3 lg:-left-5 top-1/2 -translate-y-1/2 z-10 w-10 h-10 lg:w-12 lg:h-12 bg-white rounded-full shadow-lg items-center justify-center hover:bg-gray-50 transition-colors group"
             aria-label="Previous upcoming product"
           >
             <ChevronLeft className="w-5 h-5 text-gray-600 group-hover:text-gray-800" />
@@ -205,7 +205,7 @@ export default function UpcomingProductsCarousel({ products }) {
 
           <button
             ref={nextRef}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50 transition-colors group"
+            className="hidden md:flex absolute -right-3 lg:-right-5 top-1/2 -translate-y-1/2 z-10 w-10 h-10 lg:w-12 lg:h-12 bg-white rounded-full shadow-lg items-center justify-center hover:bg-gray-50 transition-colors group"
             aria-label="Next upcoming product"
           >
             <ChevronRight className="w-5 h-5 text-gray-600 group-hover:text-gray-800" />

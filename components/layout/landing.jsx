@@ -66,10 +66,10 @@ const banners = productsData?.data?.payload?.banners || [];
     .slice(0, 10);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 overflow-x-hidden w-full max-w-[100vw]">
       <Header />
 
-      <main>
+      <main className="w-full overflow-x-hidden">
         {/* Hero Carousel */}
         <HeroCarousel banners={banners} />
 
