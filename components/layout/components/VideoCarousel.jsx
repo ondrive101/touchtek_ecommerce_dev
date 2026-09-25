@@ -22,6 +22,19 @@ import "swiper/css/pagination";
 
 const videoData = [
   {
+    id: 0,
+    video_url: "/videos/intro.mp4",
+    thumbnail_url: "/images/touchtek/Airpod.jpeg",
+    name: "20% OFF on First Order",
+    tag: "🎉 Welcome Offer",
+    category: "Offers",
+    rating: 5.0,
+    price: "20% OFF",
+    original_price: "",
+    discount: "WELCOME20",
+    link: "/en/products",
+  },
+  {
     id: 1,
     video_url: "/videos/1.mp4",
     thumbnail_url: "/images/touchtek/Airpod.jpeg",

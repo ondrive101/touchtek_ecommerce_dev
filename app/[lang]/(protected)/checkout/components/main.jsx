@@ -7,7 +7,7 @@ import { toast } from "react-hot-toast";
 import { useCartStore } from "@/store";
 import { ERROR_CODES } from "@/lib/utils/constants";
 import { useQuery } from "@tanstack/react-query";
-import { getCheckoutInfo, createOrder, verifyPayment } from "@/action/common";
+import { getCheckoutInfo, applyCoupon, createOrder, verifyPayment } from "@/action/common";
 import { motion } from "framer-motion";
 import {
   MapPin,
@@ -30,14 +30,13 @@ import {
 } from "lucide-react";
 import Header from "@/components/layout/components/Header";
 
-
-
-let baseDiscount = 0;
-
 export default function CheckoutPage() {
-  const { items, clearCart, getSubtotal } =
-    useCartStore();
+  const { items, clearCart, getSubtotal } = useCartStore();
   const [couponCode, setCouponCode] = useState("");
+  const [appliedCoupon, setAppliedCoupon] = useState(null);
+  const [couponDiscount, setCouponDiscount] = useState(0);
+  const [couponLoading, setCouponLoading] = useState(false);
+  const [welcomeCoupon, setWelcomeCoupon] = useState(null);
   const [showFailed, setShowFailed] = useState(false);
   const [failureReason, setFailureReason] = useState("");
   const [failureOrderId, setFailureOrderId] = useState("");
@@ -49,26 +48,73 @@ export default function CheckoutPage() {
   const [address, setAddress] = useState(null);
 
   // ✅ Dynamic calculations
-
-  const pointsDiscount = Math.min(rewardPoints, maxRewardPoints);
   const subtotal = getSubtotal() || 0;
-  const discount = hasCoupon ? baseDiscount : 0;
+  const discount = hasCoupon ? couponDiscount : 0;
+  const maxRedeemablePoints = Math.max(subtotal - discount - 1, 0);
+  const pointsDiscount = Math.min(rewardPoints, maxRewardPoints, maxRedeemablePoints);
   const rawTotal = subtotal - discount - pointsDiscount;
-  const maxRedeemablePoints = Math.max(subtotal - discount, 0);
-  const finalTotal = Math.max(rawTotal, 0); // never goes negative
+  const finalTotal = subtotal > 0 ? Math.max(rawTotal, 1) : 0; // finalTotal must not be less than 1
 
-  const handleApplyCoupon = useCallback(() => {
-    if (couponCode.toUpperCase() === "WELCOME10") {
-      setHasCoupon(true);
-    } else {
-      alert("Invalid coupon");
+  const handleApplyCoupon = async () => {
+    const trimmedCode = couponCode.trim().toUpperCase();
+
+    // Field validations
+    if (!trimmedCode) {
+      toast.error("Please enter a coupon code");
+      return;
     }
-  }, [couponCode]);
 
-  const handleRemoveCoupon = useCallback(() => {
+    if (subtotal <= 0) {
+      toast.error("Your cart is empty");
+      return;
+    }
+
+    try {
+      setCouponLoading(true);
+
+      const payload = {
+        couponCode: trimmedCode,
+        ...(items?.length > 0 && {
+          items: items.map((item) => ({
+            skuCode: item.id?.toUpperCase(),
+            quantity: item.quantity,
+          })),
+        }),
+      };
+
+      const response = await applyCoupon(payload);
+      if (response?.success) {
+        const couponData = response?.data || {};
+
+        let calculatedDiscount = 0;
+        if (typeof couponData.discountAmount === "number") {
+          calculatedDiscount = couponData.discountAmount;
+        }
+        // Cap discount at subtotal
+        calculatedDiscount = Math.min(calculatedDiscount, subtotal);
+
+        setCouponDiscount(calculatedDiscount);
+        setHasCoupon(true);
+        setAppliedCoupon(trimmedCode);
+        toast.success(couponData.message || response?.data?.message || "Coupon applied successfully!");
+      } else {
+        toast.error(response?.message || response?.data?.message || "Invalid coupon code");
+      }
+    } catch (error) {
+      console.error("Error applying coupon:", error);
+      toast.error(error.message || "Failed to apply coupon");
+    } finally {
+      setCouponLoading(false);
+    }
+  };
+
+  const handleRemoveCoupon = () => {
     setHasCoupon(false);
+    setCouponDiscount(0);
+    setAppliedCoupon(null);
     setCouponCode("");
-  }, []);
+    toast.success("Coupon removed");
+  };
 
   const {
     data: checkoutInfo,
@@ -82,9 +128,11 @@ export default function CheckoutPage() {
   });
 
   useEffect(() => {
-    if (checkoutInfo) {
-      setAddress(checkoutInfo?.data?.payload?.defaultAddress);
-      setMaxRewardPoints(checkoutInfo?.data?.payload?.rewardPoints);
+    if (checkoutInfo?.data?.payload) {
+      const payload = checkoutInfo.data.payload;
+      setAddress(payload?.defaultAddress || null);
+      setMaxRewardPoints(payload?.rewardPoints || 0);
+      setWelcomeCoupon(payload?.welcomeCoupon || null);
     }
   }, [checkoutInfo]);
 
@@ -141,8 +189,14 @@ export default function CheckoutPage() {
       // Backend calls razorpay.orders.create() and returns order_id, amount, currency
       // Amount is in ₹ here — backend converts to paise (×100) before sending to Razorpay
 
-      if (finalTotal <= 0) {
-        toast.error("Order total must be greater than ₹0");
+      if (!address?.id) {
+        toast.error("Please provide a valid delivery address");
+        setLoading(false);
+        return;
+      }
+
+      if (finalTotal < 1) {
+        toast.error("Order total must be at least ₹1");
         setLoading(false);
         return;
       }
@@ -151,13 +205,16 @@ export default function CheckoutPage() {
         amount: finalTotal,
         pointsDiscount,
         discount,
-        shippingAddressId: address.id,
-        items: items.map(item => ({
+        shippingAddressId: address?.id,
+        ...(hasCoupon && (appliedCoupon || couponCode) && {
+          couponCode: (appliedCoupon || couponCode).trim().toUpperCase(),
+        }),
+        items: items.map((item) => ({
           skuCode: item.id.toUpperCase(),
           name: item.name.toLowerCase(),
-          quantity: item.quantity
-        }))
-      }
+          quantity: item.quantity,
+        })),
+      };
       const response = await createOrder(createOrderPayload);
 
       if (!response.success) {
@@ -184,7 +241,7 @@ export default function CheckoutPage() {
         // Pre-fill customer details to speed up checkout
         prefill: {
           name: address?.name || "",
-          email: "VK408727@gmail.com",
+          email: address?.email || "",
           contact: address?.phone ? `+91${address.phone}` : "", // E.164 format required
         },
 
@@ -668,7 +725,7 @@ export default function CheckoutPage() {
                           )
                         }
                         className="w-16 text-sm text-slate-900 placeholder-slate-500 border-none outline-none bg-transparent text-center font-mono"
-                        max={maxRewardPoints}
+                        max={Math.min(maxRewardPoints, maxRedeemablePoints)}
                       />
                       <span className="text-[11px] text-slate-500">
                         / {maxRewardPoints} pts
@@ -684,27 +741,41 @@ export default function CheckoutPage() {
 
                   {/* Coupon - Compact */}
                   <div className="relative flex items-center justify-between h-12 rounded-lg border border-slate-200 bg-white px-3 shadow-sm">
-                    <div className="flex items-center gap-2">
-                      <Percent className="w-4 h-4 text-emerald-500" />
+                    <div className="flex items-center gap-2 flex-1 min-w-0 mr-2">
+                      <Percent className="w-4 h-4 text-emerald-500 flex-shrink-0" />
                       <input
                         type="text"
-                        placeholder="WELCOME10"
+                        placeholder={welcomeCoupon?.code || "WELCOME20"}
                         value={couponCode}
+                        disabled={hasCoupon || couponLoading}
                         onChange={(e) =>
                           setCouponCode(e.target.value.toUpperCase())
                         }
-                        className="w-20 md:w-28 text-sm text-slate-900 placeholder-slate-400 outline-none bg-transparent"
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" && !hasCoupon) {
+                            e.preventDefault();
+                            handleApplyCoupon();
+                          }
+                        }}
+                        className="w-full text-sm text-slate-900 placeholder-slate-400 outline-none bg-transparent disabled:opacity-60"
                       />
                     </div>
                     {!hasCoupon ? (
                       <button
+                        type="button"
                         onClick={handleApplyCoupon}
-                        className="text-xs font-semibold text-emerald-600 hover:underline px-1"
+                        disabled={couponLoading || !couponCode.trim()}
+                        className="text-xs font-semibold text-emerald-600 hover:underline px-1 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1"
                       >
-                        Apply
+                        {couponLoading ? (
+                          <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                        ) : (
+                          "Apply"
+                        )}
                       </button>
                     ) : (
                       <button
+                        type="button"
                         onClick={handleRemoveCoupon}
                         className="text-xs text-red-500 hover:underline flex items-center gap-1 px-1"
                       >
@@ -713,9 +784,31 @@ export default function CheckoutPage() {
                     )}
                   </div>
 
+                  {welcomeCoupon && !hasCoupon && welcomeCoupon.isEligible && (
+                    <div className="flex items-center justify-between bg-emerald-50/80 border border-emerald-200/60 rounded-lg px-2.5 py-1.5 text-xs text-emerald-800">
+                      <div className="flex items-center gap-1.5 truncate">
+                        <span className="font-mono font-bold bg-white px-1.5 py-0.5 rounded border border-emerald-300 text-[11px]">
+                          {welcomeCoupon.code}
+                        </span>
+                        <span className="text-[11px] text-emerald-700 truncate">
+                          {welcomeCoupon.description || `${welcomeCoupon.discountPercent}% off`}
+                        </span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setCouponCode(welcomeCoupon.code);
+                        }}
+                        className="text-[11px] font-semibold text-emerald-700 hover:text-emerald-900 underline ml-2 flex-shrink-0"
+                      >
+                        Apply
+                      </button>
+                    </div>
+                  )}
+
                   {hasCoupon && (
                     <p className="text-[11px] text-emerald-700 text-right">
-                      ₹899 discount applied!
+                      {discount > 0 ? `₹${discount.toLocaleString()} discount applied!` : "Coupon applied!"}
                     </p>
                   )}
                 </div>
@@ -723,14 +816,19 @@ export default function CheckoutPage() {
                 {/* Price Breakdown */}
                 <div className="space-y-3 mb-6 p-4 bg-slate-50 rounded-xl">
                   <div className="flex justify-between text-sm py-1 border-b border-slate-200 pb-2">
-                    <span>Subtotal (3 items)</span>
+                    <span>
+                      Subtotal ({items?.length || 0}{" "}
+                      {items?.length === 1 ? "item" : "items"})
+                    </span>
                     <span>₹{subtotal.toLocaleString()}</span>
                   </div>
 
-                  <div className="flex justify-between text-sm text-emerald-600 font-medium py-1 border-b border-slate-200 pb-2">
-                    <span>Coupon Discount</span>
-                    <span>-₹{discount.toLocaleString()}</span>
-                  </div>
+                  {hasCoupon && discount > 0 && (
+                    <div className="flex justify-between text-sm text-emerald-600 font-medium py-1 border-b border-slate-200 pb-2">
+                      <span>Coupon Discount ({appliedCoupon || couponCode})</span>
+                      <span>-₹{discount.toLocaleString()}</span>
+                    </div>
+                  )}
 
                   {pointsDiscount > 0 && (
                     <div className="flex justify-between text-sm text-amber-600 font-medium py-1 border-b border-slate-200 pb-2">
@@ -757,10 +855,10 @@ export default function CheckoutPage() {
                 <div className="space-y-3">
                   <button
                     onClick={handlePlaceOrder}
-                    disabled={isLoading}
+                    disabled={loading || isLoading}
                     className="w-full bg-gradient-to-r from-slate-900 to-slate-800 text-white py-3.5 px-4 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-px transition-all text-sm font-semibold flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed disabled:translate-y-0 disabled:shadow-lg"
                   >
-                    {isLoading ? (
+                    {loading ? (
                       <>
                         <Loader2 className="w-4 h-4 animate-spin" />
                         Processing...

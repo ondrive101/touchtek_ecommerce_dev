@@ -289,6 +289,10 @@ export const getCheckoutInfo = async () => {
   return apiCall("get", `/checkout/get-checkout-info`, null, [ROLES.CUSTOMER], false);
 };
 
+export const applyCoupon = async (payload) => {
+  return apiCall("post", `/checkout/apply-coupon`, payload, [ROLES.CUSTOMER], false);
+};
+
 export const createOrder = async (data) => {
   console.log("👤 [User ACTION] createOrder called");
   return apiCall("post", `/payment/create-order`, data, [ROLES.CUSTOMER], false);
@@ -337,6 +341,11 @@ export const getTickets = async (filters = {}) => {
 
 export const sendMessage = async (payload) => {
   return apiCall("post", `/support/send-message`, payload, [ROLES.CUSTOMER], false);
+};
+
+// ==================== Rewards ACTIONS ====================
+export const getMyRewards = async () => {
+  return apiCall("get", `/rewards/my-rewards`, null, [ROLES.CUSTOMER], false);
 };
 
 

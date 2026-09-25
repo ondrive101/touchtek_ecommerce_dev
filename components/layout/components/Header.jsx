@@ -12,7 +12,7 @@ import Neckband from "@/public/images/touchtek/Neckband.jpeg";
 import Powerbank from "@/public/images/touchtek/Powerbank.jpeg";
 import Speaker from "@/public/images/touchtek/Speaker.jpeg";
 import { useSession, signOut } from "next-auth/react";
-import { useCartStore } from '@/store';
+import { useCartStore, useRewardStore } from '@/store';
 import {
   Menu,
   X,
@@ -20,7 +20,8 @@ import {
   UserPlus,
   ShoppingCart,
   LayoutDashboard,
-  LogOut
+  LogOut,
+  Coins,
 } from 'lucide-react';
 import logo from '@/public/images/touchtek/logo/touchtek.png';
 
@@ -28,10 +29,18 @@ import logo from '@/public/images/touchtek/logo/touchtek.png';
 export default function Header() {
   const { data: session, status } = useSession();
   const { items } = useCartStore();
+  const storePoints = useRewardStore((state) => state.rewardPoints);
+  const [mounted, setMounted] = useState(false);
   const isLoggedIn = status === "authenticated";
   const isLoading = status === "loading";
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const rewardPoints = mounted ? (storePoints || 0) : 0;
 
   // Handle refresh token failure — force re-login
   useEffect(() => {
@@ -308,6 +317,19 @@ export default function Header() {
             ) : (
               <div className="flex items-center gap-3">
 
+                {/* ✅ Reward Points Badge */}
+                <Link
+                  href="/en/user/orders"
+                  className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 bg-amber-50 hover:bg-amber-100/80 border border-amber-200/90 rounded-xl text-amber-800 transition-all text-xs font-semibold shadow-sm hover:shadow active:scale-95"
+                  title="Reward Points Balance"
+                >
+                  <Coins className="w-4 h-4 text-amber-600 flex-shrink-0" />
+                  <span className="font-bold font-mono text-amber-900">
+                    {rewardPoints.toLocaleString()}
+                  </span>
+                  <span className="text-[11px] text-amber-700 font-medium">pts</span>
+                </Link>
+
                 {/* ✅ Dashboard Button (replaces profile dropdown) */}
                 <Link
                   href="/en/user/orders"
@@ -384,6 +406,21 @@ export default function Header() {
                 </>
               ) : (
                 <>
+                  {/* ✅ Mobile Reward Points */}
+                  <Link
+                    href="/en/user/orders"
+                    className="flex items-center justify-between px-4 py-3 mx-2 mb-2 bg-amber-50 border border-amber-200/80 rounded-2xl text-amber-800 shadow-sm"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <div className="flex items-center gap-2">
+                      <Coins className="w-4 h-4 text-amber-600" />
+                      <span className="text-sm font-semibold">Reward Points</span>
+                    </div>
+                    <span className="text-sm font-bold font-mono text-amber-900">
+                      {rewardPoints.toLocaleString()} pts
+                    </span>
+                  </Link>
+
                   {/* ✅ Mobile Dashboard Button */}
                   <Link
                     href="/en/user/orders"

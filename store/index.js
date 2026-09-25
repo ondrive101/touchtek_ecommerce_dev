@@ -65,9 +65,22 @@ export const useSidebar = create(
   )
 );
 
+// -----------------------------------------------------------------------REWARD STORE------------------------------------------------------------------
 
-
-
+export const useRewardStore = create(
+  persist(
+    (set) => ({
+      rewardPoints: 0,
+      setRewardPoints: (points) => set({ rewardPoints: Number(points) || 0 }),
+    }),
+    {
+      name: "ecommerce-rewards",
+      storage: typeof window !== "undefined"
+        ? createJSONStorage(() => localStorage)
+        : undefined,
+    }
+  )
+);
 
 
 
@@ -102,6 +115,8 @@ export const useCartStore = create(
       items: [],
       totalItems: 0,
       totalAmount: 0,
+      rewardPoints: 0,
+      setRewardPoints: (points) => set({ rewardPoints: Number(points) || 0 }),
       shipping: 0, // Dynamic based on total
       taxRate: 0.18, // 18% default (India GST)
       discountCode: '',

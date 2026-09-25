@@ -2,11 +2,12 @@
 import { useState, useEffect, useCallback } from "react";
 import { toast } from "react-hot-toast";
 import { motion, AnimatePresence } from "framer-motion";
-import { getSalesOrders } from "@/action/common";
+import { getSalesOrders, getMyRewards } from "@/action/common";
 import Image from 'next/image';
 import { ERROR_CODES } from "@/lib/utils/constants";
 import { getStatusConfig } from "@/lib/utils/functions";
 import { useQuery } from "@tanstack/react-query";
+import { useRewardStore } from "@/store";
 import {
   Package,
   ChevronDown,
@@ -67,11 +68,14 @@ export default function OrdersPage() {
   const [selectedMonth, setSelectedMonth] = useState("All Months");
   const [selectedYear, setSelectedYear] = useState("All Years");
   const [orders, setOrders] = useState([]);
+  const [rewardPoints, setRewardPoints] = useState(0);
   const [expandedId, setExpandedId] = useState(null);
   const [ratingMap, setRatingMap] = useState({});
   const [trackOrder, setTrackOrder] = useState(null);
   const [cancelOrder, setCancelOrder] = useState(null);
   const [returnOrder, setReturnOrder] = useState(null);
+
+  const setStoreRewardPoints = useRewardStore((state) => state.setRewardPoints);
 
   const {
     data: salesOrders,
@@ -84,11 +88,25 @@ export default function OrdersPage() {
     staleTime: 30 * 1000,
   });
 
+  const { data: rewardsResponse } = useQuery({
+    queryKey: ["my-rewards"],
+    queryFn: () => getMyRewards(),
+    staleTime: 30 * 1000,
+  });
+
   useEffect(() => {
     if (salesOrders) {
-      setOrders(salesOrders?.data?.orders)
+      setOrders(salesOrders?.data?.orders || []);
     }
   }, [salesOrders]);
+
+  useEffect(() => {
+    if (rewardsResponse?.success && rewardsResponse?.data?.rewardPoints !== undefined) {
+      const points = Number(rewardsResponse.data.rewardPoints) || 0;
+      setRewardPoints(points);
+      setStoreRewardPoints(points);
+    }
+  }, [rewardsResponse, setStoreRewardPoints]);
 
   if (isLoading) {
     return (
@@ -136,15 +154,23 @@ export default function OrdersPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <div className="inline-flex items-center gap-2 bg-white border border-gray-200 rounded-full px-4 py-1.5 shadow-sm mb-5">
-            <ShoppingBag className="w-3.5 h-3.5 text-indigo-500" />
-            <span className="text-xs font-semibold text-gray-600">
-              My Account
-            </span>
-            <span className="text-gray-300">·</span>
-            <span className="text-xs font-bold text-gray-900">
-              Order History
-            </span>
+          <div className="flex items-center justify-between flex-wrap gap-3 mb-5">
+            <div className="inline-flex items-center gap-2 bg-white border border-gray-200 rounded-full px-4 py-1.5 shadow-sm">
+              <ShoppingBag className="w-3.5 h-3.5 text-indigo-500" />
+              <span className="text-xs font-semibold text-gray-600">
+                My Account
+              </span>
+              <span className="text-gray-300">·</span>
+              <span className="text-xs font-bold text-gray-900">
+                Order History
+              </span>
+            </div>
+
+            <div className="inline-flex items-center gap-2 bg-amber-50 border border-amber-200/80 rounded-full px-3.5 py-1.5 shadow-sm text-xs font-semibold text-amber-800">
+              <Coins className="w-4 h-4 text-amber-600 flex-shrink-0" />
+              <span>Reward Balance:</span>
+              <span className="font-bold font-mono text-amber-900">{rewardPoints.toLocaleString()} pts</span>
+            </div>
           </div>
           <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-1">
             My Orders

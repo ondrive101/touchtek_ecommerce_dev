@@ -71,7 +71,7 @@ const banners = productsData?.data?.payload?.banners || [];
 
       <main>
         {/* Hero Carousel */}
-       {banners.length > 0 && <HeroCarousel  banners={banners} /> }
+        <HeroCarousel banners={banners} />
 
         {/* Explore Our Catalog Section */}
         <CategoryCarousel />
